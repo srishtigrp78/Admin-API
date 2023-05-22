@@ -1,0 +1,192 @@
+package com.iemr.admin.data.provideronboard;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.google.gson.annotations.Expose;
+import com.iemr.admin.utils.mapper.OutputMapper;
+
+@Entity
+@Table(name="m_userservicerolemapping")
+public class M_UserservicerolemappingForRole {
+	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Expose
+	@Column(name = "USRMappingID")
+	private Integer uSRMappingID;
+	@Expose
+	@Column(name = "UserID")
+	private Integer userID;
+	@Expose
+	@Column(name = "RoleID")
+	private Integer roleID;
+	// @Expose
+	// @Column(name="ServiceID")
+	// private Integer serviceID;
+	// @Expose
+	// @Column(name="StateID")
+	// private Integer stateID;
+	// @Expose
+	// @Column(name="ServiceProviderID")
+	// private Integer serviceProviderID;
+	@Expose
+	@Column(name = "AgentID")
+	private String agentID;
+	@Expose
+	@Column(name = "AgentPassword")
+	private String agentPassword;
+	@Expose
+	@Column(name = "CZRole")
+	private String cZRole;
+	
+	
+	@Expose
+	@Column(name = "ProviderServiceMapID")
+	private Integer providerServiceMapID;
+	@Expose
+	@Column(name = "WorkingLocationID")
+	private Integer workingLocationID;
+	@Expose
+	@Column(name = "Deleted", insertable = false, updatable = true)
+	private Boolean deleted;
+	@Expose
+	@Column(name = "CreatedBy")
+	private String createdBy;
+	@Expose
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
+	private Timestamp createdDate;
+	@Expose
+	@Column(name = "ModifiedBy")
+	private String modifiedBy;
+	@Expose
+	@Column(name = "LastModDate", insertable = false, updatable = false)
+	private Timestamp lastModDate;
+	
+	
+	
+	
+	public M_UserservicerolemappingForRole() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public Integer getuSRMappingID() {
+		return uSRMappingID;
+	}
+	public void setuSRMappingID(Integer uSRMappingID) {
+		this.uSRMappingID = uSRMappingID;
+	}
+	public Integer getUserID() {
+		return userID;
+	}
+	public void setUserID(Integer userID) {
+		this.userID = userID;
+	}
+	public Integer getRoleID() {
+		return roleID;
+	}
+	public void setRoleID(Integer roleID) {
+		this.roleID = roleID;
+	}
+	public String getAgentID() {
+		return agentID;
+	}
+	public void setAgentID(String agentID) {
+		this.agentID = agentID;
+	}
+	public String getAgentPassword() {
+		return agentPassword;
+	}
+	public void setAgentPassword(String agentPassword) {
+		this.agentPassword = agentPassword;
+	}
+	public String getcZRole() {
+		return cZRole;
+	}
+	public void setcZRole(String cZRole) {
+		this.cZRole = cZRole;
+	}
+	public Integer getProviderServiceMapID() {
+		return providerServiceMapID;
+	}
+	public void setProviderServiceMapID(Integer providerServiceMapID) {
+		this.providerServiceMapID = providerServiceMapID;
+	}
+	public Integer getWorkingLocationID() {
+		return workingLocationID;
+	}
+	public void setWorkingLocationID(Integer workingLocationID) {
+		this.workingLocationID = workingLocationID;
+	}
+	public Boolean getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+	
+	
+	
+	
+	public Timestamp getCreatedDate() {
+		return createdDate;
+	}
+
+
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
+	public Timestamp getLastModDate() {
+		return lastModDate;
+	}
+
+
+	public void setLastModDate(Timestamp lastModDate) {
+		this.lastModDate = lastModDate;
+	}
+
+
+
+
+	@Transient
+	private OutputMapper outputMapper = new OutputMapper();
+
+	@Override
+	public String toString() {
+		return outputMapper.gson().toJson(this);
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+}

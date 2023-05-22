@@ -1,0 +1,322 @@
+package com.iemr.admin.controller.zonemaster;
+
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.iemr.admin.data.zonemaster.M_Zone;
+import com.iemr.admin.data.zonemaster.M_ZoneDistrictMap;
+import com.iemr.admin.service.zonemaster.ZoneMasterServiceImpl;
+import com.iemr.admin.to.zonemaster.ZoneMasterTO;
+import com.iemr.admin.utils.exception.IEMRException;
+import com.iemr.admin.utils.mapper.InputMapper;
+import com.iemr.admin.utils.response.OutputResponse;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@RestController
+@RequestMapping(value = "/zonemaster")
+public class ZoneMasterController {
+
+	@Autowired
+	private ZoneMasterServiceImpl zoneMasterServiceImpl;
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "Stores Zone Details",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/save/zone" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String saveZone(@ApiParam(
+			value = "{\"zoneName\":\"string\", \"zoneDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"zoneHQAddress\":\"string\", \"stateID\":\"string\","
+					+ " \"createdBy\":\"string\"}") @RequestBody String zonemaster) throws IEMRException {
+		
+			OutputResponse output = new OutputResponse();
+
+			ZoneMasterTO zone = InputMapper.gson().fromJson(zonemaster,ZoneMasterTO.class);
+			
+			
+			try {
+
+				ArrayList<M_Zone> zones=zoneMasterServiceImpl.createZone(zone.getZones());
+				output.setResponse(zones.toString());
+			} catch (Exception e) {
+				
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "get Zone Details",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/get/zones" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String getZones(@ApiParam(
+			value = "{\"providerServiceMapID\":\"integer\"}") @RequestBody String requestObj) {
+		
+			OutputResponse output = new OutputResponse();
+			try {
+				JSONObject obj = new JSONObject(requestObj);
+				if (obj.has("providerServiceMapID")) {
+					if (obj.getInt("providerServiceMapID")> 0) {
+						ArrayList<M_Zone> zones=zoneMasterServiceImpl.getAvailableZones(obj.getInt("providerServiceMapID"));
+						output.setResponse(zones.toString());
+					}
+				}else{
+					output.setResponse("Provide providerServiceMapID.");
+				}
+				
+			} catch (Exception e) {
+				
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "Maps Zone with district",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/save/zoneDistrictMapping" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String mapZoneWithDistrict(@ApiParam(
+			value = "{\"ZoneID\":\"integer\", \"DistrictID\":\"integer\", \"providerServiceMapID\":\"integer\",  \"createdBy\":\"string\"}") @RequestBody String zonemaster) throws IEMRException {
+		
+			OutputResponse output = new OutputResponse();
+
+			ZoneMasterTO zone = InputMapper.gson().fromJson(zonemaster,ZoneMasterTO.class);
+			
+			
+			try {
+
+				ArrayList<M_ZoneDistrictMap> zones=zoneMasterServiceImpl.createZoneDistrictMapping(zone.getZoneDistrictMappings());
+				output.setResponse(zones.toString());
+			} catch (Exception e) {
+				
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	
+	
+	
+	
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "edit Zone district",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/edit/zoneDistrictMapping" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String editZoneDistrict(@ApiParam(
+			value = "{\"ZoneID\":\"integer\", \"DistrictID\":\"integer\", \"providerServiceMapID\":\"integer\",  \"createdBy\":\"string\"}") @RequestBody String zonemaster) throws IEMRException {
+		
+			OutputResponse output = new OutputResponse();
+
+			M_ZoneDistrictMap zone = InputMapper.gson().fromJson(zonemaster,M_ZoneDistrictMap.class);
+			
+			try {
+
+				M_ZoneDistrictMap zones=zoneMasterServiceImpl.editZoneDistrictMapping(zone.getZoneDistrictMapID());
+				
+				zones.setZoneID(zone.getZoneID());
+				zones.setDistrictID(zone.getDistrictID());
+				zones.setProviderServiceMapID(zone.getProviderServiceMapID());
+				zones.setModifiedBy(zone.getModifiedBy());
+				
+				M_ZoneDistrictMap saveData=zoneMasterServiceImpl.saveeditedData(zones);
+				
+				output.setResponse(saveData.toString());
+			} catch (Exception e) {
+				
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	
+	
+	
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "get Zone Details",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/get/zoneDistrictMappings" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String getZoneDistrictMappings(@ApiParam(
+			value = "{\"serviceProviderID\":\"integer\"}") @RequestBody String requestObj) {
+		
+			OutputResponse output = new OutputResponse();
+
+			JSONObject obj = new JSONObject(requestObj);
+			try {
+				
+				if (obj.has("providerServiceMapID")) {
+					if (obj.getInt("providerServiceMapID")> 0) {
+						ArrayList<M_ZoneDistrictMap> zones=zoneMasterServiceImpl.getAvailableZoneDistrictMappings(obj.getInt("providerServiceMapID"));
+						output.setResponse(zones.toString());
+					}
+				}else{
+					output.setResponse("Provide serviceProviderID.");
+				}
+				
+			} catch (Exception e) {
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "Removes zone",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/remove/zone" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String deleteZone(@ApiParam(
+			value = "{\"ZoneID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String zoneData) throws IEMRException {
+		
+			OutputResponse output = new OutputResponse();
+
+			M_Zone m_zone = InputMapper.gson().fromJson(zoneData,M_Zone.class);
+			
+			try {
+				/*String response;
+				
+				int validatingRecord=zoneMasterServiceImpl.getAllMappedRecord(m_zone.getZoneID());
+				
+				int update;
+				//=zoneMasterServiceImpl.updateZoneStatus(m_zone);
+				
+				if(validatingRecord==200){
+					 update=zoneMasterServiceImpl.updateZoneStatus(m_zone);
+					response = "status updated successfully";
+				}else{
+					response = "Failed to update the status";
+				}*/
+				String response;
+				int update=zoneMasterServiceImpl.updateZoneStatus(m_zone);
+				if(update>0){
+					response = "status updated successfully";
+				}else{
+					response = "Failed to update the status";
+				}
+				output.setResponse(response.toString());
+				
+				
+				
+
+			} catch (Exception e) {
+				
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "update zone Details",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/update/zoneData",headers = "Authorization", method = { RequestMethod.POST })
+	public String updateZoneData(@ApiParam(
+			value = "{\"zoneID\":\"integer\", \"zoneName\":\"string\", \"zoneDesc\":\"string\", \"stateID\":\"string\", \"zoneHQAddress\":\"string\","
+					+ " \"modifiedBy\":\"string\"}") @RequestBody String zoneData) throws IEMRException {
+		
+			OutputResponse output = new OutputResponse();
+
+			M_Zone m_zone = InputMapper.gson().fromJson(zoneData,M_Zone.class);
+			
+			try {
+				String response;
+				M_Zone zoneToUpdate = zoneMasterServiceImpl.getzoneByID(m_zone.getZoneID());
+				
+				zoneToUpdate.setZoneName(m_zone.getZoneName());
+				zoneToUpdate.setZoneDesc(m_zone.getZoneDesc());
+				zoneToUpdate.setZoneHQAddress(m_zone.getZoneHQAddress());
+				zoneToUpdate.setStateID(m_zone.getStateID());
+				zoneToUpdate.setDistrictID(m_zone.getDistrictID());
+				zoneToUpdate.setDistrictBlockID(m_zone.getDistrictBlockID());
+				zoneToUpdate.setDistrictBranchID(m_zone.getDistrictBranchID());
+				zoneToUpdate.setModifiedBy(m_zone.getModifiedBy());
+				M_Zone m_zoneData=zoneMasterServiceImpl.updateZoneData(zoneToUpdate);
+				
+				output.setResponse(m_zoneData.toString());
+			} catch (Exception e) {
+				
+				output.setError(e);
+			}
+			return output.toString();
+	}
+
+
+@CrossOrigin()
+@ApiOperation(
+			value = "zoneDistrictMapping")
+
+	@RequestMapping(value = "/getdistrictMappedtoZone", headers = "Authorization",
+			method =
+	{ RequestMethod.POST }, produces = { "application/json" })
+
+	public String getMappedDistrictByZoneID(@RequestBody String zoneMappedDistrict){
+		
+		OutputResponse output = new OutputResponse();
+		
+		M_ZoneDistrictMap zone=InputMapper.gson().fromJson(zoneMappedDistrict,M_ZoneDistrictMap.class);
+		
+		try {
+
+			ArrayList<M_ZoneDistrictMap> zone1=zoneMasterServiceImpl.editZoneDistrictMapping1(zone.getZoneID());
+			
+			output.setResponse(zone1.toString());
+		} catch (Exception e) {
+			
+			output.setError(e);
+		}
+		return output.toString();
+		
+	}
+
+
+	
+	@CrossOrigin()
+	@ApiOperation(
+			value = "Removes zoneDistrictMapping",
+			consumes = "application/json",
+			produces = "application/json")
+	@RequestMapping(value =  "/remove/zoneDistrictMapping" ,headers = "Authorization", method = { RequestMethod.POST })
+	public String deleteZoneDistrictMapping(@ApiParam(
+			value = "{\"zoneDistrictMapID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String zoneData) throws IEMRException {
+		
+			OutputResponse output = new OutputResponse();
+
+			M_ZoneDistrictMap m_zoneDistrictMap = InputMapper.gson().fromJson(zoneData,M_ZoneDistrictMap.class);
+			
+			try {
+				String response;
+				int update=zoneMasterServiceImpl.updateZoneDistrictMappingStatus(m_zoneDistrictMap);
+				if(update==0){
+					response = "status updated successfully";
+				}else{
+					response = "Failed to update the status";
+				}
+				output.setResponse(response.toString());
+			}catch (Exception e) {
+				output.setError(e);
+			}
+			return output.toString();
+	}
+	
+	
+	
+}
