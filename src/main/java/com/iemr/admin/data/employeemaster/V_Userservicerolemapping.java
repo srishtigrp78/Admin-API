@@ -32,7 +32,10 @@ import javax.persistence.Transient;
 import com.google.gson.annotations.Expose;
 import com.iemr.admin.utils.mapper.OutputMapper;
 
+import lombok.Data;
+
 @Entity
+@Data
 @Table(name="v_userservicerolemapping")
 public class V_Userservicerolemapping {
 	@Id
@@ -126,7 +129,22 @@ public class V_Userservicerolemapping {
 	@Column(name="isOutbound")
 	private Boolean outbound;
 	   
-	   
+    @Expose
+	@Column(name = "blockid")
+	private Integer blockID;
+	@Expose
+	@Column(name = "blockname")
+	private String blockName;
+	@Expose
+	@Column(name = "villageid")
+	private String villageidDb;
+	@Expose
+	@Column(name = "villagename")
+	private String villageNameDb;
+	@Transient
+	private String[] villageID;
+	@Transient
+	private String[] villageName;   
 	   
 	   
 	

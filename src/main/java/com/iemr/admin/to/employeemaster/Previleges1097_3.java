@@ -27,6 +27,10 @@ public class Previleges1097_3 {
 	Priveleges1097_2[] ID;
 	private Integer providerServiceMapID;
 	private Integer workingLocationID;
+	private Integer blockID;
+	private String blockName;
+	private String[] villageID;
+	private String[] villageName;
 	
 	public Integer getProviderServiceMapID() {
 		return providerServiceMapID;
@@ -45,6 +49,30 @@ public class Previleges1097_3 {
 	}
 	public void setID(Priveleges1097_2[] iD) {
 		this.ID = iD;
+	}
+	public Integer getBlockID() {
+		return blockID;
+	}
+	public void setBlockID(Integer blockID) {
+		this.blockID = blockID;
+	}
+	public String getBlockName() {
+		return blockName;
+	}
+	public void setBlockName(String blockName) {
+		this.blockName = blockName;
+	}
+	public String[] getVillageID() {
+		return villageID;
+	}
+	public void setVillageID(String[] villageID) {
+		this.villageID = villageID;
+	}
+	public String[] getVillageName() {
+		return villageName;
+	}
+	public void setVillageName(String[] villageName) {
+		this.villageName = villageName;
 	}
 	
 	
