@@ -105,7 +105,7 @@ public class M_UserServiceRoleMapping2 {
 	private String[] villageName;
 	@Expose
 	@Column(name = "Deleted", insertable = false, updatable = true)
-	private Boolean deleted;
+	private Boolean deleted=false;
 	@Expose
 	@Column(name = "CreatedBy")
 	private String createdBy;
