@@ -311,6 +311,31 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 		if (ENABLE_CTI_USER_CREATION) {
 			updateSupervisorRoleInCTI(resList1, authToken);
 		}
+		for (M_UserServiceRoleMapping2 mapping : resList1) {
+			if (mapping.getVillageID() != null && mapping.getVillageName() != null) {
+				StringBuilder sb = new StringBuilder();
+				// sb.append("[");
+				for (String str : mapping.getVillageID()) {
+					sb.append(str).append(",");
+
+				}
+				String villageId = sb.substring(0, sb.length() - 1);
+				// String s=villageId+"]";
+				mapping.setVillageidDb(villageId);
+
+				StringBuilder sc = new StringBuilder();
+				// sc.append("[");
+				for (String str : mapping.getVillageName()) {
+					sc.append(str).append(",");
+
+				}
+				String villageName = sc.substring(0, sc.length() - 1);
+				// String sn=villageName+"]";
+				mapping.setVillageNameDb(villageName);
+				employeeMasterRepo.save(mapping);
+			}
+
+		}
 		return reslist;
 	}
 
@@ -889,6 +914,31 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 			list.add(data);
 			updateSupervisorRoleInCTI(list, authToken);
 		}
+//		for (M_UserServiceRoleMapping2 mapping : usrRole) {
+				if (usrRole.getVillageID() != null && usrRole.getVillageName() != null) {
+
+					StringBuilder sb = new StringBuilder();
+					// sb.append("[");
+					for (String str : usrRole.getVillageID()) {
+						sb.append(str).append(",");
+
+					}
+					String villageId = sb.substring(0, sb.length() - 1);
+					// String sr=villageId+"]";
+					usrRole.setVillageidDb(villageId);
+
+					StringBuilder sc = new StringBuilder();
+					// sc.append("[");
+					for (String str : usrRole.getVillageName()) {
+						sc.append(str).append(",");
+
+					}
+					String villageName = sc.substring(0, sc.length() - 1);
+					// String st=villageName+"]";
+					usrRole.setVillageNameDb(villageName);
+
+					M_UserServiceRoleMapping2 savedData = employeeMasterRepo.save(usrRole);
+				}
 		return data;
 	}
 
@@ -913,7 +963,40 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 	public ArrayList<V_Userservicerolemapping> getMappedRole(Integer serviceProviderID) {
 		ArrayList<V_Userservicerolemapping> getData = (ArrayList<V_Userservicerolemapping>) v_UserservicerolemappingRepo
 				.getAllRoleOfProvider(serviceProviderID);
-		return getData;
+		
+		ArrayList<V_Userservicerolemapping> mappedRoles = new ArrayList<>();
+
+		if (getData != null) {
+			for (V_Userservicerolemapping mapping : getData) {
+				if (mapping.getVillageidDb() != null) {
+					mapping.setVillageID(mapping.getVillageidDb().split(","));
+				} else {
+					mapping.setVillageID(new String[0]);
+				}
+
+				if (mapping.getVillageNameDb() != null) {
+					mapping.setVillageName(mapping.getVillageNameDb().split(","));
+				} else {
+					mapping.setVillageName(new String[0]);
+				}
+				if (mapping.getServiceID()!=null) {
+					mapping.setBlockID(mapping.getBlockID());
+					mapping.setBlockName(mapping.getBlockName());
+					mapping.setVillageID(mapping.getVillageID());
+					mapping.setVillageName(mapping.getVillageName());
+				} else {
+					mapping.setBlockID(null);
+					mapping.setBlockName(null);
+					mapping.setVillageID(null);
+					mapping.setVillageName(null);
+					mapping.setVillageidDb(null);
+					mapping.setVillageNameDb(null);
+				}
+				mappedRoles.add(mapping);
+			}
+		}
+		return mappedRoles;
+		//return getData;
 	}
 
 	@Override

@@ -39,6 +39,8 @@ import javax.persistence.Transient;
 import com.google.gson.annotations.Expose;
 import com.iemr.admin.utils.mapper.OutputMapper;
 
+import lombok.Data;
+@Data
 @Entity
 @Table(name = "m_UserServiceRoleMapping")
 public class M_UserServiceRoleMapping2 {
@@ -85,6 +87,22 @@ public class M_UserServiceRoleMapping2 {
 	@Expose
 	@Column(name = "WorkingLocationID")
 	private Integer workingLocationID;
+	@Expose
+	@Column(name = "Blockid")
+	private Integer blockID;
+	@Expose
+	@Column(name = "BlockName")
+	private String blockName;
+	@Expose
+	@Column(name = "Villageid")
+	private String villageidDb;
+	@Expose
+	@Column(name = "VillageName")
+	private String villageNameDb;
+	@Transient
+	private String[] villageID;
+	@Transient
+	private String[] villageName;
 	@Expose
 	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted;

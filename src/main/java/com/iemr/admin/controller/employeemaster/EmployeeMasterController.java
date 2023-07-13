@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.iemr.admin.data.employeemaster.M_Community;
 import com.iemr.admin.data.employeemaster.M_Designation;
 import com.iemr.admin.data.employeemaster.M_Gender;
@@ -2351,6 +2353,10 @@ public class EmployeeMasterController {
 						resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
 						resDataMap1.setCreatedBy(employeeMaster.get(x).getCreatedBy());
 						resDataMap1.setServiceProviderID(employeeMaster.get(x).getServiceProviderID());
+						resDataMap1.setBlockID(previl.getBlockID());
+						resDataMap1.setBlockName(previl.getBlockName());
+						resDataMap1.setVillageID(previl.getVillageID());
+						resDataMap1.setVillageName(previl.getVillageName());
 						resList1.add(resDataMap1);
 
 					
@@ -2381,7 +2387,9 @@ public class EmployeeMasterController {
 
 		try {
 
-			M_UserServiceRoleMapping2 pre = InputMapper.gson().fromJson(updateUserRoleMapping,
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			M_UserServiceRoleMapping2 pre = objectMapper.readValue(updateUserRoleMapping,
 					M_UserServiceRoleMapping2.class);
 
 			M_UserServiceRoleMapping2 usrRole = employeeMasterInter.getDataUsrId(pre.getuSRMappingID());
@@ -2477,8 +2485,11 @@ public class EmployeeMasterController {
 
 			// M_UserServiceRoleMapping2
 			// savedata=employeeMasterInter.saveRoleMappingeditedData(usrRole);
+			
+			String jsonResponse = new Gson().toJson(usrRole);
+			response.setResponse(jsonResponse);
 
-			response.setResponse(usrRole.toString());
+			//response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
 			//e.printStackTrace();
