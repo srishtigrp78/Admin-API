@@ -42,6 +42,8 @@ import com.iemr.admin.service.employeemaster.EmployeeSignatureServiceImpl;
 import com.iemr.admin.utils.mapper.InputMapper;
 import com.iemr.admin.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @PropertySource("classpath:application.properties")
 
 @RestController
@@ -56,6 +58,7 @@ public class EmployeeSignatureController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 	@CrossOrigin()
+	@ApiOperation(value = "Upload", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/upload", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String uploadFile(@RequestBody EmployeeSignature emp) {
@@ -66,25 +69,21 @@ public class EmployeeSignatureController {
 
 			emp.setSignature(Base64.getDecoder().decode(emp.getFileContent()));
 			Long userSignID = employeeSignatureServiceImpl.uploadSignature(emp);
-//
 			response.setResponse(userSignID.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Signature Upload Failed" + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
-	@CrossOrigin(origins = "*", exposedHeaders = {HttpHeaders.CONTENT_DISPOSITION,"filename"})
+	@CrossOrigin(origins = "*", exposedHeaders = { HttpHeaders.CONTENT_DISPOSITION, "filename" })
+	@ApiOperation(value = "User id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/{userID}", headers = "Authorization", method = { RequestMethod.GET })
 	public ResponseEntity<byte[]> fetchFile(@PathVariable("userID") Long userID) throws Exception {
 		OutputResponse response = new OutputResponse();
@@ -93,31 +92,25 @@ public class EmployeeSignatureController {
 		try {
 
 			EmployeeSignature userSignID = employeeSignatureServiceImpl.fetchSignature(userID);
-//			logger.debug("response" + Arrays.toString(userSignID.getSignature()));
-//
 			HttpHeaders responseHeaders = new HttpHeaders();
 			responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION,
 					"inline; filename=\"" + userSignID.getFileName() + "\"");
-			responseHeaders.set("filename",userSignID.getFileName());
-			
+			responseHeaders.set("filename", userSignID.getFileName());
+
 			return ResponseEntity.ok().contentType(MediaType.parseMediaType(userSignID.getFileType()))
-					.headers(responseHeaders)
-					.body(userSignID.getSignature());
+					.headers(responseHeaders).body(userSignID.getSignature());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("File download for userID failed with exception " + e.getMessage(), e);
 			throw new Exception("Error while downloading file. Please contact administrator..");
 
 		}
 
-		/**
-		 * sending the response...
-		 */
-
 	}
+
 	@CrossOrigin()
+	@ApiOperation(value = "Sign exist file", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/signexist/{userID}", headers = "Authorization", method = { RequestMethod.GET })
 	public String existFile(@PathVariable("userID") Long userID) throws Exception {
 		OutputResponse response = new OutputResponse();
@@ -126,20 +119,14 @@ public class EmployeeSignatureController {
 		try {
 
 			Boolean userSignID = employeeSignatureServiceImpl.existSignature(userID);
-//			logger.debug("response" + Arrays.toString(userSignID.getSignature()));
-//
 			response.setResponse(userSignID.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("File download for userID failed with exception " + e.getMessage(), e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}

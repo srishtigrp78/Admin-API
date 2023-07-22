@@ -39,169 +39,132 @@ import com.iemr.admin.service.drugtype.DrugtypeInter;
 import com.iemr.admin.utils.mapper.InputMapper;
 import com.iemr.admin.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class DrugtypeController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 	@Autowired
 	private DrugtypeInter drugtypeInter;
-	
-	
-	
-	@CrossOrigin()
-	@RequestMapping(value =  "/createDrugtype" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
-	public String createManufacturer(@RequestBody String createDrugtype) {
-		//JSONObject requestOBJ = new JSONObject(providerBlocking);
-		
-		
-		      OutputResponse response = new OutputResponse();
-		try {
-			
 
-			M_Drugtype[] Drugtype = InputMapper.gson().fromJson(createDrugtype,
-					M_Drugtype[].class);
-		      List<M_Drugtype> DrugtypeData = Arrays.asList(Drugtype);
-			
-			ArrayList<M_Drugtype> saveData=drugtypeInter.createDrugtypeData(DrugtypeData);
-			
-			
-			//ArrayList<V_Showproviderservicemapping> getProviderStatus1=blockingInter.getProviderStatus1(Pharmacologicalcategory.getServiceProviderID());
-			
+	@CrossOrigin()
+	@ApiOperation(value = "Create manufacturer", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/createDrugtype", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
+	public String createManufacturer(@RequestBody String createDrugtype) {
+
+		OutputResponse response = new OutputResponse();
+		try {
+
+			M_Drugtype[] Drugtype = InputMapper.gson().fromJson(createDrugtype, M_Drugtype[].class);
+			List<M_Drugtype> DrugtypeData = Arrays.asList(Drugtype);
+
+			ArrayList<M_Drugtype> saveData = drugtypeInter.createDrugtypeData(DrugtypeData);
+
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-	
-	
-	
+
 	@CrossOrigin()
-	@RequestMapping(value =  "/getDrugtype",headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
+	@ApiOperation(value = "Get manufacturer", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/getDrugtype", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
 	public String getManufacturer(@RequestBody String getDrugtype) {
-		//JSONObject requestOBJ = new JSONObject(providerBlocking);
-		
+
 		OutputResponse response = new OutputResponse();
 
 		try {
 
-			M_Drugtype Drugtype = InputMapper.gson().fromJson(getDrugtype,
-					M_Drugtype.class);
-		      //List<M_Drugtype> DrugtypeData = Arrays.asList(Drugtype);
-			
-			ArrayList<M_Drugtype> getedData=drugtypeInter.getDrugtypeData(Drugtype.getProviderServiceMapID());
-			
-			
-			//ArrayList<V_Showproviderservicemapping> getProviderStatus1=blockingInter.getProviderStatus1(Pharmacologicalcategory.getServiceProviderID());
-			
+			M_Drugtype Drugtype = InputMapper.gson().fromJson(getDrugtype, M_Drugtype.class);
+
+			ArrayList<M_Drugtype> getedData = drugtypeInter.getDrugtypeData(Drugtype.getProviderServiceMapID());
+
 			response.setResponse(getedData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
-	
-	
-	
-	
-	
 	@CrossOrigin()
-	@RequestMapping(value =  "/editDrugtype" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
+	@ApiOperation(value = "Edit manufacturer", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/editDrugtype", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
 	public String editManufacturer(@RequestBody String editDrugtype) {
-		//JSONObject requestOBJ = new JSONObject(providerBlocking);
-		
+
 		OutputResponse response = new OutputResponse();
 
 		try {
 
-			M_Drugtype Drugtype = InputMapper.gson().fromJson(editDrugtype,
-					M_Drugtype.class);
-		      //List<M_Drugtype> DrugtypeData = Arrays.asList(Drugtype);
-			
-			M_Drugtype geteditedData=drugtypeInter.editDrugtypeData(Drugtype.getDrugTypeID());
-			 
+			M_Drugtype Drugtype = InputMapper.gson().fromJson(editDrugtype, M_Drugtype.class);
+
+			M_Drugtype geteditedData = drugtypeInter.editDrugtypeData(Drugtype.getDrugTypeID());
+
 			geteditedData.setDrugTypeName(Drugtype.getDrugTypeName());
 			geteditedData.setDrugTypeDesc(Drugtype.getDrugTypeDesc());
 			geteditedData.setDrugTypeCode(Drugtype.getDrugTypeCode());
 			geteditedData.setStatus(Drugtype.getStatus());
 			geteditedData.setModifiedBy(Drugtype.getModifiedBy());
-			
-			M_Drugtype saveeditedData=drugtypeInter.saveeditDrugtype(geteditedData);
-			
-			//ArrayList<V_Showproviderservicemapping> getProviderStatus1=blockingInter.getProviderStatus1(Pharmacologicalcategory.getServiceProviderID());
-			
+
+			M_Drugtype saveeditedData = drugtypeInter.saveeditDrugtype(geteditedData);
+
 			response.setResponse(saveeditedData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
-	
-	
-	
-	
-	
 	@CrossOrigin()
-	@RequestMapping(value =  "/deleteDrugtype" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
+	@ApiOperation(value = "Delete manufacturer", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/deleteDrugtype", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
 	public String deleteManufacturer(@RequestBody String deleteDrugtype) {
-		//JSONObject requestOBJ = new JSONObject(providerBlocking);
-		
+
 		OutputResponse response = new OutputResponse();
 
 		try {
 
-			M_Drugtype Drugtype = InputMapper.gson().fromJson(deleteDrugtype,
-					M_Drugtype.class);
-		      //List<M_Drugtype> DrugtypeData = Arrays.asList(Drugtype);
-			
-			M_Drugtype geteditedData=drugtypeInter.editDrugtypeData(Drugtype.getDrugTypeID());
-			 
+			M_Drugtype Drugtype = InputMapper.gson().fromJson(deleteDrugtype, M_Drugtype.class);
+
+			M_Drugtype geteditedData = drugtypeInter.editDrugtypeData(Drugtype.getDrugTypeID());
+
 			geteditedData.setDeleted(Drugtype.getDeleted());
-			
-			M_Drugtype deletedData=drugtypeInter.saveeditDrugtype(geteditedData);
-			
-			//ArrayList<V_Showproviderservicemapping> getProviderStatus1=blockingInter.getProviderStatus1(Pharmacologicalcategory.getServiceProviderID());
-			
+
+			M_Drugtype deletedData = drugtypeInter.saveeditDrugtype(geteditedData);
+
 			response.setResponse(deletedData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-
-	
 
 }
