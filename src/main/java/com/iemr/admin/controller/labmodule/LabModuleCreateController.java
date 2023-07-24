@@ -21,28 +21,28 @@
 */
 package com.iemr.admin.controller.labmodule;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.admin.sevice.labmodule.MastersCreationServiceImpl;
+import com.iemr.admin.sevice.labmodule.MastersFetchingServiceImpl;
 import com.iemr.admin.sevice.labmodule.MastersMappingServiceImpl;
+import com.iemr.admin.sevice.labmodule.MastersStatusUpdateImpl;
 import com.iemr.admin.utils.response.OutputResponse;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 /***
- * 
- * @author Rajeev Tripathi
  * @category master creation for lab module
- * @date 15-02-2018
- *
  */
 
 @RestController
@@ -52,6 +52,13 @@ public class LabModuleCreateController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 	private MastersCreationServiceImpl mastersCreationServiceImpl;
 	private MastersMappingServiceImpl mastersMappingServiceImpl;
+	private MastersFetchingServiceImpl mastersFetchingServiceImpl;
+	private MastersStatusUpdateImpl mastersStatusUpdateImpl;
+
+	@Autowired
+	public void setMastersStatusUpdateImpl(MastersStatusUpdateImpl mastersStatusUpdateImpl) {
+		this.mastersStatusUpdateImpl = mastersStatusUpdateImpl;
+	}
 
 	@Autowired
 	public void setMastersMappingServiceImpl(MastersMappingServiceImpl mastersMappingServiceImpl) {
@@ -64,7 +71,7 @@ public class LabModuleCreateController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "Create procedure master by Provider admin", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Create procedure master by provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/createProcedureMaster" }, method = { RequestMethod.POST })
 	public String createProcedureMaster(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
 		OutputResponse response = new OutputResponse();
@@ -84,7 +91,7 @@ public class LabModuleCreateController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "Create component master by Provider admin", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Create component master by provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/createComponentMaster" }, method = { RequestMethod.POST })
 	public String createComponentMaster(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
 		OutputResponse response = new OutputResponse();
@@ -102,7 +109,7 @@ public class LabModuleCreateController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "Create procedure - component mapping by Provider admin", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Create procedure - component mapping by provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/createProcedureComponentMapping" }, method = { RequestMethod.POST })
 	public String createProcedureComponentMapping(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
 		OutputResponse response = new OutputResponse();
@@ -122,6 +129,230 @@ public class LabModuleCreateController {
 			response.setError(e);
 		}
 		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch procedure master for provider-service-map-id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchProcedureMaster/{psmID}" }, method = { RequestMethod.GET })
+	public String fetchProcedureMaster(@PathVariable("psmID") Integer psmID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (psmID != null & psmID > 0) {
+				String s = mastersFetchingServiceImpl.getProcedureMaster(psmID);
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch component master for provider-service-map-id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchComponentMaster/{psmID}" }, method = { RequestMethod.GET })
+	public String fetchComponentMaster(@PathVariable("psmID") Integer psmID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (psmID != null & psmID > 0) {
+				String s = mastersFetchingServiceImpl.getComponentMaster(psmID);
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch procedure master for provider-service-map-id and deleted is false", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchProcedureMasterDelFalse/{psmID}" }, method = { RequestMethod.GET })
+	public String fetchProcedureMasterDelFalse(@PathVariable("psmID") Integer psmID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (psmID != null & psmID > 0) {
+				String s = mastersFetchingServiceImpl.getProcedureMasterDelFalse(psmID);
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch component master for provider-service-map-id and deleted false", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchComponentMasterDelFalse/{psmID}" }, method = { RequestMethod.GET })
+	public String fetchComponentMasterDelFalse(@PathVariable("psmID") Integer psmID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (psmID != null & psmID > 0) {
+				String s = mastersFetchingServiceImpl.getComponentMasterDelFalse(psmID);
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch procedure component mapping list for provider-service-map-id and deleted false", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchprocCompMappingDelFalse/{psmID}" }, method = { RequestMethod.GET })
+	public String fetchProcCompMappingDelFalse(@PathVariable("psmID") Integer psmID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (psmID != null & psmID > 0) {
+				String s = mastersFetchingServiceImpl.getProcCompMappingDelFalse(psmID);
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch procedure component mapping list for particular procedure id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchProcCompMappingForSingleProcedure/{pID}" }, method = { RequestMethod.GET })
+	public String fetchProcCompMappingForSingleProcedure(@PathVariable("pID") Integer pID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (pID != null & pID > 0) {
+				String s = mastersFetchingServiceImpl.getProcCompMappingForProcedureID(pID);
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Fetch  component details  for particular component id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/fetchComponentDetailsForComponentID/{cID}" }, method = { RequestMethod.GET })
+	public String fetchComponentDetailsForComponentID(@PathVariable("cID") Integer cID) {
+		OutputResponse response = new OutputResponse();
+		try {
+			if (cID != null & cID > 0) {
+				String s = mastersFetchingServiceImpl.getComponentDetailsForComponentID(cID);
+				if (s != null) {
+					response.setResponse(s);
+				} else {
+					response.setResponse("Component Details not found in Database.");
+				}
+			} else {
+				response.setError(5002, "Invalid Request ");
+			}
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Update procedure status for enable or disable", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/updateProcedureStatus" }, method = { RequestMethod.POST })
+	public String updateProcedureStatus(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
+		OutputResponse response = new OutputResponse();
+		try {
+			JSONObject jsnOBJ = new JSONObject(requestOBJ);
+			if (jsnOBJ != null && jsnOBJ.has("procedureID") && jsnOBJ.getInt("procedureID") > 0
+					&& jsnOBJ.has("deleted")) {
+				String s = mastersStatusUpdateImpl.updateProcedureStatus(jsnOBJ.getInt("procedureID"),
+						jsnOBJ.getBoolean("deleted"));
+				if (s != null)
+					response.setResponse(s);
+				else
+					response.setError(5002, "Failed to update the status");
+			} else {
+				response.setError(5002, "invalid request");
+			}
+
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Update component status for enable or disable", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/updateComponentStatus" }, method = { RequestMethod.POST })
+	public String updateComponentStatus(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
+		OutputResponse response = new OutputResponse();
+		try {
+			JSONObject jsnOBJ = new JSONObject(requestOBJ);
+			if (jsnOBJ != null && jsnOBJ.has("componentID") && jsnOBJ.getInt("componentID") > 0
+					&& jsnOBJ.has("deleted")) {
+				String s = mastersStatusUpdateImpl.updateComponentStatus(jsnOBJ.getInt("componentID"),
+						jsnOBJ.getBoolean("deleted"));
+				if (s != null)
+					response.setResponse(s);
+				else
+					response.setError(5002, "Failed to update the status");
+			} else {
+				response.setError(5002, "invalid request");
+			}
+
+		} catch (Exception e) {
+			response.setError(e);
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Update procedure master for a particular procedure", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/updateProcedureMaster" }, method = { RequestMethod.POST })
+	public String updateProcedureMaster(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
+		OutputResponse response = new OutputResponse();
+		try {
+
+			String s = mastersStatusUpdateImpl.updateProcedureMaster(requestOBJ);
+			if (s != null) {
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Failed to update procedure details");
+			}
+
+		} catch (Exception e) {
+			response.setError(e);
+		}
+
+		return response.toString();
+
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Update component master for a particular Component", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = { "/updateComponentMaster" }, method = { RequestMethod.POST })
+	public String updateComponentMaster(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
+		OutputResponse response = new OutputResponse();
+		try {
+
+			String s = mastersStatusUpdateImpl.updateComponentMaster(requestOBJ);
+			if (s != null) {
+				response.setResponse(s);
+			} else {
+				response.setError(5002, "Failed to update component details");
+			}
+
+		} catch (Exception e) {
+			response.setError(e);
+		}
+
+		return response.toString();
+
 	}
 
 }
