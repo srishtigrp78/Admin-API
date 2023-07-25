@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iemr.admin.controller.rolemaster.RoleMaster_Controller;
+import com.iemr.admin.controller.rolemaster.RoleMasterController;
 import com.iemr.admin.data.employeemaster.M_User1;
 import com.iemr.admin.data.user.M_User;
 import com.iemr.admin.data.user.M_UserServiceRoleMapping;

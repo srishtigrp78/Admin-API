@@ -158,44 +158,26 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Provider creation and mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/providerCreationAndMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String providerCreationAndMapping(@RequestBody String comingRequest) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 
 		logger.debug("request" + comingRequest);
 		try {
 			Set<ServiceProvider_Model> serviceProviderSet = new HashSet<ServiceProvider_Model>();
 
-			/**
-			 * craeting input request for service provider...
-			 */
 			ServiceProvider_Model serviceProvider_Model = InputMapper.gson().fromJson(comingRequest,
 					ServiceProvider_Model.class);
-			// done..
 
-			/**
-			 * craeting input request for service provider state service
-			 * mapping...
-			 */
 			ServiceProviderStateServiceMappingWrapper serviceProviderStateServiceMappingWrapper = InputMapper.gson()
 					.fromJson(comingRequest, ServiceProviderStateServiceMappingWrapper.class);
-			// done...
 
-			/**
-			 * Creating provider...
-			 */
 			serviceProviderSet.add(serviceProvider_Model);
 			Integer serviceProviderId = this.serviceProvider_ServiceImpl.createProvider(serviceProviderSet);
-			// provider creation done...
 
-			/**
-			 * creating provider state service mapping...
-			 */
 			if (serviceProviderId != null && serviceProviderId > 0) {
 				ArrayList<Map<String, Object>> obj = serviceProviderStateServiceMappingWrapper
 						.getStateAndServiceMapList();
@@ -234,11 +216,7 @@ public class ProviderOnBoardController {
 				List<M_ProviderServiceMapping> proSerMapID = serviceProvider_ServiceImpl
 						.mapProviderStateService(recordSet);
 				logger.debug("provide service state mapping done here....");
-				// Done
 
-				/**
-				 * Creating provider Admin
-				 */
 				logger.debug("Creating Provider Admin");
 				M_User m_user = inputMapper.gson().fromJson(comingRequest, M_User.class);
 
@@ -246,13 +224,9 @@ public class ProviderOnBoardController {
 
 				int userID = this.iemrUserServiceImpl.createUser(m_userDetails,
 						m_ProviderServiceMapping.getCreatedBy());
-				// provider admin craetion done.....
+
 				logger.debug("Provider Admin creation done");
 
-				/**
-				 * creating record and inserting data in user service role
-				 * mapping table...
-				 */
 				logger.debug(
 						"Creating inserting data in user service Role mapping table for Mapping role of Provider Admin");
 
@@ -274,8 +248,7 @@ public class ProviderOnBoardController {
 					}
 				} else {
 					/**
-					 * m_userservicerolemapping and m_user Rollback will
-					 * happen....
+					 * m_userservicerolemapping and m_user Rollback will happen....
 					 */
 					response.setResponse("false");
 				}
@@ -288,51 +261,33 @@ public class ProviderOnBoardController {
 			}
 		} catch (Exception e) {
 			logger.error("provider creation  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update provider", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updateProvider", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String updateProvider(@RequestBody String comingRequest) {
 
 		logger.debug("Start Updating Provider");
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + comingRequest);
 		try {
 			Set<ServiceProvider_Model> serviceProviderSet = new HashSet<ServiceProvider_Model>();
 
-			/**
-			 * craeting input request for service provider...
-			 */
 			ServiceProvider_Model serviceProvider_Model = InputMapper.gson().fromJson(comingRequest,
 					ServiceProvider_Model.class);
-			// done..
 
-			/**
-			 * craeting input request for service provider state service
-			 * mapping...
-			 */
 			ServiceProviderStateServiceMappingWrapper serviceProviderStateServiceMappingWrapper = InputMapper.gson()
 					.fromJson(comingRequest, ServiceProviderStateServiceMappingWrapper.class);
-
-			/**
-			 * Creating provider...
-			 */
 
 			ServiceProvider_Model getProviderDetails = serviceProvider_ServiceImpl
 					.getProviderData(serviceProvider_Model.getServiceProviderId());
@@ -356,74 +311,54 @@ public class ProviderOnBoardController {
 					.upDateProviderDetails(getProviderDetails);
 
 			response.setResponse(saveProviderDetails.toString());
-			// }
+
 		} catch (Exception e) {
 
 			logger.error("provider updation  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get service line", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getServiceline", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getServiceLine(@RequestBody String serviceline) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + serviceline);
 		try {
 
-			/**
-			 * craeting input request for Finding serviceLine...
-			 */
 			M_ServiceMaster serviceProvider_Model = InputMapper.gson().fromJson(serviceline, M_ServiceMaster.class);
-
-			/**
-			 * Storing the data using master1 variable...
-			 */
 
 			List<M_ServiceMaster> master1 = m_ServiceMasterInter.getAllServiceLine();
 
-			/**
-			 * creating the response and setting the response...
-			 */
 			response.setResponse(master1.toString());
 
 		} catch (Exception e) {
 
 			logger.error("serviceline  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get all provider name", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getAllProvider", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAllProviderName(@RequestBody String getServiceProvider) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + getServiceProvider);
 		try {
@@ -437,14 +372,10 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -452,13 +383,11 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get provider name", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/checkProvider", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getProviderName(@RequestBody String getServiceProvider) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + getServiceProvider);
 		try {
@@ -469,9 +398,6 @@ public class ProviderOnBoardController {
 			String providerName = this.serviceProvider_ServiceImpl
 					.getProviderName(serviceProvider_Model.getServiceProviderName());
 
-			/**
-			 * creating the response and setting the response...
-			 */
 			if (providerName != null) {
 				response.setResponse("provider_name_exists");
 			} else {
@@ -481,27 +407,22 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("checking Provider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get service provider id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getServiceProviderid", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getProviderId(@RequestBody String getServiceProviderId) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + getServiceProviderId);
 		try {
@@ -512,23 +433,15 @@ public class ProviderOnBoardController {
 			M_ProviderServiceMapping serviceProviderId = this.serviceProvider_ServiceImpl
 					.getProviderserviceMapId(m_ProviderServiceMapping.getProviderServiceMapID());
 
-			/**
-			 * creating the response and setting the response...
-			 */
-
 			response.setResponse(serviceProviderId.toString());
 
 		} catch (Exception e) {
 
 			logger.error("getting ProviderId  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -536,6 +449,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save call type data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveCalltypedata", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String saveCallTypeData(@RequestBody String saveCalltypeData) {
@@ -571,7 +485,6 @@ public class ProviderOnBoardController {
 							resDataMap.setIsOutbound(call.getIsOutbound1().get(j));
 							resDataMap.setCreatedBy(callMaster.get(x).getCreatedBy());
 
-							// add to list
 							resList.add(resDataMap);
 						}
 					}
@@ -585,21 +498,19 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("creating calltype  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create call type data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createCalltypedata", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createCalltypeData(@RequestBody String createCalltypedata) {
@@ -618,21 +529,19 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("creating calltype  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get call type data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getCalltypedata", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getCallTypeData(@RequestBody String saveCalltypeData) {
@@ -649,21 +558,19 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("getting calltype  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update call type data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateCalltypedata", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateCallTypeData(@RequestBody String updateCalltypeData) {
@@ -693,15 +600,11 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("updatation of  calltype  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -709,6 +612,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete call type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteCalltype", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteCallType(@RequestBody String deleteCalltype) {
@@ -728,21 +632,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("deleting calltype  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save sub service data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveSubserviceData", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String saveSubServiceData(@RequestBody String SubserviceData) {
@@ -786,21 +688,19 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("create subService  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Find sub serive name by map id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/FindSubSerive", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String FindSubSeriveNameByMapId(@RequestBody String FindSubSeriveName) {
@@ -818,21 +718,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("Find subService  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get sub serive name", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getSubSerive", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getSubSeriveName(@RequestBody String getSubSeriveName) {
@@ -850,15 +748,11 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("get subService  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -866,6 +760,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update sub serive", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateSubSerive", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateSubSerive(@RequestBody String updateSubSeriveName) {
@@ -887,21 +782,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("updata subService  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete sub serive", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteSubSerive", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteSubSerive(@RequestBody String updateSubSeriveName) {
@@ -921,21 +814,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("delete subService  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveCategory", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String saveCategory(@RequestBody String saveCategory) {
@@ -972,21 +863,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("Save Category  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save category use exist", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveCategoryUseExist", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String saveCategoryUseExist(@RequestBody String saveCategoryUseExist) {
@@ -1020,21 +909,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("Save Category User Exist failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get category by sub service id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getCategoryBySubServiceID", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getCategoryBySubServiceID(@RequestBody String getCategoryBySubServiceID) {
@@ -1054,21 +941,18 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("CategoryBySubServieId  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get sub category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getsubCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getsubCategory(@RequestBody String getsubCategory1) {
@@ -1088,15 +972,10 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getSubCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -1104,6 +983,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getCategory", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getCategory(@RequestBody String getCategory) {
@@ -1124,15 +1004,10 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -1140,6 +1015,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update sub category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateSubCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateSubCategory(@RequestBody String updateCategory) {
@@ -1165,21 +1041,18 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("updateCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get drug data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getDrugData", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getDrugData(
@@ -1197,8 +1070,7 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("get Drug failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
@@ -1208,6 +1080,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get drug groups", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getDrugGroups", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getDrugGroups(
@@ -1224,8 +1097,7 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getDrugGroups failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
@@ -1235,6 +1107,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get drug group mappings", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getDrugGroupMappings", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getDrugGroupMappings(@RequestBody String drugMaster) throws IEMRException {
@@ -1251,8 +1124,7 @@ public class ProviderOnBoardController {
 		} catch (Exception e) {
 
 			logger.error("getDrugGroups failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
@@ -1263,6 +1135,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update drug group", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateDrugGroup", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateDrugGroup(@RequestBody String updateDrugGroup) {
@@ -1284,8 +1157,7 @@ public class ProviderOnBoardController {
 			response.setResponse(saveupdateData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("updateDrug Group  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
@@ -1296,6 +1168,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update drug master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateDrugMaster", headers = "Authorization", method = RequestMethod.POST, produces = "application/json")
 	public String updateDrugMaster(@RequestBody String updateDrugData) {
 
@@ -1316,8 +1189,7 @@ public class ProviderOnBoardController {
 			response.setResponse(saveupdateData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("update drug Master  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
@@ -1328,6 +1200,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update drug mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateDrugMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateDrugMapping(@RequestBody String updateDrugData) {
@@ -1350,8 +1223,7 @@ public class ProviderOnBoardController {
 			response.setResponse(saveupdateData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("updateDrugMapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
@@ -1362,6 +1234,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update drug status", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateDrugStatus", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateDrugStatus(@RequestBody String updateDrugStatus) {
@@ -1397,22 +1270,18 @@ public class ProviderOnBoardController {
 			output.setResponse(response);
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Update Drug Status failed with exception " + e.getMessage(), e);
 			output.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return output.toString();
 
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores Drug Group ", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Stores drug group ", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveDrugGroup", headers = "Authorization", method = { RequestMethod.POST })
 	public String saveDrugGroup(
 			@ApiParam(value = "{\"drugGroup\":\"string\", \"drugGroupDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"deleted\":\"boolean\","
@@ -1436,7 +1305,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores Drug Detail", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Stores drug detail", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveDrug", headers = "Authorization", method = { RequestMethod.POST })
 	public String saveDrug(
 			@ApiParam(value = "{\"drugName\":\"string\", \"drugDesc\":\"string\", \"remarks\":\"integer\", \"deleted\":\"boolean\","
@@ -1457,12 +1326,11 @@ public class ProviderOnBoardController {
 			logger.error("Save Drug  failed with exception " + e.getMessage(), e);
 			output.setError(e);
 		}
-		// logger.debug("response"+response);
 		return output.toString();
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Map Drug with DrugGroup", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Map drug with drug group", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/mapDrugWithGroup", headers = "Authorization", method = { RequestMethod.POST })
 
 	public String mapDrugWithGroup(
@@ -1489,6 +1357,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get serverity", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getServerity", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getServerity(@RequestBody String getServerity) {
@@ -1505,22 +1374,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("get serverity  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("respone" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save serverity", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveServerity", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String saveServerity(@RequestBody String saveServerity) {
@@ -1537,22 +1403,19 @@ public class ProviderOnBoardController {
 			response.setResponse(saveSerdata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Save Serverity  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete serverity", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteServerity", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteServerity(@RequestBody String deleteServerity) {
@@ -1570,22 +1433,19 @@ public class ProviderOnBoardController {
 			response.setResponse(deletedata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete serverity  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit serverity", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editServerity", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String editServerity(@RequestBody String deleteServerity) {
@@ -1605,22 +1465,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("edit serverity  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get feedback type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getFeedbackType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getFeedbackType(@RequestBody String getFeedbackType) {
@@ -1635,16 +1492,11 @@ public class ProviderOnBoardController {
 			response.setResponse(getfeedbackdata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("get Feedback  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -1652,6 +1504,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save feedback type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/saveFeedbackType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String saveFeedbackType(@RequestBody String saveFeedbackType) {
@@ -1668,22 +1521,19 @@ public class ProviderOnBoardController {
 			response.setResponse(saveSerdata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("save FeedbackType  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit feedback type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editFeedbackType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editFeedbackType(@RequestBody String editFeedbackType) {
@@ -1702,8 +1552,7 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("edit Feedback  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
@@ -1713,6 +1562,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete feedback type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteFeedbackType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteFeedbackType(@RequestBody String deleteFeedbackType) {
@@ -1732,8 +1582,7 @@ public class ProviderOnBoardController {
 		} catch (
 
 		Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Feedback Type  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
@@ -1744,6 +1593,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createCategory(@RequestBody String createCategory) {
@@ -1758,22 +1608,19 @@ public class ProviderOnBoardController {
 			response.setResponse(createcat.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("create Category  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete category 1", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteCategory1", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteCategory1(@RequestBody String deleteCategory1) {
@@ -1792,51 +1639,33 @@ public class ProviderOnBoardController {
 			response.setResponse(deletedata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Category  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updateProviderAdmin", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateProviderAdmin(@RequestBody String updateProviderAdmin) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + updateProviderAdmin);
 		try {
 			Set<ServiceProvider_Model> serviceProviderSet = new HashSet<ServiceProvider_Model>();
 
-			/**
-			 * craeting input request for service provider...
-			 */
 			ServiceProvider_Model serviceProvider_Model = InputMapper.gson().fromJson(updateProviderAdmin,
 					ServiceProvider_Model.class);
-			// done..
 
-			/**
-			 * craeting input request for service provider state service
-			 * mapping...
-			 */
 			ServiceProviderStateServiceMappingWrapper serviceProviderStateServiceMappingWrapper = InputMapper.gson()
 					.fromJson(updateProviderAdmin, ServiceProviderStateServiceMappingWrapper.class);
-
-			/**
-			 * Creating provider...
-			 */
 
 			ServiceProvider_Model getProviderDetails = serviceProvider_ServiceImpl
 					.getProviderData(serviceProvider_Model.getServiceProviderId());
@@ -1862,20 +1691,17 @@ public class ProviderOnBoardController {
 			response.setResponse(saveProviderDetails.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Update Provider Admin  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create sub category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createSubCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createSubCategory(@RequestBody String createSubCategory) {
@@ -1891,16 +1717,11 @@ public class ProviderOnBoardController {
 			response.setResponse(saveSubCatData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("create SubCategory  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("respone" + response);
 		return response.toString();
@@ -1908,6 +1729,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete sub category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteSubCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteSubCategory(@RequestBody String deleteCategory) {
@@ -1929,22 +1751,19 @@ public class ProviderOnBoardController {
 			response.setResponse(getsubCategory.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Category  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get sub category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/m/getSubCategory" }, method = { RequestMethod.POST }, produces = { "application/json" })
 	public String getSubCategory(@RequestBody String getSubCategory) {
 		OutputResponse response = new OutputResponse();
@@ -1962,22 +1781,19 @@ public class ProviderOnBoardController {
 			response.setResponse(getsubCatdata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("get SubCategory  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateCategory(@RequestBody String deleteCategory1) {
@@ -2000,22 +1816,19 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Category  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create institute directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstituteDirectory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createInstuteDirectoty(@RequestBody String createInstuteDirectory) {
@@ -2033,22 +1846,19 @@ public class ProviderOnBoardController {
 			response.setResponse(instuteDirectory.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Create Institute Directory  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get institute directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getInstituteDirectory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getInstuteDirectory(@RequestBody String getInstuteDirectory) {
@@ -2066,22 +1876,19 @@ public class ProviderOnBoardController {
 			response.setResponse(getinstuteDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("get InstituteDirectory  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit institute directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editInstituteDirectory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editInstuteDirectory(@RequestBody String editInstuteDirectory) {
@@ -2105,22 +1912,19 @@ public class ProviderOnBoardController {
 			response.setResponse(getinstuteDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error(" edit Institute Directory failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete institute directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteInstituteDirectory", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2143,20 +1947,17 @@ public class ProviderOnBoardController {
 			response.setResponse(getinstuteDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get institute type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getInstituteType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getInstuteType(@RequestBody String getInstuteType) {
@@ -2171,20 +1972,17 @@ public class ProviderOnBoardController {
 			response.setResponse(createinstuteType.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create institute type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstituteType", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2202,20 +2000,17 @@ public class ProviderOnBoardController {
 			response.setResponse(createinstuteType.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit institute type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editInstituteType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editInstuteType(@RequestBody String editInstuteType) {
@@ -2237,20 +2032,17 @@ public class ProviderOnBoardController {
 			response.setResponse(saveEditData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete institute type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteInstituteType", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2272,20 +2064,17 @@ public class ProviderOnBoardController {
 			response.setResponse(saveEditData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get feedback nature type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getFeedbackNatureType", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getFeedbackNatureType(@RequestBody String getFeedbackNatureType) {
@@ -2301,20 +2090,17 @@ public class ProviderOnBoardController {
 			response.setResponse(getFeedbackNatureData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create feedback nature type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createFeedbackNatureType", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2334,20 +2120,17 @@ public class ProviderOnBoardController {
 			response.setResponse(getFeedbackNatureData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete feedback nature type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/m/deleteFeedbackNatureType" }, method = { RequestMethod.POST }, produces = {
 			"application/json" }, headers = "Authorization")
 	public String deleteFeedbackNatureType(@RequestBody String deleteFeedbackNatureType) {
@@ -2367,20 +2150,17 @@ public class ProviderOnBoardController {
 			response.setResponse(saveEditedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit feedback nature type", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/m/editFeedbackNatureType" }, method = { RequestMethod.POST }, produces = {
 			"application/json" }, headers = "Authorization")
 	public String editFeedbackNatureType(@RequestBody String editFeedbackNatureType) {
@@ -2401,20 +2181,17 @@ public class ProviderOnBoardController {
 			response.setResponse(saveEditedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Gt instution", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/m/getInstution"
 
 	}, method = { RequestMethod.POST }, produces = { "application/json" }, headers = "Authorization")
@@ -2433,20 +2210,17 @@ public class ProviderOnBoardController {
 			response.setResponse(getInstutionData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create instution", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstution", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2464,20 +2238,17 @@ public class ProviderOnBoardController {
 			response.setResponse(createInstutionData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit instution", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editInstution", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2505,20 +2276,17 @@ public class ProviderOnBoardController {
 			response.setResponse(createInstutionData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete instution", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteInstution", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteInstution(@RequestBody String deleteInstution) {
@@ -2533,18 +2301,15 @@ public class ProviderOnBoardController {
 			response.setResponse(createInstutionData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get instute sub directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getInstutesubDirectory", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2561,19 +2326,16 @@ public class ProviderOnBoardController {
 			response.setResponse(getinstutesubDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create instute sub directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstutesubDirectory", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2591,19 +2353,16 @@ public class ProviderOnBoardController {
 			response.setResponse(createinstutesubDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit instute sub directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editInstutesubDirectory", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -2627,19 +2386,16 @@ public class ProviderOnBoardController {
 			response.setResponse(saveEditedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete instute sub directory", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteInstutesubDirectory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteInstuteSubDirectory(@RequestBody String deleteInstuteSubDirectory) {
@@ -2657,19 +2413,16 @@ public class ProviderOnBoardController {
 			response.setResponse(saveEditedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create instute sub directory mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstutesubDirectoryMapping", headers = "Authorization", method = {
 			RequestMethod.POST
 
@@ -2687,19 +2440,16 @@ public class ProviderOnBoardController {
 			response.setResponse(createinstutesubDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete instute sub directory mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteInstutesubDirectoryMapping", headers = "Authorization", method = {
 			RequestMethod.POST
 
@@ -2720,18 +2470,16 @@ public class ProviderOnBoardController {
 			response.setResponse(deleteinstutesubDirectorydata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get instute sub directory mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getInstutesubDirectoryMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getInstuteSubDirectoryMaping(@RequestBody String getInstuteSubDirectoryMapping) {
@@ -2745,27 +2493,21 @@ public class ProviderOnBoardController {
 					.getInstituteDirectoryData(inssubdirectory.getInstituteSubDirectoryID());
 			response.setResponse(getinstutesubDirectorydata.toString());
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create provider", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createProvider", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 
 	public String createProvider(@RequestBody String createProvider) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + createProvider);
 		try {
@@ -2780,28 +2522,21 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Provider update", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/providerUpdate", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 
 	public String providerUpdate(@RequestBody String providerupdate) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + providerupdate);
 		try {
@@ -2834,14 +2569,9 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -2849,15 +2579,13 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Provider delete", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/providerdelete", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
 
 	public String providerDelete(@RequestBody String providerDelete) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + providerDelete);
 		try {
@@ -2873,14 +2601,9 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("deleteProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -2888,15 +2611,13 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Mapping provider admin to provider", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/mappingProviderAdmintoProvider", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
 
 	public String mappingProviderAdmintoProvider(@RequestBody String mappingProviderAdmintoProvider) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + mappingProviderAdmintoProvider);
 		try {
@@ -2928,14 +2649,9 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -2943,13 +2659,11 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit Mapping provider admin to provider", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editmappingProviderAdmintoProvider", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editMappingProviderAdmintoProvider(@RequestBody String editMappingProviderAdmintoProvider) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + editMappingProviderAdmintoProvider);
 		try {
@@ -2966,14 +2680,9 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -2981,6 +2690,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete mapping provider admin to provider", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deletemappingProviderAdmintoProvider", headers = "Authorization", method = {
 			RequestMethod.POST
 
@@ -2988,9 +2698,6 @@ public class ProviderOnBoardController {
 
 	public String deleteMappingProviderAdmintoProvider(@RequestBody String deleteMappingProviderAdmintoProvider) {
 
-		/**
-		 * creating output response Object using response variable...
-		 */
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + deleteMappingProviderAdmintoProvider);
 		try {
@@ -3005,14 +2712,9 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -3020,6 +2722,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get mapping provider admin to provider", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getmappingProviderAdmintoProvider", headers = "Authorization", method = {
 			RequestMethod.POST
 
@@ -3039,14 +2742,9 @@ public class ProviderOnBoardController {
 
 		} catch (Exception e) {
 			logger.error("getting AllProvider  failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -3054,6 +2752,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Map category to feedback nature", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/mapCategorytoFeedbackNature", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String mapCategorytoFeedbackNature(@RequestBody String mapCategorytoFeedbackNature) {
@@ -3072,28 +2771,23 @@ public class ProviderOnBoardController {
 				int data = categoryInter.updateCategory(catid, feedbackid);
 				x++;
 			}
-			// ArrayList<M_Category> createcat =
-			// categoryInter.createcat(catdata);
 
 			response.setResponse("inserted");
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("create Category  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update category to feedback nature", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateCategorytoFeedbackNature", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateCategorytoFeedbackNature(@RequestBody String updateCategorytoFeedbackNature) {
@@ -3108,77 +2802,30 @@ public class ProviderOnBoardController {
 			deletedDataold.setFeedbackNatureID(null);
 			deletedDataold.setModifiedBy(category.getModifiedBy());
 			categoryInter.deletedata(deletedDataold);
-			
+
 			M_Category deletedData = categoryInter.getcatdatabycatId(category.getCategoryID());
 
-//			deletedData.setCategoryName(category.getCategoryName());
 			deletedData.setFeedbackNatureID(category.getFeedbackNatureID());
-			// deletedData.setCategoryDesc(category.getCategoryDesc());
 			deletedData.setModifiedBy(category.getModifiedBy());
-			// deletedData.setS104_CS_Type(category.getS104_CS_Type());
 			M_Category deletedata = categoryInter.deletedata(deletedData);
 
 			response.setResponse(deletedata.toString());
 
 		} catch (Exception e) {
 
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Category  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
-		logger.debug("response" + response);
-		return response.toString();
-
-	}
-
-	@Deprecated
-	@CrossOrigin()
-	@RequestMapping(value = "/m/getmapedCategorytoFeedbackNature", headers = "Authorization", method = {
-			RequestMethod.POST }, produces = { "application/json" })
-	public String getmapedCategorytoFeedbackNature(@RequestBody String getmapedCategorytoFeedbackNature) {
-		OutputResponse response = new OutputResponse();
-		logger.debug("resqust" + getmapedCategorytoFeedbackNature);
-		try {
-
-			M_Category categoryid = InputMapper.gson().fromJson(getmapedCategorytoFeedbackNature, M_Category.class);
-
-			// M_Subcategory subcategory =
-			// InputMapper.gson().fromJson(getCategory, M_Subcategory.class);
-
-			// CategoryTO cto = InputMapper.gson().fromJson(getCategory,
-			// CategoryTO.class);
-
-			ArrayList<M_Category> getsubCategory = categoryInter.getAllCategory(categoryid.getProviderServiceMapID());
-			// ArrayList<M_Category> getsubCategory =
-			// categoryInter.getAllCategory(
-			// categoryid.getProviderServiceMapID());
-
-			response.setResponse(getsubCategory.toString());
-
-		} catch (Exception e) {
-			logger.error("getCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
-			response.setError(e);
-
-		}
-
-		/**
-		 * sending the response...
-		 */
-
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get mapped category to feedback nature with category id and feedback nature id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getmapedCategorytoFeedbackNatureWithFeedbackNatureID", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getmapedCategorytoFeedbackNatureWithCatIDandFeedbackNatureID(
@@ -3189,120 +2836,76 @@ public class ProviderOnBoardController {
 
 			M_Category categoryid = InputMapper.gson().fromJson(getmapedCategorytoFeedbackNature, M_Category.class);
 
-			// M_Subcategory subcategory =
-			// InputMapper.gson().fromJson(getCategory, M_Subcategory.class);
-
-			// CategoryTO cto = InputMapper.gson().fromJson(getCategory,
-			// CategoryTO.class);
-
 			ArrayList<M_Category> getsubCategory = categoryInter.getAllCategorywithFeedbackNatureID(
-					categoryid.getProviderServiceMapID(),categoryid.getFeedbackNatureID());
-			// ArrayList<M_Category> getsubCategory =
-			// categoryInter.getAllCategory(
-			// categoryid.getProviderServiceMapID());
+					categoryid.getProviderServiceMapID(), categoryid.getFeedbackNatureID());
 
 			response.setResponse(getsubCategory.toString());
 
 		} catch (Exception e) {
 			logger.error("getCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get unmapped category for feedback nature", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getunmappedCategoryforFeedbackNature", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
-	public String getunmappedCategoryforFeedbackNature(
-			@RequestBody String getmapedCategorytoFeedbackNature) {
+	public String getunmappedCategoryforFeedbackNature(@RequestBody String getmapedCategorytoFeedbackNature) {
 		OutputResponse response = new OutputResponse();
 		logger.debug("resqust" + getmapedCategorytoFeedbackNature);
 		try {
 
 			M_Category categoryid = InputMapper.gson().fromJson(getmapedCategorytoFeedbackNature, M_Category.class);
 
-			// M_Subcategory subcategory =
-			// InputMapper.gson().fromJson(getCategory, M_Subcategory.class);
-
-			// CategoryTO cto = InputMapper.gson().fromJson(getCategory,
-			// CategoryTO.class);
-
-			ArrayList<M_Category> getsubCategory = categoryInter.getUpmappedCategory(categoryid.getProviderServiceMapID());
-			// ArrayList<M_Category> getsubCategory =
-			// categoryInter.getAllCategory(
-			// categoryid.getProviderServiceMapID());
+			ArrayList<M_Category> getsubCategory = categoryInter
+					.getUpmappedCategory(categoryid.getProviderServiceMapID());
 
 			response.setResponse(getsubCategory.toString());
 
 		} catch (Exception e) {
 			logger.error("getCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Unmap category for feedback nature", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/t/unmappCategoryforFeedbackNature", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
-	public String unmappCategoryforFeedbackNature(
-			@RequestBody String getmapedCategorytoFeedbackNature) {
+	public String unmappCategoryforFeedbackNature(@RequestBody String getmapedCategorytoFeedbackNature) {
 		OutputResponse response = new OutputResponse();
 		logger.debug("resqust" + getmapedCategorytoFeedbackNature);
 		try {
 
 			M_Category category = InputMapper.gson().fromJson(getmapedCategorytoFeedbackNature, M_Category.class);
 
-			// M_Subcategory subcategory =
-			// InputMapper.gson().fromJson(getCategory, M_Subcategory.class);
-
-			// CategoryTO cto = InputMapper.gson().fromJson(getCategory,
-			// CategoryTO.class);
-
 			M_Category deletedData = categoryInter.getcatdatabycatId(category.getCategoryID());
 
-//			deletedData.setCategoryName(category.getCategoryName());
 			deletedData.setFeedbackNatureID(null);
-			// deletedData.setCategoryDesc(category.getCategoryDesc());
 			deletedData.setModifiedBy(category.getModifiedBy());
-			// deletedData.setS104_CS_Type(category.getS104_CS_Type());
 			M_Category deletedata = categoryInter.deletedata(deletedData);
-			// ArrayList<M_Category> getsubCategory =
-			// categoryInter.getAllCategory(
-			// categoryid.getProviderServiceMapID());
 
 			response.setResponse(deletedata.toString());
 
 		} catch (Exception e) {
 			logger.error("getCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -3310,6 +2913,7 @@ public class ProviderOnBoardController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get category by map id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getCategoryByMapID", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getAllCategoryPsmMapid(@RequestBody String getmapedCategorytoFeedbackNature) {
@@ -3319,38 +2923,24 @@ public class ProviderOnBoardController {
 
 			M_Category categoryid = InputMapper.gson().fromJson(getmapedCategorytoFeedbackNature, M_Category.class);
 
-			// M_Subcategory subcategory =
-			// InputMapper.gson().fromJson(getCategory, M_Subcategory.class);
-
-			// CategoryTO cto = InputMapper.gson().fromJson(getCategory,
-			// CategoryTO.class);
-
 			ArrayList<M_Category> getsubCategory = categoryInter.getAllCategory1(categoryid.getProviderServiceMapID());
 
 			response.setResponse(getsubCategory.toString());
 
 		} catch (Exception e) {
 			logger.error("getCategory failed with exception " + e.getMessage(), e);
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
-	
-	/*
-	 * Created BY Du20091017
-	 */
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create institute type by district", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstituteTypeByDist", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -3368,23 +2958,17 @@ public class ProviderOnBoardController {
 			response.setResponse(createinstuteType.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
-	
-	/*
-	 * Created BY Du20091017
-	 */	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Create instution by village", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/createInstutionByVillage", headers = "Authorization", method = { RequestMethod.POST
 
 	}, produces = { "application/json" })
@@ -3402,23 +2986,17 @@ public class ProviderOnBoardController {
 			response.setResponse(createInstutionData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
-	
-	/*
-	 * Created BY Du20091017
-	 */
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get instution by village", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/m/getInstutionByVillage"
 
 	}, method = { RequestMethod.POST }, produces = { "application/json" }, headers = "Authorization")
@@ -3432,28 +3010,22 @@ public class ProviderOnBoardController {
 			M_Institution insdirectory = InputMapper.gson().fromJson(getInstution, M_Institution.class);
 			ArrayList<M_Institution> getInstutionData = m_InstitutionInter.getInstutionByVillage(
 					insdirectory.getProviderServiceMapID(), insdirectory.getStateID(), insdirectory.getDistrictID(),
-					insdirectory.getBlockID(),insdirectory.getVillageID());
+					insdirectory.getBlockID(), insdirectory.getVillageID());
 
 			response.setResponse(getInstutionData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
-	
-	/*
-	 * Created BY Du20091017
-	 */
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get institute type by district", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getInstituteTypeByDist", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getInstituteTypeByDist(@RequestBody String getInstuteType) {
@@ -3462,52 +3034,45 @@ public class ProviderOnBoardController {
 		try {
 
 			M_Institutiontype instuteTyp = InputMapper.gson().fromJson(getInstuteType, M_Institutiontype.class);
-			ArrayList<M_Institutiontype> createinstuteType = m_InstitutiontypeInter
-					.getInstuteTypeByDist(instuteTyp.getProviderServiceMapID(),instuteTyp.getDistrictId(),instuteTyp.getSubDistrictId()
-							,instuteTyp.getVillageId());
+			ArrayList<M_Institutiontype> createinstuteType = m_InstitutiontypeInter.getInstuteTypeByDist(
+					instuteTyp.getProviderServiceMapID(), instuteTyp.getDistrictId(), instuteTyp.getSubDistrictId(),
+					instuteTyp.getVillageId());
 
 			response.setResponse(createinstuteType.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
-	/*
-	 * Created by DU20091017
-	 */
-	
+
 	@CrossOrigin
+	@ApiOperation(value = "Create institution by file", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "m/createInstitutionByFile", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createInstitutionByFile(@RequestBody String getInstitutionDetails) {
 		OutputResponse response = new OutputResponse();
-		
+
 		try {
-			
+
 			JsonObject jsnOBJ = new JsonObject();
 			JsonParser jsnParser = new JsonParser();
 			JsonElement jsnElmnt = jsnParser.parse(getInstitutionDetails);
 			jsnOBJ = jsnElmnt.getAsJsonObject();
-			
+
 			String finalMsg = m_InstitutionInter.createInstitutionByFile(jsnOBJ);
-			
+
 			response.setResponse(finalMsg);
-		}catch(Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+		} catch (Exception e) {
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 		return response.toString();
-		
+
 	}
 }

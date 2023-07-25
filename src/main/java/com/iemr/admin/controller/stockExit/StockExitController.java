@@ -39,32 +39,26 @@ public class StockExitController {
 
 	@Autowired
 	StockExitService stockExitService;
-	
-	@CrossOrigin()
-	@ApiOperation(
-			value = "Stores service point Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/patientIssue" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String patientIssue(@RequestBody T_PatientIssue patientIssue)  {
-		
-			OutputResponse output = new OutputResponse();
 
-					
-			
-			try {
-				
-				Integer value=stockExitService.issuePatientDrugs(patientIssue);
-				if(value==1){
-					output.setResponse("Successfully Created");
-				}else{
-					output.setResponse("Error in Quantity");
-				}
-//				output.setResponse("");
-			} catch (Exception e) {
-				
-				output.setError(e);
+	@CrossOrigin()
+	@ApiOperation(value = "Store service point details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/patientIssue", headers = "Authorization", method = { RequestMethod.POST })
+	public String patientIssue(@RequestBody T_PatientIssue patientIssue) {
+
+		OutputResponse output = new OutputResponse();
+
+		try {
+
+			Integer value = stockExitService.issuePatientDrugs(patientIssue);
+			if (value == 1) {
+				output.setResponse("Successfully Created");
+			} else {
+				output.setResponse("Error in Quantity");
 			}
-			return output.toString();
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
 }

@@ -21,7 +21,6 @@
 */
 package com.iemr.admin.controller.stockEntry;
 
-
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -48,31 +47,27 @@ public class StockEntryController {
 
 	@Autowired
 	StockEntryService stockEntryService;
-	
-	@CrossOrigin()
-	@ApiOperation(
-			value = "Stores service point Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/physicalStockEntry" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String physicalStockEntry(@RequestBody PhysicalStockEntry physicalStockEntry)  {
-		
-			OutputResponse output = new OutputResponse();
 
-					
-			
-			try {
-				physicalStockEntry=stockEntryService.savePhysicalStockEntry(physicalStockEntry);
-				
-				output.setResponse(physicalStockEntry.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
-	}
-	
 	@CrossOrigin()
+	@ApiOperation(value = "Stores service point details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/physicalStockEntry", headers = "Authorization", method = { RequestMethod.POST })
+	public String physicalStockEntry(@RequestBody PhysicalStockEntry physicalStockEntry) {
+
+		OutputResponse output = new OutputResponse();
+
+		try {
+			physicalStockEntry = stockEntryService.savePhysicalStockEntry(physicalStockEntry);
+
+			output.setResponse(physicalStockEntry.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
+	}
+
+	@CrossOrigin()
+	@ApiOperation(value = "Get item batch for store id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItemBatchForStoreID", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getItemBatchForStoreID(@RequestBody ItemStockEntry itemStockEntry) {
@@ -86,21 +81,21 @@ public class StockEntryController {
 			response.setResponse(getData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Allocate stock from item id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/allocateStockFromItemID/{facilityID}", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
-	public String allocateStockFromItemID(@PathVariable("facilityID") Integer facilityID,@RequestBody List<ItemStockExit> itemStockExitList) {
+	public String allocateStockFromItemID(@PathVariable("facilityID") Integer facilityID,
+			@RequestBody List<ItemStockExit> itemStockExitList) {
 
 		OutputResponse response = new OutputResponse();
 
@@ -111,15 +106,13 @@ public class StockEntryController {
 			response.setResponse(getData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
-	
+
 }
