@@ -44,201 +44,186 @@ import io.swagger.annotations.ApiParam;
 @RestController
 @RequestMapping(value = "/parkingPlaceMaster")
 public class ParkingPlaceController {
-	
+
 	@Autowired
 	private ParkingPlaceServiceImpl parkingPlaceServiceImpl;
 
 	@CrossOrigin()
-	@ApiOperation(
-			value = "Stores parking place Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/create/parkingPlaces" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String saveParkingPlace(@ApiParam(
-			value = "{\"parkingPlaceName\":\"string\", \"parkingPlaceDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"areaHQAddress\":\"string\", "
+	@ApiOperation(value = "Stores parking place details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/create/parkingPlaces", headers = "Authorization", method = { RequestMethod.POST })
+	public String saveParkingPlace(
+			@ApiParam(value = "{\"parkingPlaceName\":\"string\", \"parkingPlaceDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"areaHQAddress\":\"string\", "
 					+ "\"countryID\":\"integer\", \"stateID\":\"integer\", \"districtID\":\"integer\", \"districtBlockID\":\"integer\", \"districtBranchID\":\"integer\", "
-					+ " \"createdBy\":\"string\", \"deleted\":\"boolean\"}") @RequestBody String parkingPlaceMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
+					+ " \"createdBy\":\"string\", \"deleted\":\"boolean\"}") @RequestBody String parkingPlaceMaster)
+			throws IEMRException {
 
-			ParkingPlaceTO parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster,ParkingPlaceTO.class);
-			
-			
-			try {
+		OutputResponse output = new OutputResponse();
 
-				ArrayList<M_Parkingplace> parkingPlaces=parkingPlaceServiceImpl.saveParkingPlace(parkingPlace.getParkingPlaces());
-				output.setResponse(parkingPlaces.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		ParkingPlaceTO parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster, ParkingPlaceTO.class);
+
+		try {
+
+			ArrayList<M_Parkingplace> parkingPlaces = parkingPlaceServiceImpl
+					.saveParkingPlace(parkingPlace.getParkingPlaces());
+			output.setResponse(parkingPlaces.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
-	
-	
 
 	@CrossOrigin()
-	@ApiOperation(
-			value = "get parking place Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/get/parkingPlaces" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String getParkingPlaces(@ApiParam(
-			value = "{\"stateID\":\"integer\", \"districtID\":\"integer\", \"serviceProviderID\":\"integer\"}") @RequestBody String parkingPlaceMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
-			
-			M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster,M_Parkingplace.class);
+	@ApiOperation(value = "Get parking place details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/get/parkingPlaces", headers = "Authorization", method = { RequestMethod.POST })
+	public String getParkingPlaces(
+			@ApiParam(value = "{\"stateID\":\"integer\", \"districtID\":\"integer\", \"serviceProviderID\":\"integer\"}") @RequestBody String parkingPlaceMaster)
+			throws IEMRException {
 
-			try {
-				ArrayList<M_Parkingplace> parkingPlaces=parkingPlaceServiceImpl.getAvailableParkingPlaces(parkingPlace.getStateID(), parkingPlace.getDistrictID(), parkingPlace.getServiceProviderID());
-				output.setResponse(parkingPlaces.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
-	}
-	
-	
-	@CrossOrigin()
-	@ApiOperation(
-			value = "Removes Parking Place",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/remove/parkingPlace" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String deleteParkingPlace(@ApiParam(
-			value = "{\"parkingPlaceID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String parkingPlaceMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
+		OutputResponse output = new OutputResponse();
 
-			M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster,M_Parkingplace.class);
-			
-			try {
-				String response;
-				int update=parkingPlaceServiceImpl.updateParkingPlaceStatus(parkingPlace);
-				if(update==1){
-					response = "status updated successfully";
-				}else{
-					response = "Failed to update the status";
-				}
-				output.setResponse(response.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster, M_Parkingplace.class);
+
+		try {
+			ArrayList<M_Parkingplace> parkingPlaces = parkingPlaceServiceImpl.getAvailableParkingPlaces(
+					parkingPlace.getStateID(), parkingPlace.getDistrictID(), parkingPlace.getServiceProviderID());
+			output.setResponse(parkingPlaces.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
-	
-	
+
 	@CrossOrigin()
-	@ApiOperation(
-			value = "update ParkingPlace Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/update/parkingPlaceDetails" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String updateParkingPlaceDetails(@ApiParam(
-			value = "{\"parkingPlaceName\":\"string\", \"parkingPlaceDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"areaHQAddress\":\"string\", "
+	@ApiOperation(value = "Removes parking place", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/remove/parkingPlace", headers = "Authorization", method = { RequestMethod.POST })
+	public String deleteParkingPlace(
+			@ApiParam(value = "{\"parkingPlaceID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String parkingPlaceMaster)
+			throws IEMRException {
+
+		OutputResponse output = new OutputResponse();
+
+		M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster, M_Parkingplace.class);
+
+		try {
+			String response;
+			int update = parkingPlaceServiceImpl.updateParkingPlaceStatus(parkingPlace);
+			if (update == 1) {
+				response = "status updated successfully";
+			} else {
+				response = "Failed to update the status";
+			}
+			output.setResponse(response.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
+	}
+
+	@CrossOrigin()
+	@ApiOperation(value = "Update parking place details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/update/parkingPlaceDetails", headers = "Authorization", method = { RequestMethod.POST })
+	public String updateParkingPlaceDetails(
+			@ApiParam(value = "{\"parkingPlaceName\":\"string\", \"parkingPlaceDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"areaHQAddress\":\"string\", "
 					+ "\"countryID\":\"integer\", \"stateID\":\"integer\", \"districtID\":\"integer\", \"districtBlockID\":\"integer\", \"districtBranchID\":\"integer\","
-					+ " \"modifiedBy\":\"string\"}") @RequestBody String parkingPlaceData) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
+					+ " \"modifiedBy\":\"string\"}") @RequestBody String parkingPlaceData)
+			throws IEMRException {
 
-			M_Parkingplace m_parkingplace = InputMapper.gson().fromJson(parkingPlaceData,M_Parkingplace.class);
-			
-			try {
-				String response;
-				M_Parkingplace parkingPlaceToUpdate = parkingPlaceServiceImpl.getParkingPlaceByID(m_parkingplace.getParkingPlaceID());
-				
-				parkingPlaceToUpdate.setParkingPlaceName(m_parkingplace.getParkingPlaceName());
-				parkingPlaceToUpdate.setParkingPlaceDesc(m_parkingplace.getParkingPlaceDesc());
-				parkingPlaceToUpdate.setAreaHQAddress(m_parkingplace.getAreaHQAddress());
-				parkingPlaceToUpdate.setStateID(m_parkingplace.getStateID());
-				parkingPlaceToUpdate.setDistrictID(m_parkingplace.getDistrictID());
-				parkingPlaceToUpdate.setZoneID(m_parkingplace.getZoneID());
-				parkingPlaceToUpdate.setDistrictBlockID(m_parkingplace.getDistrictBlockID());
-				parkingPlaceToUpdate.setDistrictBranchID(m_parkingplace.getDistrictBranchID());
-				parkingPlaceToUpdate.setModifiedBy(m_parkingplace.getModifiedBy());
-				
-				
-				M_Parkingplace m_parkingplaceData=parkingPlaceServiceImpl.updateParkingPlaceData(parkingPlaceToUpdate);
-				
-				output.setResponse(m_parkingplaceData.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		OutputResponse output = new OutputResponse();
+
+		M_Parkingplace m_parkingplace = InputMapper.gson().fromJson(parkingPlaceData, M_Parkingplace.class);
+
+		try {
+			String response;
+			M_Parkingplace parkingPlaceToUpdate = parkingPlaceServiceImpl
+					.getParkingPlaceByID(m_parkingplace.getParkingPlaceID());
+
+			parkingPlaceToUpdate.setParkingPlaceName(m_parkingplace.getParkingPlaceName());
+			parkingPlaceToUpdate.setParkingPlaceDesc(m_parkingplace.getParkingPlaceDesc());
+			parkingPlaceToUpdate.setAreaHQAddress(m_parkingplace.getAreaHQAddress());
+			parkingPlaceToUpdate.setStateID(m_parkingplace.getStateID());
+			parkingPlaceToUpdate.setDistrictID(m_parkingplace.getDistrictID());
+			parkingPlaceToUpdate.setZoneID(m_parkingplace.getZoneID());
+			parkingPlaceToUpdate.setDistrictBlockID(m_parkingplace.getDistrictBlockID());
+			parkingPlaceToUpdate.setDistrictBranchID(m_parkingplace.getDistrictBranchID());
+			parkingPlaceToUpdate.setModifiedBy(m_parkingplace.getModifiedBy());
+
+			M_Parkingplace m_parkingplaceData = parkingPlaceServiceImpl.updateParkingPlaceData(parkingPlaceToUpdate);
+
+			output.setResponse(m_parkingplaceData.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
 
 	@CrossOrigin()
-	@ApiOperation(
-			value = "get parking place Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/getParkingPlaces" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String getParkingPlacesProviderserviceMap(@ApiParam(
-			value = "{ \"providerServiceMapID\":\"integer\"}") @RequestBody String parkingPlaceMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
-			
-			M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster,M_Parkingplace.class);
+	@ApiOperation(value = "Get parking place details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/getParkingPlaces", headers = "Authorization", method = { RequestMethod.POST })
+	public String getParkingPlacesProviderserviceMap(
+			@ApiParam(value = "{ \"providerServiceMapID\":\"integer\"}") @RequestBody String parkingPlaceMaster)
+			throws IEMRException {
 
-			try {
-				List<M_Parkingplace> parkingPlaces=parkingPlaceServiceImpl.getParkingPlaces(parkingPlace.getProviderServiceMapID());
-				output.setResponse(parkingPlaces.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
-	}
-	
-	
-	
-	@CrossOrigin()
-	@ApiOperation(
-			value = "get subDistrict Details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/getSubDistrictByParkingPlaceID" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String getSubDistrictDetailsByParkingPlaceID(@ApiParam(
-			value = "{ \"ParkingPlaceId\":\"integer\"}") @RequestBody String SubDistrictByParkingPlaceID) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
-			
-			M_Parkingplace parkingPlace = InputMapper.gson().fromJson(SubDistrictByParkingPlaceID,M_Parkingplace.class);
+		OutputResponse output = new OutputResponse();
 
-			try {
-				List<M_Parkingplace> parkingPlaces=parkingPlaceServiceImpl.getSubDistrict(parkingPlace.getParkingPlaceID());
-				output.setResponse(parkingPlaces.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster, M_Parkingplace.class);
+
+		try {
+			List<M_Parkingplace> parkingPlaces = parkingPlaceServiceImpl
+					.getParkingPlaces(parkingPlace.getProviderServiceMapID());
+			output.setResponse(parkingPlaces.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
 
 	@CrossOrigin()
-	@ApiOperation(
-			value = "get parking place Details by zoneID",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/get/parkingPlacesbyzoneid" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String getparkingPlacesbyzoneid(@ApiParam(
-			value = "{\"zoneID\":\"integer\", \"providerServiceMapID\":\"integer\"}") @RequestBody String parkingPlaceMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
-			
-			M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster,M_Parkingplace.class);
+	@ApiOperation(value = "Get sub district details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/getSubDistrictByParkingPlaceID", headers = "Authorization", method = {
+			RequestMethod.POST })
+	public String getSubDistrictDetailsByParkingPlaceID(
+			@ApiParam(value = "{ \"ParkingPlaceId\":\"integer\"}") @RequestBody String SubDistrictByParkingPlaceID)
+			throws IEMRException {
 
-			try {
-				ArrayList<M_Parkingplace> parkingPlaces=parkingPlaceServiceImpl.getAvailableParkingPlacesbyZoneID( parkingPlace.getZoneID(), parkingPlace.getProviderServiceMapID());
-				output.setResponse(parkingPlaces.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		OutputResponse output = new OutputResponse();
+
+		M_Parkingplace parkingPlace = InputMapper.gson().fromJson(SubDistrictByParkingPlaceID, M_Parkingplace.class);
+
+		try {
+			List<M_Parkingplace> parkingPlaces = parkingPlaceServiceImpl
+					.getSubDistrict(parkingPlace.getParkingPlaceID());
+			output.setResponse(parkingPlaces.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
+	}
+
+	@CrossOrigin()
+	@ApiOperation(value = "Get parking place details by zone id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/get/parkingPlacesbyzoneid", headers = "Authorization", method = { RequestMethod.POST })
+	public String getparkingPlacesbyzoneid(
+			@ApiParam(value = "{\"zoneID\":\"integer\", \"providerServiceMapID\":\"integer\"}") @RequestBody String parkingPlaceMaster)
+			throws IEMRException {
+
+		OutputResponse output = new OutputResponse();
+
+		M_Parkingplace parkingPlace = InputMapper.gson().fromJson(parkingPlaceMaster, M_Parkingplace.class);
+
+		try {
+			ArrayList<M_Parkingplace> parkingPlaces = parkingPlaceServiceImpl.getAvailableParkingPlacesbyZoneID(
+					parkingPlace.getZoneID(), parkingPlace.getProviderServiceMapID());
+			output.setResponse(parkingPlaces.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
 }

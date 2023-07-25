@@ -43,18 +43,20 @@ import com.iemr.admin.to.itemfacilitymapping.ItemfacilityMappingTO;
 import com.iemr.admin.utils.mapper.InputMapper;
 import com.iemr.admin.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
-public class M_itemfacilitymappingController {
+public class MItemFacilityMappingController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 	@Autowired
 	private M_itemfacilitymappingInter M_itemfacilitymappingInter;
 
 	@CrossOrigin()
+	@ApiOperation(value = "Map item to store", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/mapItemtoStrore", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String mapItemtoStrore(@RequestBody String mapItemtoStrore) {
-		// JSONObject requestOBJ = new JSONObject(providerBlocking);
 		OutputResponse response = new OutputResponse();
 
 		try {
@@ -90,7 +92,6 @@ public class M_itemfacilitymappingController {
 
 					resList.add(resDataMap);
 				}
-				// itemDetailsIndex++;
 
 			}
 
@@ -99,23 +100,21 @@ public class M_itemfacilitymappingController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit item to store", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editItemtoStrore", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editItemtoStrore(@RequestBody String editItemtoStrore) {
-		// JSONObject requestOBJ = new JSONObject(providerBlocking);
 		OutputResponse response = new OutputResponse();
 
 		try {
@@ -136,23 +135,21 @@ public class M_itemfacilitymappingController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete item to store", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteItemtoStrore", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteItemtoStrore(@RequestBody String deleteItemtoStrore) {
-		// JSONObject requestOBJ = new JSONObject(providerBlocking);
 		OutputResponse response = new OutputResponse();
 
 		try {
@@ -169,23 +166,21 @@ public class M_itemfacilitymappingController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get sub store item", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getSubStoreitem", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getSubStroreitem(@RequestBody String deleteItemtoStrore) {
-		// JSONObject requestOBJ = new JSONObject(providerBlocking);
 		OutputResponse response = new OutputResponse();
 
 		try {
@@ -196,31 +191,24 @@ public class M_itemfacilitymappingController {
 			ArrayList<M_itemfacilitymapping> getsubstoreData = M_itemfacilitymappingInter
 					.getsubitemforsubStote(itemDetails.getProviderServiceMapID(), itemDetails.getFacilityID());
 
-			// getdataforedit.setDeleted(itemDetails.getDeleted());
-
-			/// M_itemfacilitymapping data =
-			/// M_itemfacilitymappingInter.saveEditedItem(getdataforedit);
-
 			response.setResponse(getsubstoreData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get all facility mapped data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getAllFacilityMappedData", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getAllFacilityMappedData(@RequestBody String getAllFacilityMappedData) {
-		// JSONObject requestOBJ = new JSONObject(providerBlocking);
 		OutputResponse response = new OutputResponse();
 
 		try {
@@ -231,27 +219,21 @@ public class M_itemfacilitymappingController {
 			ArrayList<V_fetchItemFacilityMap> getAllMappedData = M_itemfacilitymappingInter
 					.getAllFacilityMappedData(itemDetails.getProviderServiceMapID());
 
-			// getdataforedit.setDeleted(itemDetails.getDeleted());
-
-			/// M_itemfacilitymapping data =
-			/// M_itemfacilitymappingInter.saveEditedItem(getdataforedit);
-
 			response.setResponse(getAllMappedData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get item from store id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItemFromStoreID/{storeID}", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getItemFromStoreID(@PathVariable("storeID") Integer storeID) {
@@ -265,17 +247,17 @@ public class M_itemfacilitymappingController {
 			response.setResponse(getData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
+
 	@CrossOrigin()
+	@ApiOperation(value = "Delete item store mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteItemStoreMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteItemStoreMapping(@RequestBody M_itemfacilitymapping storeID) {
@@ -289,16 +271,13 @@ public class M_itemfacilitymappingController {
 			response.setResponse(getData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
-	
 
 }

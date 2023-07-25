@@ -21,16 +21,26 @@
 */
 package com.iemr.admin.controller.fetosensemaster;
 
+import java.util.ArrayList;
+
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.iemr.admin.data.fetosensemaster.FetosenseDeviceID;
 import com.iemr.admin.service.fetosensemaster.FetosenseService;
+import com.iemr.admin.utils.exception.IEMRException;
+import com.iemr.admin.utils.mapper.InputMapper;
 import com.iemr.admin.utils.response.OutputResponse;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
@@ -40,14 +50,15 @@ import io.swagger.annotations.ApiParam;
 public class FetosenseController {
 	@Autowired
 	private FetosenseService fetosenseService;
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 	@CrossOrigin
-	@ApiOperation(value = "Create Fetosense Tests master by Provider admin", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Create fetosense test master by provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/createFetosenseTestMaster" }, method = { RequestMethod.POST })
 	public String createFetosenseTestMaster(@RequestBody String requestOBJ) {
 		OutputResponse response = new OutputResponse();
 		try {
-			String s = fetosenseService.createFetosenseTestMaster(requestOBJ);	
+			String s = fetosenseService.createFetosenseTestMaster(requestOBJ);
 			if (s != null) {
 				response.setResponse(s);
 			} else {
@@ -59,7 +70,7 @@ public class FetosenseController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "Fetch Fetosense Tests master for provider-service-map-id", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Fetch fetosense tests master for provider-service-map-id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/fetchFetosenseTestMaster/{psmID}" }, method = { RequestMethod.GET })
 	public String fetchFetosenseTestMaster(@PathVariable("psmID") Integer psmID) {
 		OutputResponse response = new OutputResponse();
@@ -77,7 +88,7 @@ public class FetosenseController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "update Fetosense Tests master for a particular procedure", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update fetosense tests master for a particular procedure", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/updateFetosenseTestMaster" }, method = { RequestMethod.POST })
 	public String updateProcedureMaster(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
 		OutputResponse response = new OutputResponse();
@@ -93,9 +104,9 @@ public class FetosenseController {
 		}
 		return response.toString();
 	}
-	
+
 	@CrossOrigin
-	@ApiOperation(value = "update procedure status for enable or disable", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update procedure status for enable or disable", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/updateFetosenseTestMasterStatus" }, method = { RequestMethod.POST })
 	public String updateProcedureStatus(@ApiParam(value = "{}") @RequestBody String requestOBJ) {
 		OutputResponse response = new OutputResponse();
@@ -118,5 +129,246 @@ public class FetosenseController {
 		}
 		return response.toString();
 	}
-	
+
+	@CrossOrigin
+	@ApiOperation(value = "To save fetosense device id")
+	@RequestMapping(value = "/createFetosenseDeviceID", method = RequestMethod.POST, headers = "Authorization")
+	public String saveFetosenseDeviceID(
+			@ApiParam("[\r\n" + "  {\r\n" + "    \"deviceID\": \"String\",\r\n" + "    \"deviceName\": \"String\",\r\n"
+					+ "    \"providerServiceMapID\": Integer,\r\n" + "    \"createdBy\": \"String\"\r\n"
+					+ "  }]") @RequestBody ArrayList<FetosenseDeviceID> requestObj,
+			@RequestHeader(value = "Authorization") String authorization) {
+
+		logger.info("Request Object for saving fetosense device ID - " + requestObj);
+		OutputResponse output = new OutputResponse();
+
+		try {
+
+			int deviceIDSaved = fetosenseService.saveFetosenseDeviceID(requestObj);
+			if (deviceIDSaved == 1)
+				output.setResponse("Device ID saved successfully");
+		} catch (IEMRException e) {
+			logger.error("saveFetosenseDeviceID Error - " + e.getMessage());
+			output.setError(5000, e.getMessage());
+		}
+
+		return output.toString();
+	}
+
+	/***
+	 * @param requestObj
+	 * @param authorization
+	 * @return
+	 */
+	@CrossOrigin
+	@ApiOperation(value = "To save mapping of van id and fetosense device id")
+	@RequestMapping(value = "/mapping/vanIDAndDeviceID", method = RequestMethod.POST, headers = "Authorization")
+	public String saveVanIDandDeviceIDMapping(
+			@ApiParam("\r\n" + "{\r\n" + "      \"spokeID\":this.spokeID,\r\n"
+					+ "      \"deviceID\": this.deviceID,\r\n"
+					+ "      \"providerServiceMapID\": this.providerServiceMapID,\r\n"
+					+ "      \"createdBy\": this.commonDataService.uname\r\n" + " \r\n" + "  }\r\n"
+					+ "") @RequestBody String requestObj,
+			@RequestHeader(value = "Authorization") String authorization) {
+
+		logger.info("Request Object for mapping vanID and fetosense device ID - " + requestObj);
+		OutputResponse output = new OutputResponse();
+
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			int mappingDone = fetosenseService.vanIDAndDeviceIDMapping(fetosenseRequest);
+			if (mappingDone == 1)
+				output.setResponse("Mapping Done successfully");
+		} catch (IEMRException e) {
+			logger.error("saveVanIDandDeviceIDMapping Error - " + e.getMessage());
+			output.setError(5000, e.getMessage());
+		}
+		return output.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Provides the fetosense device id")
+	@RequestMapping(value = "/fetch/fetosenseDeviceID", method = RequestMethod.POST, headers = "Authorization")
+	public String getFetosenseDeviceID(
+			@ApiParam("{ 'providerServiceMapID': Integer }") @RequestBody String requestObj) {
+
+		logger.info("Request Object for getting fetosense DeviceID - " + requestObj);
+		OutputResponse output = new OutputResponse();
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			String response = fetosenseService.getFetosenseDeviceID(fetosenseRequest);
+			if (response != null)
+				output.setResponse(response);
+		} catch (IEMRException e) {
+			logger.error("getFetosenseDeviceID failed with error " + e.getMessage());
+			output.setError(5000, e.getMessage());
+		}
+		return output.toString();
+	}
+
+	/***
+	 * @param requestObj
+	 * @return
+	 */
+	@CrossOrigin
+	@ApiOperation(value = "Provides the van id and fetosense device id")
+	@RequestMapping(value = "/fetch/vanIDAndFetosenseDeviceID", method = RequestMethod.POST, headers = "Authorization")
+	public String getVanIDAndDeviceID(
+			@ApiParam("\r\n" + "{\"parkingPlaceID\" : Integer,\r\n" + "                    \"vanTypeID\" : Integer,\r\n"
+					+ "                    \"providerServiceMapID\" : Integer\r\n" + "                  };\r\n"
+					+ "") @RequestBody String requestObj) {
+
+		logger.info("Request Object for getting van ID and fetosense DeviceID - " + requestObj);
+		OutputResponse output = new OutputResponse();
+
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			String response = fetosenseService.getvanIDAndFetosenseDeviceID(fetosenseRequest);
+			if (response != null)
+				output.setResponse(response);
+		} catch (IEMRException e) {
+			logger.error("getVanIDAndDeviceID failed with error " + e.getMessage());
+			output.setError(5000, e.getMessage());
+		}
+
+		return output.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Provides the worklist of van id and fetosense device id")
+	@RequestMapping(value = "/fetch/mappingWorklist", method = RequestMethod.POST, headers = "Authorization")
+	public String getMappedWorklist(
+			@ApiParam("\r\n" + "{\"parkingPlaceID\" : Integer,\r\n" + "                    \"vanTypeID\" : Integer,\r\n"
+					+ "                    \"providerServiceMapID\" : Integer\r\n" + "                  };\r\n"
+					+ "") @RequestBody String requestObj) {
+		logger.info("Request Object for getting van ID and fetosense DeviceID - " + requestObj);
+		OutputResponse output = new OutputResponse();
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			String mappedWorklist = fetosenseService.getVanIDMappingWorklist(fetosenseRequest);
+			if (mappedWorklist != null)
+				output.setResponse(mappedWorklist);
+		} catch (IEMRException e) {
+			logger.error("getMappedWorklist failed with error " + e.getMessage());
+			output.setError(5000, e.getMessage());
+		}
+		return output.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Update device id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/update/fetosenseDeviceID", method = { RequestMethod.POST })
+	public String updateFetosenseDeviceID(
+			@ApiParam("" + "{\r\n" + "        \"VfdID\": \"Integer\",\r\n" + "        \"deviceName\": \"String\",\r\n"
+					+ "        \"deviceID\": \"String\",\r\n" + "        \"vanID\": \"Integer\",\r\n"
+					+ "        \"parkingPlaceID\": \"Integer\",\r\n" + "        \"vanTypeID\": \"Integer\",\r\n"
+					+ "        \"vanName\": \"String\",\r\n" + "        \"providerServiceMapID\": \"Integer\",\r\n"
+					+ "        \"deactivated\": \"Boolean\",\r\n" + "        \"deleted\": \"Boolean\",\r\n"
+					+ "        \"processed\": \"String\",\r\n" + "        \"createdBy\": \"String\"\",\r\n"
+					+ "        \"modifiedBy\": \"String\"\r\n" + "      }") @RequestBody String requestObj,
+			@RequestHeader(value = "Authorization") String Authorization) {
+
+		OutputResponse response = new OutputResponse();
+		logger.info("Request object for fetosense data updating  :" + requestObj);
+
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			int deviceIDUpdated = fetosenseService.updateFetosenseDeviceID(fetosenseRequest);
+			if (deviceIDUpdated == 1) {
+				response.setResponse("DeviceID updated successfully");
+			}
+		} catch (IEMRException e) {
+			response.setError(5000, "Unable to update deviceID - " + e.getMessage());
+			logger.error("updateFetosenseDeviceID :" + e.getMessage());
+		}
+		return response.toString();
+	}
+
+	/***
+	 * @param requestObj
+	 * @param Authorization
+	 * @return
+	 */
+	@CrossOrigin
+	@ApiOperation(value = "Delete fetosense device id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/delete/fetosenseDeviceID", method = { RequestMethod.POST })
+	public String deleteFetosenseDeviceID(
+			@ApiParam("{\r\n" + "        \"VfdID\": \"Integer\",\r\n" + "        \"deviceName\": \"String\",\r\n"
+					+ "        \"deviceID\": \"String\",\r\n" + "        \"vanID\": \"Integer\",\r\n"
+					+ "        \"parkingPlaceID\": \"Integer\",\r\n" + "        \"vanTypeID\": \"Integer\",\r\n"
+					+ "        \"vanName\": \"String\",\r\n" + "        \"providerServiceMapID\": \"Integer\",\r\n"
+					+ "        \"deactivated\": \"Boolean\",\r\n" + "        \"deleted\": \"Boolean\",\r\n"
+					+ "        \"processed\": \"String\",\r\n" + "        \"createdBy\": \"String\"\",\r\n"
+					+ "        \"modifiedBy\": \"String\"\r\n" + "      }") @RequestBody String requestObj,
+			@RequestHeader(value = "Authorization") String Authorization) {
+		OutputResponse response = new OutputResponse();
+		logger.info("Request object for deleting fetosense deviceID :" + requestObj);
+
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			int deleteResponse = fetosenseService.deleteFetosenseDeviceID(fetosenseRequest);
+			if (deleteResponse == 1)
+				response.setResponse("Device ID de-activated successfully");
+		} catch (IEMRException e) {
+			response.setError(5000, e.getMessage());
+			logger.error("deleteFetosenseDeviceID - " + e.getMessage());
+		}
+		return response.toString();
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "Update van id and fetosense device id mapping", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/update/vanIDAndFetosenseDeviceIDMapping", method = { RequestMethod.POST })
+	public String updateMapping(
+			@ApiParam("{\r\n" + "        \"VfdID\": \"Integer\",\r\n" + "        \"deviceName\": \"String\",\r\n"
+					+ "        \"deviceID\": \"String\",\r\n" + "        \"vanID\": \"Integer\",\r\n"
+					+ "        \"parkingPlaceID\": \"Integer\",\r\n" + "        \"vanTypeID\": \"Integer\",\r\n"
+					+ "        \"vanName\": \"String\",\r\n" + "        \"providerServiceMapID\": \"Integer\",\r\n"
+					+ "        \"deactivated\": \"Boolean\",\r\n" + "        \"deleted\": \"Boolean\",\r\n"
+					+ "        \"processed\": \"String\",\r\n" + "        \"createdBy\": \"String\"\",\r\n"
+					+ "        \"modifiedBy\": \"String\"\r\n" + "      }") @RequestBody String requestObj,
+			@RequestHeader(value = "Authorization") String Authorization) {
+		OutputResponse response = new OutputResponse();
+		logger.info("Request object for updating vanID and fetosense deviceID mapping :" + requestObj);
+
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			int updateResponse = fetosenseService.updatingvanIDAndDeviceIDMapping(fetosenseRequest);
+			if (updateResponse == 1)
+				response.setResponse("Mapping updated successfully");
+		} catch (IEMRException e) {
+			response.setError(5000, e.getMessage());
+			logger.error("updateMapping error - " + e.getMessage());
+		}
+		return response.toString();
+	}
+
+	/***
+	 * @param requestObj
+	 * @param Authorization
+	 * @return
+	 */
+	@CrossOrigin
+	@ApiOperation(value = "Deactivate van id and fetosense device id mapping ", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/delete/vanIDAndFetosenseDeviceIDMapping", method = { RequestMethod.POST })
+	public String deleteVanIDAndFetosenseDeviceID(
+			@ApiParam("{\r\n" + "        \"VfdID\": \"Integer\",\r\n" + "  \"vanID\": \"Integer\",\r\n"
+					+ "  \"deactivated\": \"Boolean\", \r\n" + "}") @RequestBody String requestObj,
+			@RequestHeader(value = "Authorization") String Authorization) {
+		OutputResponse response = new OutputResponse();
+		logger.info("Request object for deleting vanID and fetosense deviceID mapping :" + requestObj);
+
+		try {
+			FetosenseDeviceID fetosenseRequest = InputMapper.gson().fromJson(requestObj, FetosenseDeviceID.class);
+			int deleteStaus = fetosenseService.deleteVanIDAndDeviceIDMapping(fetosenseRequest);
+			if (deleteStaus > 0) {
+				response.setResponse("Mapped deactivated successfully");
+			}
+		} catch (IEMRException e) {
+			response.setError(5000, e.getMessage());
+			logger.error("updateMapping error - " + e.getMessage());
+		}
+		return response.toString();
+	}
+
 }
