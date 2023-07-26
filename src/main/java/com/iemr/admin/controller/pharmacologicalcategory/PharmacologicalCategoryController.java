@@ -42,7 +42,7 @@ import com.iemr.admin.utils.response.OutputResponse;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-public class PharmacologicalcategoryController {
+public class PharmacologicalCategoryController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 	@Autowired

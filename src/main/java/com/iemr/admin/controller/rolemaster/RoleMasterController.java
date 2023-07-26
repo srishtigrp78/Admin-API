@@ -100,7 +100,7 @@ public class RoleMasterController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Get service", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get service by service provider id and state id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "m/role/service", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getService(@RequestBody String stateserviceMapping1) {
@@ -266,7 +266,7 @@ public class RoleMasterController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Get all new role", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Search role", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "m/role/searchNew", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAllRoleNew(@RequestBody String stateserviceMapping1) {
@@ -548,7 +548,7 @@ public class RoleMasterController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Get all role 1", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get role data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "m/role/search1", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAllRole1(@RequestBody String stateserviceMapping1) {
@@ -642,7 +642,7 @@ public class RoleMasterController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Search role TM", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Search TM role", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/searchRoleTM", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String searchRoleTM(@RequestBody String stateserviceMapping1) {
@@ -665,7 +665,7 @@ public class RoleMasterController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Get all role active", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get all active role", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "m/role/search/active", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getAllRoleActive(@RequestBody String stateserviceMapping1) {

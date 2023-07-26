@@ -49,7 +49,7 @@ public class StockEntryController {
 	StockEntryService stockEntryService;
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores service point details", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Store service point details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/physicalStockEntry", headers = "Authorization", method = { RequestMethod.POST })
 	public String physicalStockEntry(@RequestBody PhysicalStockEntry physicalStockEntry) {
 

@@ -51,7 +51,7 @@ public class ServicePointController {
 	private ServicePointServiceImpl ServicePointServiceImpl;
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores service point details", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Store service point details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/create/servicePoints", headers = "Authorization", method = { RequestMethod.POST })
 	public String saveServicePoint(
 			@ApiParam(value = "{\"servicePointName\":\"string\", \"servicePointDesc\":\"string\", \"providerServiceMapID\":\"integer\", \"servicePointHQAddress\":\"string\", "
@@ -99,7 +99,7 @@ public class ServicePointController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Removes service point", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Remove service point", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/remove/servicePoint", headers = "Authorization", method = { RequestMethod.POST })
 	public String deleteServicePoint(
 			@ApiParam(value = "{\"servicePointID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String ServicePointMaster)
@@ -159,7 +159,7 @@ public class ServicePointController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores service point details by village map", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Store service point details by village map", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/create/servicePointVillageMaps", headers = "Authorization", method = {
 			RequestMethod.POST })
 	public String saveServicePointVillageMap(
@@ -208,7 +208,7 @@ public class ServicePointController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Removes service point by village map", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Remove service point by village map", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/remove/servicePointVillageMap", headers = "Authorization", method = {
 			RequestMethod.POST })
 	public String deleteServicePointVillageMap(
