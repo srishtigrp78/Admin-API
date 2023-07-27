@@ -21,7 +21,6 @@
 */
 package com.iemr.admin.controller.snomedMapping;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +35,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.iemr.admin.service.snomedMapping.SnomedService;
 import com.iemr.admin.utils.response.OutputResponse;
+
+import io.swagger.annotations.ApiOperation;
+
 @RequestMapping(value = "/snomed")
 @RestController
 public class SnomedMappingController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
-	
+
 	@Autowired
 	private SnomedService snomedService;
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Edit snomed master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editSnomedMappingData", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editSnomedMaster(@RequestBody String requestObj) {
@@ -52,49 +55,41 @@ public class SnomedMappingController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-//			M_ProviderServiceAddMapping savedata =  InputMapper.gson().fromJson(requestObj,
-//					M_ProviderServiceAddMapping .class);
-			
 			JsonObject jsnOBJ = new JsonObject();
 			JsonParser jsnParser = new JsonParser();
 			JsonElement jsnElmnt = jsnParser.parse(requestObj);
 			jsnOBJ = jsnElmnt.getAsJsonObject();
-			          
+
 			if (jsnOBJ != null) {
-				String masterRes = snomedService.editSnomedMappingData(jsnOBJ,requestObj);
-				if (masterRes == "Data Updated" ) {
+				String masterRes = snomedService.editSnomedMappingData(jsnOBJ, requestObj);
+				if (masterRes == "Data Updated") {
 					response.setResponse("Data Updated successfully");
 				} else {
-					if (masterRes == "Invalid Master Type" ) 
-					{
+					if (masterRes == "Invalid Master Type") {
 						response.setError(5000, "Invalid Master Type");
-					}
-					else
-					{
-					
-					response.setError(5000, "Unable to update data");
+					} else {
+
+						response.setError(5000, "Unable to update data");
 					}
 				}
 
 			} else {
-				
+
 				response.setError(5000, "Invalid request");
 			}
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
-	
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Save snomed master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveSnomedMappingData", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String saveSnomedMaster(@RequestBody String requestObj) {
@@ -102,47 +97,41 @@ public class SnomedMappingController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-//			M_ProviderServiceAddMapping savedata =  InputMapper.gson().fromJson(requestObj,
-//					M_ProviderServiceAddMapping .class);
-			
 			JsonObject jsnOBJ = new JsonObject();
 			JsonParser jsnParser = new JsonParser();
 			JsonElement jsnElmnt = jsnParser.parse(requestObj);
 			jsnOBJ = jsnElmnt.getAsJsonObject();
-			          
+
 			if (jsnOBJ != null) {
-				String masterRes = snomedService.saveSnomedMappingData(jsnOBJ,requestObj);
-				if (masterRes == "Data Saved" ) {
+				String masterRes = snomedService.saveSnomedMappingData(jsnOBJ, requestObj);
+				if (masterRes == "Data Saved") {
 					response.setResponse("Data Saved successfully");
 				} else {
-					if (masterRes == "Invalid Master Type" ) 
-					{
+					if (masterRes == "Invalid Master Type") {
 						response.setError(5000, "Invalid Master Type");
-					}
-					else
-					{
-					
-					response.setError(5000, "Unable to Save data");
+					} else {
+
+						response.setError(5000, "Unable to Save data");
 					}
 				}
 
 			} else {
-				
+
 				response.setError(5000, "Invalid request");
 			}
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
+
 	@CrossOrigin()
+	@ApiOperation(value = "Fetch snomed worklist", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/fetchSnomedWorklist", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String fetchSnomedWorklist(@RequestBody String requestObj) {
@@ -150,14 +139,11 @@ public class SnomedMappingController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-//			M_ProviderServiceAddMapping savedata =  InputMapper.gson().fromJson(requestObj,
-//					M_ProviderServiceAddMapping .class);
-			
 			JsonObject jsnOBJ = new JsonObject();
 			JsonParser jsnParser = new JsonParser();
 			JsonElement jsnElmnt = jsnParser.parse(requestObj);
 			jsnOBJ = jsnElmnt.getAsJsonObject();
-			          
+
 			if (jsnOBJ != null) {
 				String res = snomedService.fetchSnomedMaster(jsnOBJ);
 				if (res != null)
@@ -167,29 +153,23 @@ public class SnomedMappingController {
 
 			}
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 		return response.toString();
-}
+	}
+
 	@CrossOrigin()
-	@RequestMapping(value = "/updateStatus", headers = "Authorization", method = {
-			RequestMethod.POST }, produces = { "application/json" })
+	@ApiOperation(value = "Update status", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/updateStatus", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
 	public String updateStatus(@RequestBody String requestObj) {
 
 		OutputResponse response = new OutputResponse();
 		try {
 
-//			M_ProviderServiceAddMapping savedata =  InputMapper.gson().fromJson(requestObj,
-//					M_ProviderServiceAddMapping .class);
-			
-//			JsonObject jsnOBJ = new JsonObject();
-//			JsonParser jsnParser = new JsonParser();
-//			JsonElement jsnElmnt = jsnParser.parse(requestObj);
-//			jsnOBJ = jsnElmnt.getAsJsonObject();
-			          
 			if (requestObj != null) {
 				String res = snomedService.updateStatus(requestObj);
 				if (res != null)
@@ -199,11 +179,11 @@ public class SnomedMappingController {
 
 			}
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 		return response.toString();
-}
+	}
 }

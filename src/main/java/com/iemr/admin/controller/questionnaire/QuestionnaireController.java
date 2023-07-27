@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iemr.admin.service.questionnaire.QuestionnaireServiceImpl;
 import com.iemr.admin.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -42,6 +43,7 @@ public class QuestionnaireController {
 	private QuestionnaireServiceImpl questionnaireService;
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save questionnaire", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveQuestionnaire", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String saveQuestionnaire(@RequestBody String request) {
@@ -61,6 +63,7 @@ public class QuestionnaireController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get questionnaire list", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getQuestionnaireList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String getQuestionnaireList(
 			@ApiParam("{\"providerServiceMapID\":\"Integer\"}") @RequestBody String request) {
@@ -78,6 +81,7 @@ public class QuestionnaireController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete questionnaire", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteQuestionnaire", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteQuestionnaire(@RequestBody String request) {
@@ -95,6 +99,7 @@ public class QuestionnaireController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit questionnaire", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editQuestionnaire", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editQuestionnaire(@RequestBody String request) {
