@@ -39,184 +39,172 @@ import com.iemr.admin.data.telemedicine.UserSwymed;
 import com.iemr.admin.service.telemedicine.SwymedInter;
 import com.iemr.admin.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/swymed")
 public class SwyMedController {
-	
+
 	@Autowired
 	private SwymedInter swymedInter;
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
-	
+
 	/*
 	 * This api is for fetching All doctors/Nurse / TC Specialist by designation
 	 * those who have not recieved their swymedids.
 	 * 
 	 * 
-	*/
+	 */
 	@CrossOrigin()
-	@RequestMapping(value =  "/getunmappedUser/{serviceproviderID}/{designationID}" ,headers = "Authorization", method = { RequestMethod.GET }, produces = { "application/json" })
-	public String getUserTM(@PathVariable("serviceproviderID")Integer serviceproviderID,@PathVariable("designationID") Integer designationID) {
-		
+	@ApiOperation(value = "Get unmapped user", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/getunmappedUser/{serviceproviderID}/{designationID}", headers = "Authorization", method = {
+			RequestMethod.GET }, produces = { "application/json" })
+	public String getUserTM(@PathVariable("serviceproviderID") Integer serviceproviderID,
+			@PathVariable("designationID") Integer designationID) {
+
 		OutputResponse response = new OutputResponse();
 
 		try {
-		     
 
-			
-			List<M_UserTemp> createdData=swymedInter.getunmappedUser(serviceproviderID,designationID);
-			
-			
+			List<M_UserTemp> createdData = swymedInter.getunmappedUser(serviceproviderID, designationID);
+
 			response.setResponse(createdData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
-	@RequestMapping(value =  "/createUser" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
-	public String createUserTM(@RequestBody UserSwymed userSwymed ) {
-		
+	@ApiOperation(value = "Create user", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/createUser", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
+	public String createUserTM(@RequestBody UserSwymed userSwymed) {
+
 		OutputResponse response = new OutputResponse();
 
 		try {
-			
-			UserSwymed createdData=swymedInter.createUser(userSwymed);
-			
-			
+
+			UserSwymed createdData = swymedInter.createUser(userSwymed);
+
 			response.setResponse(createdData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 			logger.error(e.toString());
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
-	@RequestMapping(value =  "/editUser" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
-	public String editUser(@RequestBody UserSwymed userSwymed ) {
-		
+	@ApiOperation(value = "Edit user", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/editUser", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
+	public String editUser(@RequestBody UserSwymed userSwymed) {
+
 		OutputResponse response = new OutputResponse();
 
 		try {
-		     
 
-			
-			UserSwymed createdData=swymedInter.editUser(userSwymed);
-			
-			
+			UserSwymed createdData = swymedInter.editUser(userSwymed);
+
 			response.setResponse(createdData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
-	@RequestMapping(value =  "/deleteUser/{userSwymedMapID}/{deletedflag}/{ModifiedBy}" ,headers = "Authorization", method = { RequestMethod.GET }, produces = { "application/json" })
-	public String createUserTM(@PathVariable("ModifiedBy")String modifiedBy,@PathVariable("userSwymedMapID")Long userSwymedMapID,@PathVariable("deletedflag")Boolean deletedflag) {
-		
+	@ApiOperation(value = "Delete user", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/deleteUser/{userSwymedMapID}/{deletedflag}/{ModifiedBy}", headers = "Authorization", method = {
+			RequestMethod.GET }, produces = { "application/json" })
+	public String createUserTM(@PathVariable("ModifiedBy") String modifiedBy,
+			@PathVariable("userSwymedMapID") Long userSwymedMapID, @PathVariable("deletedflag") Boolean deletedflag) {
+
 		OutputResponse response = new OutputResponse();
 
 		try {
-		     
 
-			
-			UserSwymed createdData=swymedInter.deleteUser(userSwymedMapID,deletedflag,modifiedBy);
-			
-			
+			UserSwymed createdData = swymedInter.deleteUser(userSwymedMapID, deletedflag, modifiedBy);
+
 			response.setResponse(createdData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
-	@RequestMapping(value =  "/getmappedUsers/{serviceproviderID}" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
-	public String getmappedUsers( @PathVariable("serviceproviderID")Integer serviceproviderID ) {
-		
+	@ApiOperation(value = "Get mapped user", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/getmappedUsers/{serviceproviderID}", headers = "Authorization", method = {
+			RequestMethod.POST }, produces = { "application/json" })
+	public String getmappedUsers(@PathVariable("serviceproviderID") Integer serviceproviderID) {
+
 		OutputResponse response = new OutputResponse();
 
 		try {
-		     
 
-			
-			List<UserSwymed> createdData=swymedInter.fetchmappedUser(serviceproviderID);
-			
-			
+			List<UserSwymed> createdData = swymedInter.fetchmappedUser(serviceproviderID);
+
 			response.setResponse(createdData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
-	
+
 	@CrossOrigin()
-	@RequestMapping(value =  "/getdomain/{serviceproviderID}" ,headers = "Authorization", method = { RequestMethod.POST }, produces = { "application/json" })
-	public String getdomain( @PathVariable("serviceproviderID")Integer serviceproviderID ) {
-		
+	@ApiOperation(value = "Get domain", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/getdomain/{serviceproviderID}", headers = "Authorization", method = {
+			RequestMethod.POST }, produces = { "application/json" })
+	public String getdomain(@PathVariable("serviceproviderID") Integer serviceproviderID) {
+
 		OutputResponse response = new OutputResponse();
 
 		try {
-		     
 
-			
-			List<SwymedDomain> createdData=swymedInter.getdomain(serviceproviderID);
-			
-			
+			List<SwymedDomain> createdData = swymedInter.getdomain(serviceproviderID);
+
 			response.setResponse(createdData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 
 	}
