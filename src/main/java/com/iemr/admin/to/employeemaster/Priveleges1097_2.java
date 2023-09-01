@@ -26,6 +26,8 @@ public class Priveleges1097_2 {
 	private Integer roleID;
 	private Boolean inbound;
 	private Boolean outbound;
+	private Boolean isSanjeevani;
+	
 	public Integer getRoleID() {
 		return roleID;
 	}
@@ -44,6 +46,13 @@ public class Priveleges1097_2 {
 	public void setOutbound(Boolean outbound) {
 		this.outbound = outbound;
 	}
+	public Boolean getIsSanjeevani() {
+		return isSanjeevani;
+	}
+	public void setIsSanjeevani(Boolean isSanjeevani) {
+		this.isSanjeevani = isSanjeevani;
+	}
+
 	
 	
 

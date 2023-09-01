@@ -145,10 +145,11 @@ public class V_Userservicerolemapping {
 	private String[] villageID;
 	@Transient
 	private String[] villageName;   
-	   
-	   
 	
-	
+    @Expose
+	@Column(name="isSanjeevani")
+	private Boolean isSanjeevani;
+	   
 	public Integer getProviderServiceMapID() {
 		return providerServiceMapID;
 	}

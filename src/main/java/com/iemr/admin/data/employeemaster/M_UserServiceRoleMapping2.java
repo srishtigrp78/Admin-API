@@ -106,6 +106,11 @@ public class M_UserServiceRoleMapping2 {
 	@Expose
 	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted=false;
+	
+	@Expose
+	@Column(name = "isSanjeevani")
+	private Boolean isSanjeevani;
+	
 	@Expose
 	@Column(name = "CreatedBy")
 	private String createdBy;
