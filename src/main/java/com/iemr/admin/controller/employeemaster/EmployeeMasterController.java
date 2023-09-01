@@ -1845,7 +1845,10 @@ public class EmployeeMasterController {
 						resDataMap1.setRoleID(previl1.getRoleID());
 						resDataMap1.setInbound(previl1.getInbound());
 						resDataMap1.setOutbound(previl1.getOutbound());
-					}
+						if(previl1.getIsSanjeevani() != null) {
+						resDataMap1.setIsSanjeevani(previl1.getIsSanjeevani());		
+						}
+						}
 					resDataMap1.setUserID(employeeMaster.get(x).getUserID());
 					resDataMap1.setProviderServiceMapID(previl.getProviderServiceMapID());
 					resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
@@ -1902,6 +1905,10 @@ public class EmployeeMasterController {
 			usrRole.setVillageID(pre.getVillageID());
 			usrRole.setVillageName(pre.getVillageName());
 
+			if(pre.getIsSanjeevani() != null) {
+			usrRole.setIsSanjeevani(pre.getIsSanjeevani());
+			}
+			
 			if (pre.getInbound() != null) {
 				usrRole.setInbound(pre.getInbound());
 			}

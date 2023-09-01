@@ -963,7 +963,6 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 	public ArrayList<V_Userservicerolemapping> getMappedRole(Integer serviceProviderID) {
 		ArrayList<V_Userservicerolemapping> getData = (ArrayList<V_Userservicerolemapping>) v_UserservicerolemappingRepo
 				.getAllRoleOfProvider(serviceProviderID);
-		
 		ArrayList<V_Userservicerolemapping> mappedRoles = new ArrayList<>();
 
 		if (getData != null) {
@@ -984,6 +983,8 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 					mapping.setBlockName(mapping.getBlockName());
 					mapping.setVillageID(mapping.getVillageID());
 					mapping.setVillageName(mapping.getVillageName());
+					if(null != mapping.getIsSanjeevani())
+					mapping.setIsSanjeevani(mapping.getIsSanjeevani());
 				} else {
 					mapping.setBlockID(null);
 					mapping.setBlockName(null);
@@ -991,6 +992,8 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 					mapping.setVillageName(null);
 					mapping.setVillageidDb(null);
 					mapping.setVillageNameDb(null);
+					mapping.setIsSanjeevani(false);
+					
 				}
 				mappedRoles.add(mapping);
 			}
