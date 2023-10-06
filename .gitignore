@@ -36,4 +36,4 @@ mvnw.cmd
 .mvn/
 
 # Properties
-src\main\environment\admin_local.properties
+src/main/environment/admin_local.properties
