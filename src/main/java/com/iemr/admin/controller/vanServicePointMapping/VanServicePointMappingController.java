@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.controller.vanServicePointMapping;
 
 import java.util.ArrayList;
@@ -24,170 +45,127 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping(value = "/vanMaster")
 public class VanServicePointMappingController {
 
-	
 	@Autowired
 	private VanServicePointMappingServiceImpl vanServicePointMappingServiceImpl;
-	
-	@CrossOrigin()
-	@ApiOperation(
-			value = "Stores vanServicePointMappings",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/save/vanServicePointMappings" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String saveVanServicePointMappings(@ApiParam(
-			value = "{\"vanID\":\"integer\", \"servicePointID\":\"integer\", \"providerServiceMapID\":\"integer\", \"vanSession\":\"string\", "
-					+ "\"createdBy\":\"string\"}") @RequestBody String vanServicePointMappings) throws IEMRException {
-		
-		
-			OutputResponse output = new OutputResponse();
 
-			VanMasterTO vanMaster = InputMapper.gson().fromJson(vanServicePointMappings,VanMasterTO.class);
-			
-			try {
-				ArrayList<M_VanServicePointMap> mapsList= new ArrayList<M_VanServicePointMap>();
-				for(M_VanServicePointMap vanMapping : vanMaster.getVanServicePointMappings()){
-					if(vanMapping.getVanServicePointMapID()==null){
-						mapsList.add(vanMapping);
-						
-				}else if(vanMapping.getVanServicePointMapID()>0){
-					M_VanServicePointMap vanServicePointMapping = vanServicePointMappingServiceImpl.getVanServicePointMappingByID(vanMapping.getVanServicePointMapID());
-						vanServicePointMapping.setVanSession(vanMapping.getVanSession());
-						vanServicePointMapping.setModifiedBy(vanMapping.getCreatedBy());
-						mapsList.add(vanServicePointMapping);
+	@CrossOrigin()
+	@ApiOperation(value = "Store van service point mappings", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/save/vanServicePointMappings", headers = "Authorization", method = { RequestMethod.POST })
+	public String saveVanServicePointMappings(
+			@ApiParam(value = "{\"vanID\":\"integer\", \"servicePointID\":\"integer\", \"providerServiceMapID\":\"integer\", \"vanSession\":\"string\", "
+					+ "\"createdBy\":\"string\"}") @RequestBody String vanServicePointMappings)
+			throws IEMRException {
+
+		OutputResponse output = new OutputResponse();
+
+		VanMasterTO vanMaster = InputMapper.gson().fromJson(vanServicePointMappings, VanMasterTO.class);
+
+		try {
+			ArrayList<M_VanServicePointMap> mapsList = new ArrayList<M_VanServicePointMap>();
+			for (M_VanServicePointMap vanMapping : vanMaster.getVanServicePointMappings()) {
+				if (vanMapping.getVanServicePointMapID() == null) {
+					mapsList.add(vanMapping);
+
+				} else if (vanMapping.getVanServicePointMapID() > 0) {
+					M_VanServicePointMap vanServicePointMapping = vanServicePointMappingServiceImpl
+							.getVanServicePointMappingByID(vanMapping.getVanServicePointMapID());
+					vanServicePointMapping.setVanSession(vanMapping.getVanSession());
+					vanServicePointMapping.setModifiedBy(vanMapping.getCreatedBy());
+					mapsList.add(vanServicePointMapping);
 				}
-					
-				}
-				ArrayList<M_VanServicePointMap> van = vanServicePointMappingServiceImpl.saveVanServicePointMappings(mapsList);
-				
-				//ArrayList<M_VanServicePointMap> van=vanServicePointMappingServiceImpl.saveVanServicePointMappings(vanMaster.getVanServicePointMappings());
-				output.setResponse(van.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
+
 			}
-			return output.toString();
+			ArrayList<M_VanServicePointMap> van = vanServicePointMappingServiceImpl
+					.saveVanServicePointMappings(mapsList);
+
+			output.setResponse(van.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
-	
-//	@CrossOrigin()
-//	@ApiOperation(
-//			value = "Stores vanServicePointMappings",
-//			consumes = "application/json",
-//			produces = "application/json")
-//	@RequestMapping(value = { "/save/vanServicePointMappings" }, method = { RequestMethod.POST }, headers = "Authorization")
-//	public String updateVanServicePointMappings(@ApiParam(
-//			value = "{\"vanServicePointMapID\":\"integer\", \"vanSession\":\"string\", "
-//					+ "\"modifiedBy\":\"string\"}") @RequestBody String vanServicePointMappings) {
-//		
-//		
-//			OutputResponse output = new OutputResponse();
-//
-//			VanMasterTO vanMaster = InputMapper.gson().fromJson(vanServicePointMappings,VanMasterTO.class);
-//			
-//			
-//			try {
-//				ArrayList<M_VanServicePointMap> mapsList= new ArrayList<M_VanServicePointMap>();
-//				for(M_VanServicePointMap vanMapping : vanMaster.getVanServicePointMappings()){
-//					M_VanServicePointMap vanServicePointMapping = vanServicePointMappingServiceImpl.getVanServicePointMappingByID(vanMapping.getVanServicePointMapID());
-//					vanServicePointMapping.setVanSession(vanMapping.getVanSession());
-//					vanServicePointMapping.setModifiedBy(vanMapping.getModifiedBy());
-//					mapsList.add(vanServicePointMapping);
-//				}
-//				ArrayList<M_VanServicePointMap> van = vanServicePointMappingServiceImpl.saveVanServicePointMappings(mapsList);
-//				output.setResponse(van.toString());
-//			} catch (Exception e) {
-//				
-//				output.setError(e);
-//			}
-//			return output.toString();
-//	}
-	
+
 	@CrossOrigin()
-	@ApiOperation(
-			value = "get vanServicePointMappings",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/get/vanServicePointMappings" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String getVanServicePointMappings(@ApiParam(
-			value = "{\"stateID\":\"integer\", \"districtID\":\"integer\", \"parkingPlaceID\":\"integer\", \"serviceProviderID\":\"integer\"}") @RequestBody String vanMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
-			
-			M_Van vanDetails = InputMapper.gson().fromJson(vanMaster,M_Van.class);
-			M_VanServicePointMap vanDetails1 = InputMapper.gson().fromJson(vanMaster,M_VanServicePointMap.class);
+	@ApiOperation(value = "Get van service point mappings", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/get/vanServicePointMappings", headers = "Authorization", method = { RequestMethod.POST })
+	public String getVanServicePointMappings(
+			@ApiParam(value = "{\"stateID\":\"integer\", \"districtID\":\"integer\", \"parkingPlaceID\":\"integer\", \"serviceProviderID\":\"integer\"}") @RequestBody String vanMaster)
+			throws IEMRException {
 
-			try {
-//				ArrayList<M_VanServicePointMap> vans=vanServicePointMappingServiceImpl.getAvailableVanServicePointMappings(
-//						vanDetails1.getDistrictID(), vanDetails.getParkingPlaceID(),vanDetails.getVanID(), vanDetails.getProviderServiceMapID());
+		OutputResponse output = new OutputResponse();
 
-				ArrayList<M_VanServicePointMap> vans=vanServicePointMappingServiceImpl.getAvailableVanServicePointMappings(
-						 vanDetails.getParkingPlaceID(),vanDetails.getVanID(), vanDetails.getProviderServiceMapID());
+		M_Van vanDetails = InputMapper.gson().fromJson(vanMaster, M_Van.class);
+		M_VanServicePointMap vanDetails1 = InputMapper.gson().fromJson(vanMaster, M_VanServicePointMap.class);
 
-				
-				output.setResponse(vans.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		try {
+
+			ArrayList<M_VanServicePointMap> vans = vanServicePointMappingServiceImpl
+					.getAvailableVanServicePointMappings(vanDetails.getParkingPlaceID(), vanDetails.getVanID(),
+							vanDetails.getProviderServiceMapID());
+
+			output.setResponse(vans.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
+
 	@CrossOrigin()
-	@ApiOperation(
-			value = "get vanServicePointMappings",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/get/vanServicePointMappingsV1" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String vanServicePointMappingsV1(@ApiParam(
-			value = "{ \"vanID\":\"integer\", \"parkingPlaceID\":\"integer\", \"providerServiceMapID\":\"integer\"}") @RequestBody String vanMaster) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
-			
-			M_Van vanDetails = InputMapper.gson().fromJson(vanMaster,M_Van.class);
-			M_VanServicePointMap vanDetails1 = InputMapper.gson().fromJson(vanMaster,M_VanServicePointMap.class);
+	@ApiOperation(value = "Get van service point mappings", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/get/vanServicePointMappingsV1", headers = "Authorization", method = {
+			RequestMethod.POST })
+	public String vanServicePointMappingsV1(
+			@ApiParam(value = "{ \"vanID\":\"integer\", \"parkingPlaceID\":\"integer\", \"providerServiceMapID\":\"integer\"}") @RequestBody String vanMaster)
+			throws IEMRException {
 
-			try {
-//				ArrayList<M_VanServicePointMap> vans=vanServicePointMappingServiceImpl.getAvailableVanServicePointMappings(
-//						vanDetails1.getDistrictID(), vanDetails.getParkingPlaceID(),vanDetails.getVanID(), vanDetails.getProviderServiceMapID());
+		OutputResponse output = new OutputResponse();
 
-				ArrayList<M_VanServicePointMap> vans=vanServicePointMappingServiceImpl.getAvailableVanServicePointMappingsV1(
-						 vanDetails.getParkingPlaceID(),vanDetails.getVanID(), vanDetails.getProviderServiceMapID());
+		M_Van vanDetails = InputMapper.gson().fromJson(vanMaster, M_Van.class);
+		M_VanServicePointMap vanDetails1 = InputMapper.gson().fromJson(vanMaster, M_VanServicePointMap.class);
 
-				
-				output.setResponse(vans.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
-			}
-			return output.toString();
+		try {
+
+			ArrayList<M_VanServicePointMap> vans = vanServicePointMappingServiceImpl
+					.getAvailableVanServicePointMappingsV1(vanDetails.getParkingPlaceID(), vanDetails.getVanID(),
+							vanDetails.getProviderServiceMapID());
+
+			output.setResponse(vans.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
-	
+
 	@CrossOrigin()
-	@ApiOperation(
-			value = "Removes vanServicePointMapping",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value =  "/remove/vanServicePointMapping" ,headers = "Authorization", method = { RequestMethod.POST })
-	public String deleteVanServicePointMappingDetails(@ApiParam(
-			value = "{\"vanServicePointMapID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String vanServicePointMapping) throws IEMRException {
-		
-			OutputResponse output = new OutputResponse();
+	@ApiOperation(value = "Remove van service point mapping", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/remove/vanServicePointMapping", headers = "Authorization", method = {
+			RequestMethod.POST })
+	public String deleteVanServicePointMappingDetails(
+			@ApiParam(value = "{\"vanServicePointMapID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String vanServicePointMapping)
+			throws IEMRException {
 
-			M_VanServicePointMap vanMaster = InputMapper.gson().fromJson(vanServicePointMapping,M_VanServicePointMap.class);
-			
-			try {
-				String response;
-				int update=vanServicePointMappingServiceImpl.updateVanServicePointMappingStatus(vanMaster);
-				if(update==1){
-					response = "status updated successfully";
-				}else{
-					response = "Failed to update the status";
-				}
-				output.setResponse(response.toString());
-			} catch (Exception e) {
-				
-				output.setError(e);
+		OutputResponse output = new OutputResponse();
+
+		M_VanServicePointMap vanMaster = InputMapper.gson().fromJson(vanServicePointMapping,
+				M_VanServicePointMap.class);
+
+		try {
+			String response;
+			int update = vanServicePointMappingServiceImpl.updateVanServicePointMappingStatus(vanMaster);
+			if (update == 1) {
+				response = "status updated successfully";
+			} else {
+				response = "Failed to update the status";
 			}
-			return output.toString();
+			output.setResponse(response.toString());
+		} catch (Exception e) {
+
+			output.setError(e);
+		}
+		return output.toString();
 	}
-	
-	
+
 }

@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.controller.item;
 
 import java.util.Arrays;
@@ -22,6 +43,8 @@ import com.iemr.admin.service.item.ItemService;
 import com.iemr.admin.utils.mapper.InputMapper;
 import com.iemr.admin.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class ItemController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
@@ -30,34 +53,30 @@ public class ItemController {
 	private ItemService itemService;
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get item form service map id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItemForm/{providerservicemapID}", headers = "Authorization", method = {
 			RequestMethod.GET }, produces = { "application/json" })
 	public String getItemForm(@PathVariable("providerservicemapID") Integer providerservicemapID) {
 
 		OutputResponse response = new OutputResponse();
 		try {
-			
-
-			// M_ItemCategory item = InputMapper.gson().fromJson(itemCategory,
-			// M_ItemCategory.class);
 
 			List<M_ItemForm> saveData = itemService.getItemFormProviderServiceMapID(providerservicemapID);
 
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get item route", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItemRoute/{providerservicemapID}", headers = "Authorization", method = {
 			RequestMethod.GET }, produces = { "application/json" })
 	public String getItemRoute(@PathVariable("providerservicemapID") Integer providerservicemapID) {
@@ -65,26 +84,22 @@ public class ItemController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-			// M_ItemCategory item = InputMapper.gson().fromJson(itemCategory,
-			// M_ItemCategory.class);
-
 			List<M_Route> saveData = itemService.getItemRouteProviderServiceMapID(providerservicemapID);
 
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get item category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItemCategory/{providerservicemapID}/{bool}", headers = "Authorization", method = {
 			RequestMethod.GET }, produces = { "application/json" })
 	public String getItemCategory(@PathVariable("providerservicemapID") Integer providerServicemapID,
@@ -92,9 +107,6 @@ public class ItemController {
 
 		OutputResponse response = new OutputResponse();
 		try {
-
-			// M_ItemCategory item = InputMapper.gson().fromJson(itemCategory,
-			// M_ItemCategory.class);
 
 			List<M_ItemCategory> saveData;
 			if (bool == 0) {
@@ -106,18 +118,17 @@ public class ItemController {
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create item master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createItemMaster", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createItemMaster(@RequestBody ItemMaster[] item) {
@@ -125,27 +136,23 @@ public class ItemController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-			// ItemMaster item = InputMapper.gson().fromJson(itemMaster,
-			// ItemMaster.class);
-
 			List<ItemMaster> itemList = Arrays.asList(item);
 			List<ItemMaster> saveData = itemService.addAllItemMaster(itemList);
 
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get item master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItemMaster/{providerservicemapID}", headers = "Authorization", method = {
 			RequestMethod.GET }, produces = { "application/json" })
 	public String getItemMaster(@PathVariable("providerservicemapID") Integer providerServicemapID) {
@@ -153,29 +160,22 @@ public class ItemController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-			// TODO: bool case(0): Show All case(1): Show Non Blocked item
-			// case(2): Show Non Blocked and Non Discontinued item
-
-			// M_ItemCategory item = InputMapper.gson().fromJson(itemCategory,
-			// M_ItemCategory.class);
-
 			List<ItemMaster> saveData = itemService.getItemMaster(providerServicemapID);
 
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Block item master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/blockItemMaster/{itemmasterid}/{deleteflag}", headers = "Authorization", method = {
 			RequestMethod.GET }, produces = { "application/json" })
 	public String blockItemMaster(@PathVariable("itemmasterid") Integer itemmasterID,
@@ -189,18 +189,17 @@ public class ItemController {
 			response.setResponse(update.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Discontinue item master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/discontinueItemMaster/{itemmasterid}/{deleteflag}", headers = "Authorization", method = {
 			RequestMethod.GET }, produces = { "application/json" })
 	public String discontinueItemMaster(@PathVariable("itemmasterid") Integer itemmasterID,
@@ -214,18 +213,17 @@ public class ItemController {
 			response.setResponse(update.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit item master", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editItemMaster", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String editItemMaster(@RequestBody ItemMaster item) {
@@ -239,8 +237,7 @@ public class ItemController {
 			saveData.setPharmacologyCategoryID(item.getPharmacologyCategoryID());
 			saveData.setManufacturerID(item.getManufacturerID());
 			saveData.setIsScheduledDrug(item.getIsScheduledDrug());
-			
-			
+
 			saveData.setItemDesc(item.getItemDesc());
 			saveData.setSctCode(item.getSctCode());
 			saveData.setSctTerm(item.getSctTerm());
@@ -249,18 +246,17 @@ public class ItemController {
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Configure item issue", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/configItemIssue", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String configItemIssue(@RequestBody M_ItemCategory[] itemIssue) {
@@ -268,36 +264,29 @@ public class ItemController {
 		OutputResponse response = new OutputResponse();
 		try {
 
-			// ItemMaster item = InputMapper.gson().fromJson(itemMaster,
-			// ItemMaster.class);
-
 			List<M_ItemCategory> itemList = Arrays.asList(itemIssue);
 			Integer saveData = itemService.updateItemIssueConfig(itemList);
 
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
-	@RequestMapping(value = "/configexpiryalert", headers = "Authorization", method = { RequestMethod.POST }, produces = {
-			"application/json" })
+	@ApiOperation(value = "Configure expiry alert", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/configexpiryalert", headers = "Authorization", method = {
+			RequestMethod.POST }, produces = { "application/json" })
 	public String configexpiryalert(@RequestBody M_ItemCategory[] itemIssue) {
 
 		OutputResponse response = new OutputResponse();
 		try {
-
-			// ItemMaster item = InputMapper.gson().fromJson(itemMaster,
-			// ItemMaster.class);
 
 			List<M_ItemCategory> itemList = Arrays.asList(itemIssue);
 			Integer saveData = itemService.updateExpiryAlert(itemList);
@@ -305,18 +294,17 @@ public class ItemController {
 			response.setResponse(saveData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get item", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getItem", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getItem(@RequestBody String getItem) {
@@ -333,18 +321,17 @@ public class ItemController {
 			response.setResponse(getData.toString());
 
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
-		/**
-		 * sending the response...
-		 */
+
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create item category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createItemCategories", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createItemCategories(@RequestBody M_ItemCategory[] item) {
@@ -358,14 +345,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to store Item Categories");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit item category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editItemCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editItemCategory(@RequestBody M_ItemCategory item) {
@@ -378,14 +366,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to update Item Category");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Block item category", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/blockItemCategory", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String blockItemCategory(@RequestBody M_ItemCategory itemCat) {
@@ -398,14 +387,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to block Item Category");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create item form", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createItemForms", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String createItemForms(@RequestBody M_ItemForm[] item) {
@@ -419,14 +409,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to store Item Forms");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit item form", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editItemForm", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String editItemForm(@RequestBody M_ItemForm item) {
@@ -439,14 +430,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to update Item Form");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Block item form", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/blockItemForm", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String blockItemForm(@RequestBody M_ItemForm itemForm) {
@@ -459,14 +451,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to block Item Form");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create route", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createRoutes", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String createRoutes(@RequestBody M_Route[] routes) {
@@ -480,14 +473,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to store Routes");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit route", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editRoute", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String editRoute(@RequestBody M_Route route) {
@@ -500,14 +494,15 @@ public class ItemController {
 			else
 				response.setResponse("Failed to update Route data ");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Block route", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/blockRoute", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String blockRoute(@RequestBody M_Route route) {
@@ -520,16 +515,17 @@ public class ItemController {
 			else
 				response.setResponse("Failed to block Route");
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();
 	}
 
 	@CrossOrigin()
-	@RequestMapping(value = "/checkCode", headers = "Authorization", method = {
-			RequestMethod.POST }, produces = { "application/json" })
+	@ApiOperation(value = "Check code", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/checkCode", headers = "Authorization", method = { RequestMethod.POST }, produces = {
+			"application/json" })
 	public String blockRoute(@RequestBody CodeChecker value) {
 
 		OutputResponse response = new OutputResponse();
@@ -555,19 +551,17 @@ public class ItemController {
 					break;
 				}
 				if (data == null) {
-//					response.setResponse();
 					throw new Exception("Failed to check code for " + value.getName());
 				} else {
 					response.setResponse(data.toString());
 				}
-			}else{
+			} else {
 				throw new Exception("Name, Code and ProviderServiceMapID is mandatory");
 			}
 
-			//
 		} catch (Exception e) {
-			
-			logger.error("Unexpected error:" , e);
+
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 		}
 		return response.toString();

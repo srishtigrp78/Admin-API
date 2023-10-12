@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.repository.vanMaster;
 
 import java.util.ArrayList;
@@ -60,7 +81,7 @@ public interface VanMasterRepository extends CrudRepository<M_Van, Integer>{
 	List<M_Van> findByFacilityIDAndDeleted(Integer fac,Boolean delete);
 	
 	@Query("SELECT v.vanID, v.vanName, v.vehicalNo, v.vanTypeID, vt.vanType, v.deleted, v.providerServiceMapID, v.countryID, "
-			+ "c.countryName, v.stateID, s.stateName, v.parkingPlaceID, pp.parkingPlaceName,pp.districtBlockID,v.swymedDomain,v.swymedID,v.swymedEmail,v.vanSpokeMapped "
+			+ "c.countryName, v.stateID, s.stateName, v.parkingPlaceID, pp.parkingPlaceName,pp.districtBlockID,v.videoConsultationDomain,v.videoConsultationID,v.videoConsultationEmail,v.vanSpokeMapped "
 			+ " FROM M_Van v "
 			+ " LEFT JOIN v.m_vanType vt "
 			+ " LEFT JOIN v.m_parkingplace pp"
@@ -83,39 +104,25 @@ public interface VanMasterRepository extends CrudRepository<M_Van, Integer>{
 	@Modifying
 	@Query("update M_Van v set v.vanSpokeMapped=:vanSpokeMapped, v.modifiedBy=:modifiedBy where v.vanID =:vanID")
 	int updateVanSpokeMapping(@Param("vanID")Integer vanID, @Param("vanSpokeMapped")Boolean vanSpokeMapped, @Param("modifiedBy")String modifiedBy);
-//	
-//	@Query("SELECT v.vanID, v.vanName, v.vehicalNo, v.vanTypeID, vt.vanType, v.deleted, v.providerServiceMapID, v.countryID, "
-//			+ "c.countryName, v.stateID, s.stateName, v.parkingPlaceID, pp.parkingPlaceName,pp.districtBlockID,v.swymedDomain,v.swymedID,v.swymedEmail "
-//			+ " FROM M_Van v "
-//			+ " LEFT JOIN v.m_vanType vt "
-//			+ " LEFT JOIN v.m_parkingplace pp"
-//			+ " LEFT JOIN v.m_country c"
-//			+ " LEFT JOIN v.state s"
-//			+ " LEFT JOIN v.m_providerServiceMapping p "
-//			+ " where (v.parkingPlaceID IS NULL or cast(v.parkingPlaceID as string) like :parkingPlaceID)"
-//			+ " AND (v.vanTypeID IS NULL or cast(v.vanTypeID as string) like :vanTypeID) "
-//			+ " AND p.providerServiceMapID =:providerServiceMapID and v.vanSpokeMapped is false")
-//	List<Objects[]> getNonMappedAvailableVans(@Param("parkingPlaceID")String parkingPlaceID, @Param("vanTypeID")String vanTypeID,@Param("providerServiceMapID") Integer providerServiceMapID);
+
 
 	/***
-	 * @author DU20091017
-	 * @param vanfetosenseIDmapped
+	 * @param vanfoetalMonitorIDmapped
 	 * @param vanID
 	 * @return
-	 * created to update the van and fetosenseDeviceID mapping 
+	 * created to update the van and FoetalMonitorDeviceID mapping 
 	 */
 	@Modifying
 	@Transactional
-	@Query("UPDATE M_Van mv SET mv.vanfetosenseIDmapped = :vanfetosenseIDmapped WHERE mv.vanID = :vanID ")
-	public int updateVanFetosenesmapping(@Param("vanfetosenseIDmapped") Boolean vanfetosenseIDmapped, @Param("vanID") Integer vanID);
+	@Query("UPDATE M_Van mv SET mv.vanfoetalMonitorIDmapped = :vanfoetalMonitorIDmapped WHERE mv.vanID = :vanID ")
+	public int updateVanFoetalMonitorsmapping(@Param("vanfoetalMonitorIDmapped") Boolean vanfoetalMonitorIDmapped, @Param("vanID") Integer vanID);
 	
 	/***
-	 * @author DU20091017
 	 * @param providerServiceMapID
 	 * @return
 	 */
 	@Query("Select mv.vanID, mv.vehicalNo,mv.vanName from M_Van mv WHERE mv.providerServiceMapID = :providerServiceMapID "
-			+ " and mv.vanTypeID = :vanTypeID and mv.parkingPlaceID = :parkingPlaceID and mv.vanfetosenseIDmapped = false")
+			+ " and mv.vanTypeID = :vanTypeID and mv.parkingPlaceID = :parkingPlaceID and mv.vanfoetalMonitorIDmapped = false")
 	public ArrayList<Object[]> getVanIDNotMappedWithDevice(@Param("vanTypeID") Integer vanTypeID,
 			@Param("parkingPlaceID") Integer parkingPlaceID,@Param("providerServiceMapID") Integer providerServiceMapID);
 	

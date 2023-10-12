@@ -1,7 +1,27 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.controller.userParkingPlaceMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +52,7 @@ public class UserParkingPlaceMapController {
 	private UserParkingPlaceMapServiceImpl userParkingPlaceMapServiceImpl;
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores userParkingPlaces", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Save user parking places", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/userParkingPlaces", headers = "Authorization", method = { RequestMethod.POST })
 	public String saveuserParkingPlaces(
 			@ApiParam(value = "{\"userID\":\"integer\", \"parkingPlaceID\":\"integer\", \"providerServiceMapID\":\"integer\", "
@@ -45,19 +65,6 @@ public class UserParkingPlaceMapController {
 
 		try {
 			ArrayList<M_UserParkingPlaceMap> mapsList = new ArrayList<M_UserParkingPlaceMap>();
-//			for (M_UserParkingPlaceMap parkingPlaceMapping : parkingPlaceMaster.getUserParkingPlaceMaps()) {
-//				M_UserParkingPlaceMap userParkingPlace = userParkingPlaceMapServiceImpl
-//						.getUserParkingPlaceMapByID(parkingPlaceMapping.getUserParkingPlaceMapID());
-//				if (null != userParkingPlace) {
-//					userParkingPlace.setParkingPlaceID(parkingPlaceMapping.getParkingPlaceID());
-//					userParkingPlace.setDeleted(parkingPlaceMapping.getDeleted());
-//					userParkingPlace.setModifiedBy(parkingPlaceMapping.getModifiedBy());
-//					mapsList.add(userParkingPlace);
-//				} else {
-//					mapsList.add(parkingPlaceMapping);
-//				}
-//
-//			}
 			ArrayList<M_UserParkingPlaceMap> userMapping = userParkingPlaceMapServiceImpl
 					.saveUserParkingPlaceDetails(parkingPlaceMaster.getUserParkingPlaceMaps());
 
@@ -70,7 +77,7 @@ public class UserParkingPlaceMapController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "get userParkingPlaces", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get user parking places", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/userParkingPlaces", headers = "Authorization", method = { RequestMethod.POST })
 	public String getuserParkingPlaces(
 			@ApiParam(value = "{\"stateID\":\"integer\", \"districtID\":\"integer\", \"parkingPlaceID\":\"integer\", \"serviceProviderID\":\"integer\"}") @RequestBody String userParkingPlaces)
@@ -95,7 +102,7 @@ public class UserParkingPlaceMapController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "get userParkingPlacesDesignation", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get user parking places designation", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/userParkingPlaces1", headers = "Authorization", method = { RequestMethod.POST })
 	public String getuserParkingPlacesDesiganation(
 			@ApiParam(value = "{\"stateID\":\"integer\", \"districtID\":\"integer\", \"parkingPlaceID\":\"integer\", \"serviceProviderID\":\"integer\"}") @RequestBody String userParkingPlaces)
@@ -121,7 +128,7 @@ public class UserParkingPlaceMapController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Removes userParkingPlace", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Remove user parking place", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/remove/userParkingPlace", headers = "Authorization", method = { RequestMethod.POST })
 	public String deleteuserParkingPlaceDetails(
 			@ApiParam(value = "{\"vanServicePointMapID\":\"integer\", \"deleted\":\"boolean\", \"modifiedBy\":\"string\"}") @RequestBody String userParkingPlaces)
@@ -148,33 +155,8 @@ public class UserParkingPlaceMapController {
 		return output.toString();
 	}
 
-//	@CrossOrigin()
-//	@ApiOperation(value = "Stores userParkingPlaces", consumes = "application/json", produces = "application/json")
-//	@RequestMapping(value = "/save/userParkingPlaces1", headers = "Authorization", method = { RequestMethod.POST })
-//	public String saveuserParkingPlaces1(
-//			@ApiParam(value = "{\"userID\":\"integer\", \"parkingPlaceID\":\"integer\", \"providerServiceMapID\":\"integer\", "
-//					+ "\"createdBy\":\"string\"}") @RequestBody String userParkingPlaces)
-//			throws IEMRException {
-//
-//		OutputResponse output = new OutputResponse();
-//		try {
-//			M_UserParkingPlaceMap[] parkingPlaceMaster1 = InputMapper.gson().fromJson(userParkingPlaces,
-//					M_UserParkingPlaceMap[].class);
-//			List<M_UserParkingPlaceMap> parkingPlaceMaster = Arrays.asList(parkingPlaceMaster1);
-//
-//			ArrayList<M_UserParkingPlaceMap> userMapping = userParkingPlaceMapServiceImpl
-//					.saveUserParkingPlaceDetails1(parkingPlaceMaster);
-//
-//			output.setResponse(userMapping.toString());
-//		} catch (Exception e) {
-//
-//			output.setError(e);
-//		}
-//		return output.toString();
-//	}
-
 	@CrossOrigin()
-	@ApiOperation(value = "Stores userParkingPlaces", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Edit user parking places", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/edit/userParkingPlaces1", headers = "Authorization", method = { RequestMethod.POST })
 	public String edituserParkingPlaces(
 			@ApiParam(value = "{\"userID\":\"integer\", \"parkingPlaceID\":\"integer\", \"providerServiceMapID\":\"integer\", "
@@ -185,18 +167,15 @@ public class UserParkingPlaceMapController {
 		try {
 			M_UserParkingPlaceMap parkingPlaceMaster1 = InputMapper.gson().fromJson(userParkingPlaces,
 					M_UserParkingPlaceMap.class);
-			// List<M_UserParkingPlaceMap> parkingPlaceMaster =
-			// Arrays.asList(parkingPlaceMaster1);
-			List<M_UserVanMapping> usrvanmaplist=parkingPlaceMaster1.getUservanmapping();
-			
+			List<M_UserVanMapping> usrvanmaplist = parkingPlaceMaster1.getUservanmapping();
+
 			M_UserParkingPlaceMap userMapping = userParkingPlaceMapServiceImpl
 					.getUserParkingPlaceDetails(parkingPlaceMaster1.getUserParkingPlaceMapID());
-//			userMapping.setUserID(parkingPlaceMaster1.getUserID());
 			userMapping.setParkingPlaceID(parkingPlaceMaster1.getParkingPlaceID());
 			userMapping.setModifiedBy(parkingPlaceMaster1.getModifiedBy());
 			userMapping.setProviderServiceMapID(parkingPlaceMaster1.getProviderServiceMapID());
 			userMapping.setDistrictID(parkingPlaceMaster1.getDistrictID());
-			M_UserParkingPlaceMap data = userParkingPlaceMapServiceImpl.saveediteddata(userMapping,usrvanmaplist);
+			M_UserParkingPlaceMap data = userParkingPlaceMapServiceImpl.saveediteddata(userMapping, usrvanmaplist);
 			output.setResponse(userMapping.toString());
 		} catch (Exception e) {
 
@@ -206,7 +185,7 @@ public class UserParkingPlaceMapController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores userParkingPlaces", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Delete user parking places", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/delete/userParkingPlaces1", headers = "Authorization", method = { RequestMethod.POST })
 	public String deleteuserParkingPlaces(
 			@ApiParam(value = "{\"userID\":\"integer\", \"parkingPlaceID\":\"integer\", \"providerServiceMapID\":\"integer\", "
@@ -217,16 +196,13 @@ public class UserParkingPlaceMapController {
 		try {
 			M_UserParkingPlaceMap parkingPlaceMaster1 = InputMapper.gson().fromJson(userParkingPlaces,
 					M_UserParkingPlaceMap.class);
-			// List<M_UserParkingPlaceMap> parkingPlaceMaster =
-			// Arrays.asList(parkingPlaceMaster1);
-			
-			
 
 			M_UserParkingPlaceMap userMapping = userParkingPlaceMapServiceImpl
 					.getUserParkingPlaceDetails(parkingPlaceMaster1.getUserParkingPlaceMapID());
-			if(!parkingPlaceMaster1.getDeleted()){
-				Boolean value=userParkingPlaceMapServiceImpl.getuserexist(userMapping.getProviderServiceMapID(),userMapping.getUserID());
-				if(value){
+			if (!parkingPlaceMaster1.getDeleted()) {
+				Boolean value = userParkingPlaceMapServiceImpl.getuserexist(userMapping.getProviderServiceMapID(),
+						userMapping.getUserID());
+				if (value) {
 					throw new Exception("User already mapped. Cannot activate");
 				}
 			}
@@ -242,7 +218,7 @@ public class UserParkingPlaceMapController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Fetch  Un-mapped Users", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Fetch un-mapped users", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/unmappeduser", headers = "Authorization", method = { RequestMethod.POST })
 	public String unmappeduser(@ApiParam(value = "{ \"providerServiceMapID\":\"integer\","
 			+ "\"designationID\":\"integer\"}") @RequestBody String userParkingPlaces) throws IEMRException {
@@ -251,11 +227,9 @@ public class UserParkingPlaceMapController {
 		try {
 			M_UserParkingPlaceMap parkingPlaceMaster1 = InputMapper.gson().fromJson(userParkingPlaces,
 					M_UserParkingPlaceMap.class);
-			// List<M_UserParkingPlaceMap> parkingPlaceMaster =
-			// Arrays.asList(parkingPlaceMaster1);
 
-			List<M_User1> userMapping = userParkingPlaceMapServiceImpl
-					.getunmappedUser(parkingPlaceMaster1.getProviderServiceMapID(), parkingPlaceMaster1.getDesignationID());
+			List<M_User1> userMapping = userParkingPlaceMapServiceImpl.getunmappedUser(
+					parkingPlaceMaster1.getProviderServiceMapID(), parkingPlaceMaster1.getDesignationID());
 
 			output.setResponse(userMapping.toString());
 		} catch (Exception e) {
@@ -264,16 +238,14 @@ public class UserParkingPlaceMapController {
 		}
 		return output.toString();
 	}
-	
+
 	@CrossOrigin()
-	@ApiOperation(value = "Fetch mapped vans for userppid", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Fetch mapped vans for user PP id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/mappedvan/{userppID}", headers = "Authorization", method = { RequestMethod.POST })
-	public String mappedvan(@PathVariable("userppID")Integer userParkingPlacesID) throws IEMRException {
+	public String mappedvan(@PathVariable("userppID") Integer userParkingPlacesID) throws IEMRException {
 
 		OutputResponse output = new OutputResponse();
 		try {
-			// List<M_UserParkingPlaceMap> parkingPlaceMaster =
-			// Arrays.asList(parkingPlaceMaster1);
 
 			List<M_UserVanMapping> userMapping = userParkingPlaceMapServiceImpl.getuservanmapping(userParkingPlacesID);
 
@@ -284,15 +256,15 @@ public class UserParkingPlaceMapController {
 		}
 		return output.toString();
 	}
+
 	@CrossOrigin()
-	@ApiOperation(value = "delete mapped vans for user", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Delete mapped vans for user", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/delete/mappedvan", headers = "Authorization", method = { RequestMethod.POST })
 	public String deletemappedvan(@RequestBody String userpvanmapID) throws IEMRException {
 
 		OutputResponse output = new OutputResponse();
 		try {
-			M_UserVanMapping vanmap = InputMapper.gson().fromJson(userpvanmapID,
-					M_UserVanMapping.class);
+			M_UserVanMapping vanmap = InputMapper.gson().fromJson(userpvanmapID, M_UserVanMapping.class);
 
 			userParkingPlaceMapServiceImpl.deleteuservanmapping(vanmap);
 

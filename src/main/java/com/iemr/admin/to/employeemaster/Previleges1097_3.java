@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.to.employeemaster;
 
 public class Previleges1097_3 {
@@ -6,6 +27,10 @@ public class Previleges1097_3 {
 	Priveleges1097_2[] ID;
 	private Integer providerServiceMapID;
 	private Integer workingLocationID;
+	private Integer blockID;
+	private String blockName;
+	private String[] villageID;
+	private String[] villageName;
 	
 	public Integer getProviderServiceMapID() {
 		return providerServiceMapID;
@@ -24,6 +49,30 @@ public class Previleges1097_3 {
 	}
 	public void setID(Priveleges1097_2[] iD) {
 		this.ID = iD;
+	}
+	public Integer getBlockID() {
+		return blockID;
+	}
+	public void setBlockID(Integer blockID) {
+		this.blockID = blockID;
+	}
+	public String getBlockName() {
+		return blockName;
+	}
+	public void setBlockName(String blockName) {
+		this.blockName = blockName;
+	}
+	public String[] getVillageID() {
+		return villageID;
+	}
+	public void setVillageID(String[] villageID) {
+		this.villageID = villageID;
+	}
+	public String[] getVillageName() {
+		return villageName;
+	}
+	public void setVillageName(String[] villageName) {
+		this.villageName = villageName;
 	}
 	
 	

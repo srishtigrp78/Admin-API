@@ -1,10 +1,30 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.controller.vanSpokeMapping;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,13 +47,12 @@ public class VanSpokeMappingController {
 	private VanSpokeMappingService vanSpokeMappingService;
 
 	/***
-	 * @author DU20091017
 	 * @param requestObj
 	 * @return
 	 * @throws IEMRException
 	 */
 	@CrossOrigin
-	@ApiOperation(value = "Save Van and Spoke Mapping", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Save van and spoke mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/save/vanSpokeMapping" }, method = { RequestMethod.POST })
 	public String saveBenNCDCareNurseData(@RequestBody String requestObj,
 			@RequestHeader(value = "Authorization") String Authorization) throws IEMRException {
@@ -55,7 +74,7 @@ public class VanSpokeMappingController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "Get Van and Spoke Mapping", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get van and spoke mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/get/vanSpokeMapping" }, method = { RequestMethod.POST })
 	public String getVanSpokeMapping(@RequestBody String requestObj,
 			@RequestHeader(value = "Authorization") String Authorization) throws IEMRException {
@@ -74,7 +93,7 @@ public class VanSpokeMappingController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "Delete Van and Spoke Mapping", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Delete van and spoke mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/delete/vanSpokeMapping" }, method = { RequestMethod.POST })
 	public String deleteVanSpokeMapping(@RequestBody String requestObj,
 			@RequestHeader(value = "Authorization") String Authorization) throws IEMRException {
@@ -92,25 +111,5 @@ public class VanSpokeMappingController {
 
 		return output.toString();
 	}
-	
-	@Deprecated
-	@CrossOrigin
-	@ApiOperation(value = "update Van and Spoke Mapping", consumes = "application/json", produces = "application/json")
-	@RequestMapping(value = { "/update/vanSpokeMapping" }, method = { RequestMethod.POST })
-	public String updateVanSpokeMapping(@RequestBody String requestObj,
-			@RequestHeader(value = "Authorization") String Authorization) throws IEMRException {
-		OutputResponse output = new OutputResponse();
 
-		try {
-			String response = vanSpokeMappingService.updateVanSpokeMapping(requestObj);
-			if (response.equalsIgnoreCase("success"))
-				output.setResponse("Mapping updated successfully");
-			else
-				output.setError(5000, "Error in updating mapping");
-		} catch (Exception e) {
-			output.setError(e);
-		}
-
-		return output.toString();
-	}
 }

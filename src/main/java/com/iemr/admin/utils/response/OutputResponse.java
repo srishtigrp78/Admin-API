@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.utils.response;
 
 import java.util.Calendar;
@@ -28,7 +49,7 @@ public class OutputResponse
 	public static final int CODE_EXCEPTION = 5005;
 	public static final int ENVIRONMENT_EXCEPTION = 5006;
 	public static final int PARSE_EXCEPTION = 5007;
-	public static final int SWYMED_EXCEPTION = 5010;
+	public static final int VIDEOCONSULTATION_EXCEPTION = 5010;
 
 	@Expose
 	private int statusCode = GENERIC_FAILURE;
@@ -79,9 +100,9 @@ public class OutputResponse
 				status = "User login failed";
 				errorMessage = thrown.getMessage();
 				break;
-			case "SwyMedException":
-				this.statusCode = SWYMED_EXCEPTION;
-				status = "Swymed failed";
+			case "VideoConsultationException":
+				this.statusCode = VIDEOCONSULTATION_EXCEPTION;
+				status = "VideoConsultation failed";
 				errorMessage = thrown.getMessage();
 				break;
 			case "JSONException":

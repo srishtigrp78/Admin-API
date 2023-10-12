@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.service.employeemaster;
 
 import java.math.BigInteger;
@@ -290,6 +311,31 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 		if (ENABLE_CTI_USER_CREATION) {
 			updateSupervisorRoleInCTI(resList1, authToken);
 		}
+		for (M_UserServiceRoleMapping2 mapping : resList1) {
+			if (mapping.getVillageID() != null && mapping.getVillageName() != null) {
+				StringBuilder sb = new StringBuilder();
+				// sb.append("[");
+				for (String str : mapping.getVillageID()) {
+					sb.append(str).append(",");
+
+				}
+				String villageId = sb.substring(0, sb.length() - 1);
+				// String s=villageId+"]";
+				mapping.setVillageidDb(villageId);
+
+				StringBuilder sc = new StringBuilder();
+				// sc.append("[");
+				for (String str : mapping.getVillageName()) {
+					sc.append(str).append(",");
+
+				}
+				String villageName = sc.substring(0, sc.length() - 1);
+				// String sn=villageName+"]";
+				mapping.setVillageNameDb(villageName);
+				employeeMasterRepo.save(mapping);
+			}
+
+		}
 		return reslist;
 	}
 
@@ -392,7 +438,7 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 				}
 			}
 			if (update) {
-				updateUserInCzentrix(userName, role, authToken);
+				updateUserInCallCentre(userName, role, authToken);
 			}
 		}
 	}
@@ -611,7 +657,7 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 		logger.info("EmployeeMasterServiceImpl.createAgent - start");
 		String AgentsAPIURL = "";
 		AgentsAPIURL = configProperties.getPropertyByName("Agents-api-url");
-		String ctiServer = configProperties.getPropertyByName("czentrix-server-ip");
+		String ctiServer = configProperties.getPropertyByName("callcentre-server-ip");
 		AgentsAPIURL = AgentsAPIURL.replace("AGENTID", agentID).replace("AGENTNAME", st).replace("CTI_SERVER",
 				ctiServer);
 		// .replace("CAMPAIGN_NAME", ctiCampaignName);
@@ -625,8 +671,8 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 
 	@Async
 	@Override
-	public void createUserByCzentrix(M_User1 user, String authToken) {
-		logger.info("EmployeeMasterServiceImpl.createUserByCzentrix - start");
+	public void createUserInCallCentre(M_User1 user, String authToken) {
+		logger.info("EmployeeMasterServiceImpl.createUserInCallCentre - start");
 		if (ENABLE_CTI_USER_CREATION) {
 			String UserCreateAPIURL = "";
 			String ctiServer = configProperties.getPropertyByName("common-url");
@@ -653,13 +699,13 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 			logger.info("UserCreateAPIURL -> " + UserCreateAPIURL);
 			httpUtils.post(UserCreateAPIURL, request.toString(), headers);
 		}
-		logger.info("EmployeeMasterServiceImpl.createUserByCzentrix - finish");
+		logger.info("EmployeeMasterServiceImpl.createUserInCallCentre - finish");
 	}
 
 	@Async
 	@Override
-	public void updateUserInCzentrix(String userName, String ctiRole, String authToken) {
-		logger.info("EmployeeMasterServiceImpl.updateUserInCzentrix - start");
+	public void updateUserInCallCentre(String userName, String ctiRole, String authToken) {
+		logger.info("EmployeeMasterServiceImpl.updateUserInCallCentre - start");
 
 		if (ENABLE_CTI_USER_CREATION) {
 			String UserCreateAPIURL = "";
@@ -671,10 +717,10 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 			request.put("role", ctiRole);
 			HttpUtils httpUtils = new HttpUtils();
 			headers.put("Authorization", authToken);
-			logger.info("updateUserInCzentrixURL -> " + UserCreateAPIURL);
+			logger.info("updateUserInCallCentreURL -> " + UserCreateAPIURL);
 			httpUtils.post(UserCreateAPIURL, request.toString(), headers);
 		}
-		logger.info("EmployeeMasterServiceImpl.updateUserInCzentrix - finish");
+		logger.info("EmployeeMasterServiceImpl.updateUserInCallCentre - finish");
 	}
 
 	@Override
@@ -786,12 +832,12 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 
 	// temp code gievn because =, reset password code change
 	public String generateStrongPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		int iterations = 1000;
+		int iterations = 1001;
 		char[] chars = password.toCharArray();
 		byte[] salt = getSalt();
 
 		PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 512);
-		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
 		byte[] hash = skf.generateSecret(spec).getEncoded();
 		return iterations + ":" + toHex(salt) + ":" + toHex(hash);
 	}
@@ -868,6 +914,31 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 			list.add(data);
 			updateSupervisorRoleInCTI(list, authToken);
 		}
+//		for (M_UserServiceRoleMapping2 mapping : usrRole) {
+				if (usrRole.getVillageID() != null && usrRole.getVillageName() != null) {
+
+					StringBuilder sb = new StringBuilder();
+					// sb.append("[");
+					for (String str : usrRole.getVillageID()) {
+						sb.append(str).append(",");
+
+					}
+					String villageId = sb.substring(0, sb.length() - 1);
+					// String sr=villageId+"]";
+					usrRole.setVillageidDb(villageId);
+
+					StringBuilder sc = new StringBuilder();
+					// sc.append("[");
+					for (String str : usrRole.getVillageName()) {
+						sc.append(str).append(",");
+
+					}
+					String villageName = sc.substring(0, sc.length() - 1);
+					// String st=villageName+"]";
+					usrRole.setVillageNameDb(villageName);
+
+					M_UserServiceRoleMapping2 savedData = employeeMasterRepo.save(usrRole);
+				}
 		return data;
 	}
 
@@ -892,7 +963,43 @@ public class EmployeeMasterServiceImpl implements EmployeeMasterInter {
 	public ArrayList<V_Userservicerolemapping> getMappedRole(Integer serviceProviderID) {
 		ArrayList<V_Userservicerolemapping> getData = (ArrayList<V_Userservicerolemapping>) v_UserservicerolemappingRepo
 				.getAllRoleOfProvider(serviceProviderID);
-		return getData;
+		ArrayList<V_Userservicerolemapping> mappedRoles = new ArrayList<>();
+
+		if (getData != null) {
+			for (V_Userservicerolemapping mapping : getData) {
+				if (mapping.getVillageidDb() != null) {
+					mapping.setVillageID(mapping.getVillageidDb().split(","));
+				} else {
+					mapping.setVillageID(new String[0]);
+				}
+
+				if (mapping.getVillageNameDb() != null) {
+					mapping.setVillageName(mapping.getVillageNameDb().split(","));
+				} else {
+					mapping.setVillageName(new String[0]);
+				}
+				if (mapping.getServiceID()!=null) {
+					mapping.setBlockID(mapping.getBlockID());
+					mapping.setBlockName(mapping.getBlockName());
+					mapping.setVillageID(mapping.getVillageID());
+					mapping.setVillageName(mapping.getVillageName());
+					if(null != mapping.getIsSanjeevani())
+					mapping.setIsSanjeevani(mapping.getIsSanjeevani());
+				} else {
+					mapping.setBlockID(null);
+					mapping.setBlockName(null);
+					mapping.setVillageID(null);
+					mapping.setVillageName(null);
+					mapping.setVillageidDb(null);
+					mapping.setVillageNameDb(null);
+					mapping.setIsSanjeevani(false);
+					
+				}
+				mappedRoles.add(mapping);
+			}
+		}
+		return mappedRoles;
+		//return getData;
 	}
 
 	@Override

@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.controller.parkingPlace;
 
 import java.util.List;
@@ -25,7 +46,7 @@ public class ParkingPlaceTalukMappingController {
 	private ParkingPlaceTalukMappingServiceImpl parkingPlaceTalukMappingServiceImpl;
 
 	@CrossOrigin()
-	@ApiOperation(value = "Stores parking place and taluk mapping Details", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Stores parking place and taluk mapping details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/create/parkingPlacesTalukMapping", headers = "Authorization", method = {
 			RequestMethod.POST })
 	public String parkingPlacesTalukMapping(
@@ -47,7 +68,7 @@ public class ParkingPlaceTalukMappingController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "update parking place and taluk mapping Details", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update parking place and taluk mapping details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/update/parkingPlacesTalukMapping", headers = "Authorization", method = {
 			RequestMethod.POST })
 	public String updateparkingPlacesTalukMapping(
@@ -99,7 +120,7 @@ public class ParkingPlaceTalukMappingController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Get All parking place and taluk mapping based on parking place ID", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get all parking place and taluk mapping based on parking place id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getall/parkingPlacesTalukMapping", headers = "Authorization", method = {
 			RequestMethod.POST })
 	public String getallparkingPlacesTalukMapping(
@@ -119,10 +140,8 @@ public class ParkingPlaceTalukMappingController {
 		return output.toString();
 	}
 
-	
-	
 	@CrossOrigin()
-	@ApiOperation(value = "Get All parking place and taluk mapping based on parking place ID", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get all parking place and taluk mapping based on parking place id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getbyppidanddid/parkingPlacesTalukMapping", headers = "Authorization", method = {
 			RequestMethod.POST })
 	public String getafilterparkingPlacesTalukMapping(
@@ -131,7 +150,8 @@ public class ParkingPlaceTalukMappingController {
 		OutputResponse output = new OutputResponse();
 
 		try {
-			List<ParkingplaceTalukMappingTO> parkingPlacelist = parkingPlaceTalukMappingServiceImpl.findbyParkingplaceAndDistrictID(parkingPlace);
+			List<ParkingplaceTalukMappingTO> parkingPlacelist = parkingPlaceTalukMappingServiceImpl
+					.findbyParkingplaceAndDistrictID(parkingPlace);
 
 			output.setResponse(parkingPlacelist.toString());
 		} catch (Exception e) {
@@ -140,6 +160,7 @@ public class ParkingPlaceTalukMappingController {
 		}
 		return output.toString();
 	}
+
 	@CrossOrigin()
 	@ApiOperation(value = "Activate/deactivate parking place and taluk mapping ", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/activate/parkingPlacesTalukMapping", headers = "Authorization", method = {
@@ -165,21 +186,18 @@ public class ParkingPlaceTalukMappingController {
 		}
 		return output.toString();
 	}
-	
+
 	@CrossOrigin()
-	@ApiOperation(value = "get unmapped taluk by district ID ", consumes = "application/json", produces = "application/json")
-	@RequestMapping(value = "/get/unmappedtaluk", headers = "Authorization", method = {
-			RequestMethod.POST })
+	@ApiOperation(value = "Get unmapped taluk by district id", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/get/unmappedtaluk", headers = "Authorization", method = { RequestMethod.POST })
 	public String getunmappedtaluk(
 			@ApiParam(value = "{\"districtID\":integer,\"providerServiceMapID\":integer}") @RequestBody ParkingplaceTalukMapping parkingPlace) {
 
 		OutputResponse output = new OutputResponse();
 
 		try {
-				List<DistrictBlock> parkingPlacetalukmap = parkingPlaceTalukMappingServiceImpl
-						.getunmappedtaluk(parkingPlace.getDistrictID(),parkingPlace.getProviderServiceMapID());
-				
-
+			List<DistrictBlock> parkingPlacetalukmap = parkingPlaceTalukMappingServiceImpl
+					.getunmappedtaluk(parkingPlace.getDistrictID(), parkingPlace.getProviderServiceMapID());
 
 			output.setResponse(parkingPlacetalukmap.toString());
 		} catch (Exception e) {

@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology 
+* Integrated EHR (Electronic Health Records) Solution 
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute" 
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.admin.controller.employeemaster;
 
 import java.util.ArrayList;
@@ -18,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.iemr.admin.data.employeemaster.M_Community;
 import com.iemr.admin.data.employeemaster.M_Designation;
 import com.iemr.admin.data.employeemaster.M_Gender;
@@ -39,8 +62,8 @@ import com.iemr.admin.data.rolemaster.UserRole;
 import com.iemr.admin.service.employeemaster.EmployeeMasterInter;
 import com.iemr.admin.service.employeemaster.M_DesignationInter;
 import com.iemr.admin.service.employeemaster.USRAgentMappingService;
-import com.iemr.admin.to.employeemaster.Previleges2;
 import com.iemr.admin.to.employeemaster.Previleges1097_3;
+import com.iemr.admin.to.employeemaster.Previleges2;
 import com.iemr.admin.to.employeemaster.Previlegs1;
 import com.iemr.admin.to.employeemaster.Priveleges1097_1;
 import com.iemr.admin.to.employeemaster.Priveleges1097_2;
@@ -52,6 +75,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @PropertySource("classpath:application.properties")
@@ -85,6 +109,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get all role", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getAllRole", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAllRole(@RequestBody String getAllRole) {
@@ -114,20 +139,17 @@ public class EmployeeMasterController {
 			 * catching exception if any error will come it will throw the exception.
 			 */
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Getting All Role failed with exception " + e.getMessage(), e);
 			response.setError(e);
 		}
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee(@RequestBody String searchEmployee) {
@@ -159,21 +181,18 @@ public class EmployeeMasterController {
 			 * trace.
 			 */
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("search Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 1", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee1", headers = "Authorization", method = RequestMethod.POST, produces = "application/json")
 	public String searchEmployee1(@RequestBody String searchEmployee1) {
 
@@ -204,21 +223,18 @@ public class EmployeeMasterController {
 			 * trace.
 			 */
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Search Employee1 failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 2", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee2", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee2(@RequestBody String searchEmployee1) {
@@ -253,21 +269,19 @@ public class EmployeeMasterController {
 			 * trace.
 			 */
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			// e.printStackTrace();
+			logger.error("Unexpected error:", e);
 			logger.error("Search Employee2 failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 3", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee3", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee3(@RequestBody String searchEmployee1) {
@@ -296,21 +310,18 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Search Employee3 failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 4", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee4", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee4(@RequestBody String searchEmployee1) {
@@ -338,20 +349,17 @@ public class EmployeeMasterController {
 
 			response.setResponse(data.toString());
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Search Employee4 failed with exception " + e.getMessage(), e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 5", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee5", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee5(@RequestBody String searchEmployee1) {
@@ -360,30 +368,24 @@ public class EmployeeMasterController {
 
 		try {
 
-			/**
-			 * Creati
-			 */
 			V_Showuser userDetail = InputMapper.gson().fromJson(searchEmployee1, V_Showuser.class);
 
 			ArrayList<V_Showuser> data = employeeMasterInter.getEmployeeDetails5();
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Search Employee5 failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 6", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee6", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee6(@RequestBody String searchEmployee1) {
@@ -400,21 +402,18 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Search Employee6 failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 7", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee7", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee7(@RequestBody String searchEmployee1) {
@@ -431,20 +430,17 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 8", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee8", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee8(@RequestBody String searchEmployee1) {
@@ -461,20 +457,17 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee 9", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployee9", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee9(@RequestBody String searchEmployee1) {
@@ -490,20 +483,17 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search employee filter", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/SearchEmployeeFilter", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchEmployee10(@RequestBody String searchEmployee1) {
@@ -520,20 +510,17 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get agent id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getAgentID", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAgentID(@RequestBody String addEmployee) {
@@ -549,6 +536,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Add employee", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/AddEmployee", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String addEmployee(@RequestBody String addEmployee, HttpServletRequest request) {
@@ -584,7 +572,6 @@ public class EmployeeMasterController {
 			m_UserList.setCreatedBy(employeeMaster.getCreatedBy());
 			m_UserList.setModifiedBy(employeeMaster.getModifiedBy());
 			m_UserList.setDesignationID(employeeMaster.getDesignationID());
-			// m_UserList.setCreatedDate(employeeMaster.getCreatedDate());
 
 			Integer dataList = employeeMasterInter.saveEmployee(m_UserList);
 			M_UserDemographics ud = new M_UserDemographics();
@@ -595,13 +582,9 @@ public class EmployeeMasterController {
 			ud.setReligionID(employeeMaster.getReligionID());
 			ud.setAddressLine1(employeeMaster.getAddressLine1());
 			ud.setAddressLine2(employeeMaster.getAddressLine2());
-			// ud.setAddressLine3(employeeMaster.getAddressLine3());
-			// ud.setAddressLine4(employeeMaster.getAddressLine4());
-			// ud.setAddressLine5(employeeMaster.getAddressLine5());
 			ud.setCityID(employeeMaster.getCityID());
 			ud.setStateID(employeeMaster.getStateID());
 			ud.setCountryID(employeeMaster.getCountryID());
-			// ud.setCreatedDate(employeeMaster.getCreatedDate());
 			ud.setPinCode(employeeMaster.getPinCode());
 			ud.setIsPresent(employeeMaster.getIsPresent());
 			ud.setIsPermanent(employeeMaster.getIsPermanent());
@@ -618,7 +601,6 @@ public class EmployeeMasterController {
 			Boolean[] canSpeek = employeeMaster.getCanSpeak();
 
 			for (int i = 0; i < languageID.length; i++) {
-				// for (int j = 0; j <=0; j++) {
 
 				resDataMap = new M_UserLangMapping();
 				resDataMap.setLanguageID(languageID[i]);
@@ -628,113 +610,37 @@ public class EmployeeMasterController {
 				resDataMap.setCanSpeak(canSpeek[i]);
 				resDataMap.setUserID(dataList);
 				resDataMap.setCreatedBy(employeeMaster.getCreatedBy());
-				// resDataMap.setCreatedDate(employeeMaster.getCreatedDate());
 				resList.add(resDataMap);
 			}
-			// }
 
 			ArrayList<M_UserLangMapping> data3 = employeeMasterInter.mapLanguage(resList);
 
 			M_UserServiceRoleMapping2 resDataMap1 = null;
 			List<M_UserServiceRoleMapping2> resList1 = new ArrayList<M_UserServiceRoleMapping2>();
 
-			// Integer[] roleID = employeeMaster.getRoleID();
-			// Integer[] weightage = employeeMaster.getWeightage();
-			// for(Previlegs1 predata:pre)
-			// for (int i = 0; i <=0; i++) {
 			Previleges2[] predata1 = pre.getPrevileges();
 			for (Previleges2 previl : predata1) {
-				// System.out.println(previl.getRoleID().size());
-				// for (int j = 0; j < previl.getRoleID().size(); j++)
 				{
 
-					// for (int j = 0; j <=0; j++) {
-
 					resDataMap1 = new M_UserServiceRoleMapping2();
-					// resDataMap1.setRoleID(previl.getRoleID().get(j));
 					resDataMap1.setUserID(dataList);
-					// resDataMap1.setStateID(employeeMaster.getStateID());
-					// resDataMap1.setServiceProviderID(employeeMaster.getServiceProviderID());
 					resDataMap1.setProviderServiceMapID(previl.getProviderServiceMapID());
 					resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
 					resDataMap1.setCreatedBy(employeeMaster.getCreatedBy());
-					// resDataMap1.setCreatedDate(employeeMaster.getCreatedDate());
 					resList1.add(resDataMap1);
 				}
 			}
-			// }
-			// }
-
-			// System.out.println("hellooo");
 			ArrayList<M_UserServiceRoleMapping2> data4 = employeeMasterInter.mapRole(resList1,
 					request.getHeader("Authorization"));
-
-			/*
-			 * // This is the code for Implement RestFullWebservices
-			 * 
-			 * String st = employeeMaster.getUserName(); String pwd =
-			 * employeeMaster.getPassword(); String firstName =
-			 * employeeMaster.getFirstName(); String lastName =
-			 * employeeMaster.getLastName(); String phone =
-			 * employeeMaster.getEmergencyContactNo(); String email =
-			 * employeeMaster.getEmailID();
-			 * 
-			 * // String // URL1=czentrixserverip+"/"+
-			 * "apps/cust_appsHandler.php?transaction_id=CTI_SYSTEM_USER&username="+st+
-			 * "&password="+pwd+"&firstname="+firstName+"&lastname="+lastName+"&phone="+
-			 * phone+"&email="+email+
-			 * "&role=Supervisor_104&sessiontimeout=6000&designation=Supervisor_104&resFormat=3";
-			 * String URL1 = employeeMasterInter.createUserByCzentrix(st, pwd, firstName,
-			 * lastName, phone, email);
-			 * 
-			 * // URL1=URL1+"Rajeev"+"rajeev.tripathi2@wipro.com"+11111; // URL1=URL1+""
-			 * 
-			 * WebResource webres1 = client.resource(URL1); String data = (String)
-			 * webres1.post(String.class); // ClientResponse
-			 * data3=webres1.accept("text/json").get(ClientResponse.class); // if we want to
-			 * use get Then insted of Post use only get there //
-			 * response.setResponse(data.toString());
-			 * 
-			 * 
-			 * String agentID=employeeMaster.getAgentID(); if(agentID!=null && st!=null){
-			 * String URL2= czentrixserverip+"/"+
-			 * "cust_appsHandler.php?transaction_id=CTI_AGENT_ADDUPDATE&agent_id="+agentID+
-			 * "&agent_secret=12345&agent_name="+st+"&campaign_name=UAT_104_RO&resFormat=3";
-			 * WebResource webres2=client.resource(URL2); String data6=(String)
-			 * webres2.post(String.class);
-			 * 
-			 * response.setResponse(data6.toString());
-			 * 
-			 * }else{
-			 * 
-			 * response.setResponse(data.toString()); }
-			 * 
-			 * 
-			 * String agentID = employeeMaster.getAgentID(); if (agentID != null && st !=
-			 * null) { String URL2 = employeeMasterInter.createAgent(agentID, st);
-			 * WebResource webres2 = client.resource(URL2); String data6 = (String)
-			 * webres2.post(String.class);
-			 * 
-			 * //response.setResponse(data6.toString()); //I have to think on this c-zentrix
-			 * api response how to handle response.setResponse(data4.toString());
-			 * logger.info("agent id is not null - setResp - data6 " + data6.toString()); }
-			 * else { logger.info("agent id is null - setResp - data " + data.toString());
-			 * //response.setResponse(data.toString());//I have to think on this c-zentrix
-			 * api response how to handle response.setResponse(data4.toString()); }
-			 */
 
 			response.setResponse(data4.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 			logger.info("EmployeeMasterController.addEmployee - finish - response: " + response.toString());
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.info(
 				"employeemaster/EmployeeMasterController.addEmployee - finish - happy path --> " + response.toString());
 		return response.toString();
@@ -742,16 +648,13 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit employee", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/editEmployee", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String editEmployee(@RequestBody String editEmployee) {
 		OutputResponse response = new OutputResponse();
 
 		try {
-			/*
-			 * UserTO employeeMaster = InputMapper.gson().fromJson(editEmployee,
-			 * UserTO.class);
-			 */
 
 			M_UserDemographics employeeMaster = InputMapper.gson().fromJson(editEmployee, M_UserDemographics.class);
 
@@ -761,19 +664,7 @@ public class EmployeeMasterController {
 
 			M_User1 employeeMaster2 = InputMapper.gson().fromJson(editEmployee, M_User1.class);
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
 			M_User1 editdata = employeeMasterInter.editEmployee(employeeMaster2.getUserID());
-			// editdata.setTitleID(editdata.getTitleID());
 			editdata.setFirstName(employeeMaster2.getFirstName());
 			editdata.setMiddleName(employeeMaster2.getMiddleName());
 			editdata.setLastName(employeeMaster2.getLastName());
@@ -794,8 +685,6 @@ public class EmployeeMasterController {
 			editdata.setEmergencyContactNo(employeeMaster2.getEmergencyContactNo());
 			editdata.setIsSupervisor(employeeMaster2.getIsSupervisor());
 			editdata.setDeleted(editdata.getDeleted());
-			// editdata.setCreatedBy(employeeMaster2.getCreatedBy());
-			// editdata.setCreatedDate(employeeMaster2.getCreatedDate());
 			editdata.setModifiedBy(employeeMaster2.getModifiedBy());
 			editdata.setLastModDate(employeeMaster2.getLastModDate());
 			M_User1 editdata1 = employeeMasterInter.saveEditData(editdata);
@@ -808,59 +697,29 @@ public class EmployeeMasterController {
 			ud1.setReligionID(employeeMaster.getReligionID());
 			ud1.setAddressLine1(employeeMaster.getAddressLine1());
 			ud1.setAddressLine2(employeeMaster.getAddressLine2());
-			/*
-			 * ud1.setAddressLine3(employeeMaster.getAddressLine3());
-			 * ud1.setAddressLine4(employeeMaster.getAddressLine4());
-			 * ud1.setAddressLine5(employeeMaster.getAddressLine5());
-			 */
-			/// ud1.setCityID(employeeMaster.getCityID());
 			ud1.setStateID(employeeMaster.getStateID());
 			ud1.setCountryID(employeeMaster.getCountryID());
-			// ud1.setCreatedDate(employeeMaster.getCreatedDate());
 			ud1.setPinCode(employeeMaster.getPinCode());
 			ud1.setIsPresent(employeeMaster.getIsPresent());
 			ud1.setIsPermanent(employeeMaster.getIsPermanent());
 			ud1.setDeleted(ud1.getDeleted());
-			// ud1.setCreatedBy(employeeMaster.getCreatedBy());
 			Integer data2 = employeeMasterInter.saveeditDemo(ud1);
 			UserTO1 userto = InputMapper.gson().fromJson(editEmployee, UserTO1.class);
-			// M_UserLangMapping mulm =
-			// employeeMasterInter.ulangmapedit(editdata.getUserID(),
-			// userto.getOldLanguageID());
-			// System.out.println("hai"+mulm);
-			// mulm.setLanguageID(userto.getNewLanguageID());
-			// mulm.setWeightage(empMaster.getWeightage());
-			// Integer data3 = employeeMasterInter.saveeditlangdata(mulm);
-
-			// M_UserServiceRoleMapping2 musrm =
-			// employeeMasterInter.uRoleMedit(editdata.getUserID(),
-			// userto.getOldRoleId());
-			// System.out.println("RoleMapping" + musrm);
-
-			// musrm.setRoleID(userto.getNewRoleId());
-			// musrm.setStateID(empMaster1.getStateID());
-			// musrm.setServiceProviderID(empMaster1.getServiceProviderID());
-			// musrm.setProviderServiceMapID(empMaster1.getProviderServiceMapID());
-			// musrm.setWorkingLocationID(empMaster1.getWorkingLocationID());
-			// M_UserServiceRoleMapping2 data4 = employeeMasterInter.saveRoleEdit(musrm);
 
 			response.setResponse(data2.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete employee", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteEmployee", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteEmployee(@RequestBody String deleteEmployee) {
@@ -874,37 +733,24 @@ public class EmployeeMasterController {
 			M_User1 deletedata = employeeMasterInter.editEmployee(employeeMaster.getUserID());
 
 			deletedata.setDeleted(true);
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
 
 			M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(deleted1.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "All title", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/AllTitle", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAllTitle(@RequestBody String getAllTitle) {
@@ -918,20 +764,17 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get all gender", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/AllGender", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getAllGender(@RequestBody String getAllGender) {
@@ -945,22 +788,19 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("getting gender failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get all location", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/location/getAlllocation22", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getAlllocation(@RequestBody String getAlllocation) {
@@ -972,37 +812,6 @@ public class EmployeeMasterController {
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + getAlllocation);
 		try {
-
-			/*
-			
-			
-			*//**
-				 * craeting input request for Finding state using serviceproviderId...
-				 */
-			/*
-			 * Showofficedetails1 m_ProviderServiceAddMapping =
-			 * InputMapper.gson().fromJson(getAlllocation, Showofficedetails1 .class);
-			 * 
-			 *//**
-				 * sending stateid and getting the responce using data...
-				 */
-			/*
-			 * 
-			 * ArrayList<Showofficedetails1> data = locationMasterServiceInter
-			 * .getAlldata();
-			 * 
-			 * response.setResponse(data.toString());
-			 *//**
-				 * iterating the data using for each loop...
-				 *//*
-					
-					
-					*
-					*/
-
-			/**
-			 * craeting input request for Finding state using serviceproviderId...
-			 */
 
 			M_ProviderServiceMap1 stateserviceMapping = InputMapper.gson().fromJson(getAlllocation,
 					M_ProviderServiceMap1.class);
@@ -1020,7 +829,6 @@ public class EmployeeMasterController {
 			 * creating tempSerStatMapID for storing the data into temp variable ...
 			 */
 
-			// String proSerStatMapID = "( ";
 			int tempProSerStatMapID = 0;
 			if (data1 != null && data1.size() > 0) {
 
@@ -1039,26 +847,21 @@ public class EmployeeMasterController {
 			ArrayList<Showofficedetails1> rolesData = employeeMasterInter.getlocationByMapid2(tempProSerStatMapID,
 					stateserviceMapping.getDistrictID());
 
-			// logger.info("Hai" + serviceMapid);
-
 			response.setResponse(rolesData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("get all location  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Find employee by name", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/FindEmployeeByName", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String FindEmployeeName(@RequestBody String FindEmployee) {
@@ -1071,37 +874,22 @@ public class EmployeeMasterController {
 
 			String checkuser = employeeMasterInter.FindEmployeeName(employeeMaster.getUserName());
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(checkuser.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Find Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Qualification", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/Qualification", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String Qualification(@RequestBody String Qualification) {
@@ -1115,37 +903,22 @@ public class EmployeeMasterController {
 
 			ArrayList<M_Userqualification> getQuali = employeeMasterInter.getQualification();
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(getQuali.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Qualification failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Find employee details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/FindEmployeeDetails", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String checkingEmpDetails(@RequestBody String FindEmployeeDetails) {
@@ -1157,33 +930,17 @@ public class EmployeeMasterController {
 			M_User1 employeeMaster = InputMapper.gson().fromJson(FindEmployeeDetails, M_User1.class);
 
 			Boolean checkuser = employeeMasterInter.checkingEmpDetails(employeeMaster.getUserName(),
-					employeeMaster.getAadhaarNo(), employeeMaster.getpAN(), employeeMaster.getEmployeeID(), employeeMaster.getHealthProfessionalID()); 
+					employeeMaster.getAadhaarNo(), employeeMaster.getpAN(), employeeMaster.getEmployeeID(),
+					employeeMaster.getHealthProfessionalID());
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(checkuser.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Find Employee Details failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		Boolean data = Boolean.parseBoolean(response.toString());
 		logger.debug("response" + response);
@@ -1192,6 +949,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update employer role", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/updateEmployeeRole", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateEmployee(@RequestBody String updateEmployee) {
@@ -1203,9 +961,6 @@ public class EmployeeMasterController {
 			UserTO employeeMasterto = InputMapper.gson().fromJson(updateEmployee, UserTO.class);
 
 			M_User1 employeeMaster = InputMapper.gson().fromJson(updateEmployee, M_User1.class);
-
-			// M_User1 deletedata =
-			// employeeMasterInter.editEmployee(employeeMaster.getUserID());
 
 			M_UserServiceRoleMapping2 empMaster1 = InputMapper.gson().fromJson(updateEmployee,
 					M_UserServiceRoleMapping2.class);
@@ -1220,53 +975,30 @@ public class EmployeeMasterController {
 
 				resDataMap1.setRoleID(roleID[i]);
 				resDataMap1.setUserID(employeeMasterto.getUserID());
-				// resDataMap1.setStateID(employeeMaster.getStateID());
-				// resDataMap1.setServiceProviderID(employeeMaster.getServiceProviderID());
 				resDataMap1.setProviderServiceMapID(empMaster1.getProviderServiceMapID());
 				resDataMap1.setWorkingLocationID(empMaster1.getWorkingLocationID());
 				resDataMap1.setCreatedBy(employeeMaster.getCreatedBy());
-				// resDataMap1.setCreatedDate(employeeMaster.getCreatedDate());
 				resList1.add(resDataMap1);
 			}
-			// }
-			// }
 
 			ArrayList<M_UserServiceRoleMapping2> data4 = employeeMasterInter.mapRoleUpdation(resList1);
 
-			// employeeMasterInter.
-
-			// deletedata.setDeleted(true);
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(data4.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("update Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete employer role", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/deleteEmployeeRole", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteEmployeeRole(@RequestBody String deleteEmployeeRole) {
@@ -1278,9 +1010,6 @@ public class EmployeeMasterController {
 			UserTO employeeMasterto = InputMapper.gson().fromJson(deleteEmployeeRole, UserTO.class);
 
 			M_User1 employeeMaster = InputMapper.gson().fromJson(deleteEmployeeRole, M_User1.class);
-
-			// M_User1 deletedata =
-			// employeeMasterInter.editEmployee(employeeMaster.getUserID());
 
 			M_UserServiceRoleMapping2 empMaster1 = InputMapper.gson().fromJson(deleteEmployeeRole,
 					M_UserServiceRoleMapping2.class);
@@ -1295,16 +1024,11 @@ public class EmployeeMasterController {
 
 		} catch (Exception e) {
 
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		logger.debug("response" + response);
 		return response.toString();
@@ -1312,6 +1036,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get designation", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getDesignation", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getDesignation(@RequestBody String getDesignation) {
@@ -1324,31 +1049,14 @@ public class EmployeeMasterController {
 
 			ArrayList<M_Designation> desiganationlist = m_DesignationInter.getDesinationlist();
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(desiganationlist.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("designation failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		Boolean data = Boolean.parseBoolean(response.toString());
 		logger.debug("response" + response);
@@ -1357,6 +1065,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get employee by designation", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/getEmployeeByDesignation", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getEmployeeByDesignation(@RequestBody String getDesignation) {
@@ -1366,38 +1075,19 @@ public class EmployeeMasterController {
 		try {
 
 			M_Designation employeeMaster = InputMapper.gson().fromJson(getDesignation, M_Designation.class);
-			// M_UserServiceRoleMapping2 employeeMaster1 =
-			// InputMapper.gson().fromJson(getDesignation,M_UserServiceRoleMapping2.class);
 			M_User1 employeeMaster1 = InputMapper.gson().fromJson(getDesignation, M_User1.class);
 
 			ArrayList<M_User1> employeeBydesiganation = employeeMasterInter.getEmployeeByDesiganationID(
 					employeeMaster.getDesignationID(), employeeMaster1.getServiceProviderID());
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(employeeBydesiganation.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("designation failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
-
-		/**
-		 * sending the response...
-		 */
 
 		Boolean data = Boolean.parseBoolean(response.toString());
 		logger.debug("response" + response);
@@ -1406,6 +1096,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get available agent ids", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getAvailableAgentIds", headers = "Authorization", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getAvailableAgentIds(@ApiParam("{\"providerServiceMapID\":\"Integer - Provider Service Map ID\", "
 			+ "\"cti_CampaignName\":\"String - Campaign Name\"}") @RequestBody String request) {
@@ -1422,6 +1113,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create USR agent mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createUSRAgentMapping", headers = "Authorization", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String createUSRAgentMapping(
 			@ApiParam("[{\"agentID\":\"AgentID as a string\", \"agentPassword\":\"Agent password as a String\", "
@@ -1441,6 +1133,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get available campaigns", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getAvailableCampaigns", headers = "Authorization", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getAvailableCampaigns(@ApiParam("{\"providerServiceMapID\":\"Integer: provider service map ID\", "
 			+ "\"serviceName\":\"Optional - String - service name\"}") @RequestBody String request) {
@@ -1457,6 +1150,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update agent ids", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updateAgentIds", headers = "Authorization", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String updateAgentIds(@ApiParam("{\"isAvailable\":\"Boolean - is agent ID available for future use\", "
 			+ "\"usrMappingID\":\"Integer - user service role mapping id if isavailable is sent as false\", "
@@ -1474,6 +1168,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "User role and cti mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/usrRoleAndCtiMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String usrRoleAndCtiMapping(@RequestBody String usrRoleAndCtiMapping) {
@@ -1488,22 +1183,19 @@ public class EmployeeMasterController {
 			response.setResponse(data.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("usrRoleAndCtiMapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Find employee details by user name", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/FindEmployeeDetailsByUserName", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String FindEmployeeDetailsByUserName(@RequestBody String FindEmployeeDetailsByUserName) {
@@ -1516,37 +1208,22 @@ public class EmployeeMasterController {
 
 			M_User1 checkuser = employeeMasterInter.FindEmployeeName1(employeeMaster.getUserName());
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(checkuser.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Find Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Reset user password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/m/ResetUserPassword", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String ResetUserPassword(@RequestBody String ResetUserPassword) {
@@ -1559,37 +1236,22 @@ public class EmployeeMasterController {
 
 			String userupdate = employeeMasterInter.ResetPassword(employeeMaster);
 
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails( m_UserServiceRoleMapping.getRoleID(),
-			 * m_UserServiceRoleMapping.getProviderServiceMapID());
-			 */
-
-			/*
-			 * ArrayList<M_UserServiceRoleMapping2> data =
-			 * employeeMasterInter.getEmployeeDetails();
-			 */
-
-			// M_User1 deleted1 = employeeMasterInter.saveEditData(deletedata);
 			response.setResponse(userupdate.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Find Employee failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createProviderAdmin", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String createProviderAdmin(@RequestBody String createProviderAdmin) {
@@ -1607,22 +1269,19 @@ public class EmployeeMasterController {
 			response.setResponse(newlyCreatedProviderAdminData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("create Provider Admin failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getProviderAdmin", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getProviderAdmin(@RequestBody String getProviderAdmin) {
@@ -1632,29 +1291,25 @@ public class EmployeeMasterController {
 		try {
 
 			M_User1 employeeMaster = InputMapper.gson().fromJson(getProviderAdmin, M_User1.class);
-			// List<M_User1> providerAdminData = Arrays.asList(employeeMaster);
 
 			ArrayList<M_User1> getAllProviderAdminFromDB = employeeMasterInter.getProviderAdmin();
 
 			response.setResponse(getAllProviderAdminFromDB.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("get Provider Admin failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editProviderAdmin", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String editProviderAdmin(@RequestBody String editProviderAdmin) {
@@ -1664,7 +1319,6 @@ public class EmployeeMasterController {
 		try {
 
 			M_User1 employeeMaster = InputMapper.gson().fromJson(editProviderAdmin, M_User1.class);
-			// List<M_User1> providerAdminData = Arrays.asList(employeeMaster);
 
 			M_User1 getProviderAdminFromDB = employeeMasterInter.getProviderAdminForEdit(employeeMaster.getUserID());
 			getProviderAdminFromDB.setTitleID(employeeMaster.getTitleID());
@@ -1673,8 +1327,6 @@ public class EmployeeMasterController {
 			getProviderAdminFromDB.setLastName(employeeMaster.getLastName());
 			getProviderAdminFromDB.setAadhaarNo(employeeMaster.getAadhaarNo());
 			getProviderAdminFromDB.setpAN(employeeMaster.getpAN());
-			// getProviderAdminFromDB.setUserName(employeeMaster.getUserName());
-			// getProviderAdminFromDB.setPassword(employeeMaster.getPassword());
 			getProviderAdminFromDB.setEmailID(employeeMaster.getEmailID());
 			getProviderAdminFromDB.setContactNo(employeeMaster.getContactNo());
 			getProviderAdminFromDB.setEmergencyContactNo(employeeMaster.getEmergencyContactNo());
@@ -1688,22 +1340,19 @@ public class EmployeeMasterController {
 			response.setResponse(saveeditedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("edit Provider Admin failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete provider admin", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteProviderAdmin", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteProviderAdmin(@RequestBody String deleteProviderAdmin) {
@@ -1713,7 +1362,6 @@ public class EmployeeMasterController {
 		try {
 
 			M_User1 employeeMaster = InputMapper.gson().fromJson(deleteProviderAdmin, M_User1.class);
-			// List<M_User1> providerAdminData = Arrays.asList(employeeMaster);
 
 			M_User1 getProviderAdminFromDB = employeeMasterInter.getProviderAdminForEdit(employeeMaster.getUserID());
 
@@ -1724,22 +1372,19 @@ public class EmployeeMasterController {
 			response.setResponse(saveeditedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Provider Admin failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Create new user", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/createNewUser", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String createNewUser(@RequestBody String createNewUser, HttpServletRequest request) {
@@ -1760,11 +1405,9 @@ public class EmployeeMasterController {
 			ArrayList<M_UserDemographics> demogdata = new ArrayList<M_UserDemographics>();
 			M_UserDemographics dmData = null;
 
-			// for(M_UserDemographics ud:demographicsData){
 			int x = 0;
 			for (M_User1 m_user : newlyCreatedUserData) {
 
-				// for(int i=0;i<=m_user.getUserID().SIZE;i++){
 				dmData = new M_UserDemographics();
 				dmData.setUserID(newlyCreatedUserData.get(x).getUserID());
 				dmData.setFathersName(demographicsData.get(x).getFathersName());
@@ -1775,7 +1418,6 @@ public class EmployeeMasterController {
 				dmData.setAddressLine2(demographicsData.get(x).getAddressLine2());
 				dmData.setPermAddressLine1(demographicsData.get(x).getPermAddressLine1());
 				dmData.setPermAddressLine2(demographicsData.get(x).getPermAddressLine2());
-				// dmData.setAddressLine5(demographicsData.get(x).getAddressLine5());
 				dmData.setPermStateID(demographicsData.get(x).getPermStateID());
 				dmData.setPermDistrictID(demographicsData.get(x).getPermDistrictID());
 				dmData.setPermPinCode(demographicsData.get(x).getPermPinCode());
@@ -1792,34 +1434,27 @@ public class EmployeeMasterController {
 
 				demogdata.add(dmData);
 				x++;
-				employeeMasterInter.createUserByCzentrix(m_user, authToken);
+				employeeMasterInter.createUserInCallCentre(m_user, authToken);
 			}
-
-			// }
 
 			ArrayList<M_UserDemographics> newlyCreatedDemographicsDetails = employeeMasterInter
 					.SaveDemographics(demogdata);
 
-			// }
-
 			response.setResponse(newlyCreatedUserData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("create Provider Admin failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Edit user details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/editUserDetails", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String editUserDetails(@RequestBody String editUserDetails) {
@@ -1861,11 +1496,7 @@ public class EmployeeMasterController {
 			getdemographicsData.setReligionID(demographics.getReligionID());
 			getdemographicsData.setAddressLine1(demographics.getAddressLine1());
 			getdemographicsData.setAddressLine2(demographics.getAddressLine2());
-			/*
-			 * getdemographicsData.setAddressLine3(demographics.getAddressLine3());
-			 * getdemographicsData.setAddressLine4(demographics.getAddressLine4());
-			 * getdemographicsData.setAddressLine5(demographics.getAddressLine5());
-			 */
+
 			getdemographicsData.setPermAddressLine1(demographics.getPermAddressLine1());
 			getdemographicsData.setPermAddressLine2(demographics.getPermAddressLine2());
 			getdemographicsData.setPermStateID(demographics.getPermStateID());
@@ -1883,71 +1514,21 @@ public class EmployeeMasterController {
 
 			M_UserDemographics saveDemoData = employeeMasterInter.saveeditedDemoData(getdemographicsData);
 
-			/*
-			 * List<M_User1> newUserData = Arrays.asList(employeeMaster);
-			 * 
-			 * M_UserDemographics[]
-			 * demographics=InputMapper.gson().fromJson(createNewUser,M_UserDemographics[].
-			 * class); List<M_UserDemographics>
-			 * demographicsData=Arrays.asList(demographics);
-			 * 
-			 * ArrayList<M_User1> newlyCreatedUserData = employeeMasterInter
-			 * .createNewUser(newUserData);
-			 * 
-			 * ArrayList<M_UserDemographics> demogdata=new ArrayList<M_UserDemographics>();
-			 * M_UserDemographics dmData=null;
-			 * 
-			 * //for(M_UserDemographics ud:demographicsData){ int x=0; for(M_User1
-			 * m_user:newlyCreatedUserData){ for(int i=0;i<=m_user.getUserID().SIZE;i++){
-			 * dmData=new M_UserDemographics();
-			 * dmData.setUserID(newlyCreatedUserData.get(x).getUserID());
-			 * dmData.setFathersName(demographicsData.get(x).getFathersName());
-			 * dmData.setMothersName(demographicsData.get(x).getMothersName());
-			 * dmData.setCommunityID(demographicsData.get(x).getCommunityID());
-			 * dmData.setReligionID(demographicsData.get(x).getReligionID());
-			 * dmData.setAddressLine1(demographicsData.get(x).getAddressLine1());
-			 * dmData.setAddressLine2(demographicsData.get(x).getAddressLine2());
-			 * dmData.setAddressLine3(demographicsData.get(x).getAddressLine3());
-			 * dmData.setAddressLine4(demographicsData.get(x).getAddressLine4());
-			 * dmData.setAddressLine5(demographicsData.get(x).getAddressLine5());
-			 * dmData.setPermanentAddress(demographicsData.get(x).getPermanentAddress());
-			 * dmData.setIsPermanent(demographicsData.get(x).getIsPermanent());
-			 * dmData.setCityID(demographicsData.get(x).getCityID());
-			 * dmData.setStateID(demographicsData.get(x).getStateID());
-			 * dmData.setCountryID(demographicsData.get(x).getCountryID());
-			 * dmData.setPinCode(demographicsData.get(x).getPinCode());
-			 * dmData.setIsPresent(demographicsData.get(x).getIsPresent());
-			 * dmData.setIsPermanent(demographicsData.get(x).getIsPermanent());
-			 * dmData.setCreatedBy(newlyCreatedUserData.get(x).getCreatedBy());
-			 * 
-			 * demogdata.add(dmData);
-			 * 
-			 * } x++; }
-			 * 
-			 * ArrayList<M_UserDemographics>
-			 * newlyCreatedDemographicsDetails=employeeMasterInter.SaveDemographics(
-			 * demogdata);
-			 * 
-			 * //}
-			 */
 			response.setResponse(saveDemoData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("create Provider Admin failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Deleted user details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deletedUserDetails", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deletedUserDetails(@RequestBody String deletedUserDetails, HttpServletRequest httpRequest) {
@@ -1973,21 +1554,18 @@ public class EmployeeMasterController {
 			response.setResponse(saveDemoData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("deletedUserDetails failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search mapped language by user id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/searchMappedLanguageByUserId", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchMappedLanguageByUserId(@RequestBody String searchMappedLanguageByUserId) {
@@ -1995,8 +1573,6 @@ public class EmployeeMasterController {
 		logger.debug("request" + searchMappedLanguageByUserId);
 
 		try {
-
-			// M_UserLangMapping
 
 			M_UserLangMapping newUserData = InputMapper.gson().fromJson(searchMappedLanguageByUserId,
 					M_UserLangMapping.class);
@@ -2007,21 +1583,18 @@ public class EmployeeMasterController {
 			response.setResponse(getAllMappedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("searchMappedLanguageByUserId failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get user mapped language", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getUserMappedLanguage", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getUserMappedLanguage(@RequestBody String getUserMappedLanguage) {
@@ -2029,8 +1602,6 @@ public class EmployeeMasterController {
 		logger.debug("request" + getUserMappedLanguage);
 
 		try {
-
-			// M_UserLangMapping
 
 			M_UserLangMapping newUserData = InputMapper.gson().fromJson(getUserMappedLanguage, M_UserLangMapping.class);
 
@@ -2040,21 +1611,18 @@ public class EmployeeMasterController {
 			response.setResponse(getAllMappedData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("getUserMappedLanguage failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "User language mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/userLanguageMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String UserLangMapping(@RequestBody String deletedUserDetails) {
@@ -2066,30 +1634,11 @@ public class EmployeeMasterController {
 			UserTO[] newUserData = InputMapper.gson().fromJson(deletedUserDetails, UserTO[].class);
 			List<UserTO> employeeMaster = Arrays.asList(newUserData);
 
-			/*
-			 * M_User1 employeeMaster1= InputMapper.gson().fromJson(deletedUserDetails,
-			 * M_User1.class); M_UserDemographics
-			 * demographics=InputMapper.gson().fromJson(deletedUserDetails,
-			 * M_UserDemographics.class); M_User1
-			 * getIdforedit=employeeMasterInter.editData(employeeMaster.getUserID());
-			 * getIdforedit.setDeleted(employeeMaster.getDeleted()); M_User1
-			 * editedData=employeeMasterInter.saveeditedData(getIdforedit);
-			 */
-
-			/*
-			 * M_UserDemographics
-			 * getdemographicsData=employeeMasterInter.DataByUserID(employeeMaster.getUserID
-			 * ()); getdemographicsData.setDeleted(demographics.getDeleted());
-			 * M_UserDemographics
-			 * saveDemoData=employeeMasterInter.saveeditedDemoData(getdemographicsData);
-			 */
-
 			M_UserLangMapping resDataMap = null;
 			List<M_UserLangMapping> resList = new ArrayList<M_UserLangMapping>();
 
 			int x = 0;
 			for (UserTO ut : employeeMaster) {
-				// int x=0;
 				Integer[] languageID = employeeMaster.get(x).getLanguageID();
 				Integer[] weightage = employeeMaster.get(x).getWeightage();
 				Boolean[] canread = employeeMaster.get(x).getCanRead();
@@ -2100,7 +1649,6 @@ public class EmployeeMasterController {
 				Integer[] weightage_Speak = employeeMaster.get(x).getWeightage_Speak();
 
 				for (int i = 0; i < languageID.length; i++) {
-					// for (int j = 0; j <=0; j++) {
 
 					resDataMap = new M_UserLangMapping();
 					resDataMap.setLanguageID(languageID[i]);
@@ -2114,32 +1662,27 @@ public class EmployeeMasterController {
 					resDataMap.setUserID(employeeMaster.get(x).getUserID());
 					resDataMap.setCreatedBy(employeeMaster.get(x).getCreatedBy());
 					resDataMap.setServiceProviderID(employeeMaster.get(x).getServiceProviderID());
-					// resDataMap.setCreatedDate(employeeMaster.getCreatedDate());
 					resList.add(resDataMap);
 				}
 				x++;
-				// }
 			}
 
 			ArrayList<M_UserLangMapping> data3 = employeeMasterInter.mapLanguage(resList);
 			response.setResponse(data3.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("userLanguageMapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update user language mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updateUserLanguageMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateUserLanguageMapping(@RequestBody String updateUserLanguageMapping) {
@@ -2169,21 +1712,18 @@ public class EmployeeMasterController {
 			response.setResponse(savelangData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("updateUserLanguageMapping  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete user language mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteUserLanguageMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String UserLanguageMapping(@RequestBody String deleteUserLanguageMapping) {
@@ -2202,110 +1742,91 @@ public class EmployeeMasterController {
 			response.setResponse(savelangData.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete Languagemapping  failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "User role mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/userRoleMapping", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String UserRoleMapping(@RequestBody String userRoleMapping, HttpServletRequest request) {
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + userRoleMapping);
-		
+
 		try {
-            
+
 			Previlegs1[] preda = InputMapper.gson().fromJson(userRoleMapping, Previlegs1[].class);
 			List<Previlegs1> pre = Arrays.asList(preda);
 			int x = 0;
-			
 
-				UserTO[] newUserData = InputMapper.gson().fromJson(userRoleMapping, UserTO[].class);
-				List<UserTO> employeeMaster = Arrays.asList(newUserData);
+			UserTO[] newUserData = InputMapper.gson().fromJson(userRoleMapping, UserTO[].class);
+			List<UserTO> employeeMaster = Arrays.asList(newUserData);
 
-				M_UserServiceRoleMapping2 resDataMap1 = null;
-				List<M_UserServiceRoleMapping2> resList1 = new ArrayList<M_UserServiceRoleMapping2>();
+			M_UserServiceRoleMapping2 resDataMap1 = null;
+			List<M_UserServiceRoleMapping2> resList1 = new ArrayList<M_UserServiceRoleMapping2>();
 
-				// Integer[] roleID = employeeMaster.getRoleID();
-				// Integer[] weightage = employeeMaster.getWeightage();
-				// for(Previlegs1 predata:pre)
-				// for (int i = 0; i <=0; i++) {
+			for (UserTO usrole : employeeMaster) {
+				Previleges2[] predata1 = pre.get(x).getPrevileges();
+				for (Previleges2 previl : predata1) {
+					Integer[] RoleID = previl.getRoleID();
 
-				for (UserTO usrole : employeeMaster) {
-					Previleges2[] predata1 = pre.get(x).getPrevileges();
-					for (Previleges2 previl : predata1) {
-						Integer[] RoleID = previl.getRoleID();
+					for (int j = 0; j < RoleID.length; j++) {
 
-						// System.out.println(previl.getRoleID().size());
-						for (int j = 0; j < RoleID.length; j++) {
-
-							// for (int j = 0; j <=0; j++) {
-
-							resDataMap1 = new M_UserServiceRoleMapping2();
-							resDataMap1.setRoleID(RoleID[j]);
-							resDataMap1.setUserID(employeeMaster.get(x).getUserID());
-							resDataMap1.setProviderServiceMapID(previl.getProviderServiceMapID());
-							resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
-							resDataMap1.setCreatedBy(employeeMaster.get(x).getCreatedBy());
-							resDataMap1.setServiceProviderID(employeeMaster.get(x).getServiceProviderID());
-							resList1.add(resDataMap1);
-						}
-						x++;
+						resDataMap1 = new M_UserServiceRoleMapping2();
+						resDataMap1.setRoleID(RoleID[j]);
+						resDataMap1.setUserID(employeeMaster.get(x).getUserID());
+						resDataMap1.setProviderServiceMapID(previl.getProviderServiceMapID());
+						resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
+						resDataMap1.setCreatedBy(employeeMaster.get(x).getCreatedBy());
+						resDataMap1.setServiceProviderID(employeeMaster.get(x).getServiceProviderID());
+						resList1.add(resDataMap1);
 					}
-
+					x++;
 				}
 
-				ArrayList<M_UserServiceRoleMapping2> data4 = employeeMasterInter.mapRole(resList1,
-						request.getHeader("Authorization"));
+			}
 
-				response.setResponse(data4.toString());
-			
+			ArrayList<M_UserServiceRoleMapping2> data4 = employeeMasterInter.mapRole(resList1,
+					request.getHeader("Authorization"));
+
+			response.setResponse(data4.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("Userlangmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
-		
 		logger.debug("response" + response);
 		return response.toString();
-	
+
 	}
 
 	@CrossOrigin()
-	@RequestMapping(value = "/userRoleMappings", headers = "Authorization", method = { RequestMethod.POST }, produces = {
-			"application/json" })
-	
-	public String UserRoleMappings(@RequestBody String userRoleMapping, HttpServletRequest request)
-			throws Exception {
+	@ApiOperation(value = "User role mappings", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/userRoleMappings", headers = "Authorization", method = {
+			RequestMethod.POST }, produces = { "application/json" })
+
+	public String UserRoleMappings(@RequestBody String userRoleMapping, HttpServletRequest request) throws Exception {
 		OutputResponse response = new OutputResponse();
 		logger.debug("request" + userRoleMapping);
-		
 
-			Priveleges1097_1[] preda = InputMapper.gson().fromJson(userRoleMapping, Priveleges1097_1[].class);
-			List<Priveleges1097_1> pre = Arrays.asList(preda);
+		Priveleges1097_1[] preda = InputMapper.gson().fromJson(userRoleMapping, Priveleges1097_1[].class);
+		List<Priveleges1097_1> pre = Arrays.asList(preda);
 
-			Previleges1097_3[] preda1 = InputMapper.gson().fromJson(userRoleMapping, Previleges1097_3[].class);
-			List<Previleges1097_3> pre1 = Arrays.asList(preda1);
-			
-			try {
-			
+		Previleges1097_3[] preda1 = InputMapper.gson().fromJson(userRoleMapping, Previleges1097_3[].class);
+		List<Previleges1097_3> pre1 = Arrays.asList(preda1);
+
+		try {
+
 			int x = 0;
 			int y = 0;
 			UserTO[] newUserData = InputMapper.gson().fromJson(userRoleMapping, UserTO[].class);
@@ -2317,41 +1838,47 @@ public class EmployeeMasterController {
 			for (UserTO usrole : employeeMaster) {
 				Previleges1097_3[] predata1 = pre.get(x).getPrevileges();
 				for (Previleges1097_3 previl : predata1) {
-					
+
 					Priveleges1097_2[] predata2 = previl.getID();
 					for (Priveleges1097_2 previl1 : predata2) {
 						resDataMap1 = new M_UserServiceRoleMapping2();
 						resDataMap1.setRoleID(previl1.getRoleID());
 						resDataMap1.setInbound(previl1.getInbound());
 						resDataMap1.setOutbound(previl1.getOutbound());
-					}
-						resDataMap1.setUserID(employeeMaster.get(x).getUserID());
-						resDataMap1.setProviderServiceMapID(previl.getProviderServiceMapID());
-						resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
-						resDataMap1.setCreatedBy(employeeMaster.get(x).getCreatedBy());
-						resDataMap1.setServiceProviderID(employeeMaster.get(x).getServiceProviderID());
-						resList1.add(resDataMap1);
+						if(previl1.getIsSanjeevani() != null) {
+						resDataMap1.setIsSanjeevani(previl1.getIsSanjeevani());		
+						}
+						}
+					resDataMap1.setUserID(employeeMaster.get(x).getUserID());
+					resDataMap1.setProviderServiceMapID(previl.getProviderServiceMapID());
+					resDataMap1.setWorkingLocationID(previl.getWorkingLocationID());
+					resDataMap1.setCreatedBy(employeeMaster.get(x).getCreatedBy());
+					resDataMap1.setServiceProviderID(employeeMaster.get(x).getServiceProviderID());
+					resDataMap1.setBlockID(previl.getBlockID());
+					resDataMap1.setBlockName(previl.getBlockName());
+					resDataMap1.setVillageID(previl.getVillageID());
+					resDataMap1.setVillageName(previl.getVillageName());
+					resList1.add(resDataMap1);
 
-					
-				}x++;
+				}
+				x++;
 
 			}
 			ArrayList<M_UserServiceRoleMapping2> data4 = employeeMasterInter.mapRole(resList1,
 					request.getHeader("Authorization"));
 
 			response.setResponse(data4.toString());
-			}
-			catch (Exception e) {
-				//e.printStackTrace();
-				logger.error("Unexpected error:" , e);
-				logger.error("Userlangmapping failed with exception " + e.getMessage(), e);
-				response.setError(e);
-			}
+		} catch (Exception e) {
+			logger.error("Unexpected error:", e);
+			logger.error("Userlangmapping failed with exception " + e.getMessage(), e);
+			response.setError(e);
+		}
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update user role mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updateUserRoleMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String updateUserRoleMapping(@RequestBody String updateUserRoleMapping, HttpServletRequest request) {
@@ -2360,7 +1887,9 @@ public class EmployeeMasterController {
 
 		try {
 
-			M_UserServiceRoleMapping2 pre = InputMapper.gson().fromJson(updateUserRoleMapping,
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			M_UserServiceRoleMapping2 pre = objectMapper.readValue(updateUserRoleMapping,
 					M_UserServiceRoleMapping2.class);
 
 			M_UserServiceRoleMapping2 usrRole = employeeMasterInter.getDataUsrId(pre.getuSRMappingID());
@@ -2368,16 +1897,22 @@ public class EmployeeMasterController {
 			usrRole.setUserID(pre.getUserID());
 			usrRole.setRoleID(pre.getRoleID());
 			usrRole.setAgentPassword(pre.getAgentPassword());
-			// usrRole.setcZRole(pre.getcZRole());
 			usrRole.setProviderServiceMapID(pre.getProviderServiceMapID());
 			usrRole.setWorkingLocationID(pre.getWorkingLocationID());
 			usrRole.setModifiedBy(pre.getModifiedBy());
+			usrRole.setBlockID(pre.getBlockID());
+			usrRole.setBlockName(pre.getBlockName());
+			usrRole.setVillageID(pre.getVillageID());
+			usrRole.setVillageName(pre.getVillageName());
+
+			if(pre.getIsSanjeevani() != null) {
+			usrRole.setIsSanjeevani(pre.getIsSanjeevani());
+			}
 			
-			if(pre.getInbound() != null) {
+			if (pre.getInbound() != null) {
 				usrRole.setInbound(pre.getInbound());
 			}
-			if(pre.getOutbound() != null)
-			{
+			if (pre.getOutbound() != null) {
 				usrRole.setOutbound(pre.getOutbound());
 			}
 
@@ -2387,21 +1922,18 @@ public class EmployeeMasterController {
 			response.setResponse(savedata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("update langmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete user role mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteUserRoleMapping", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteUserRoleMapping(@RequestBody String deletedUserRoleMapping, HttpServletRequest request) {
@@ -2423,21 +1955,18 @@ public class EmployeeMasterController {
 			response.setResponse(savedata.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete langmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get user role mapped", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getUserRoleMapped", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String getUserRoleMapped(@RequestBody String getUserRoleMapped) {
@@ -2452,29 +1981,22 @@ public class EmployeeMasterController {
 			ArrayList<V_Userservicerolemapping> usrRole = employeeMasterInter
 					.getMappedRole(getRoleData.getServiceProviderID());
 
-			// usrRole.setDeleted(pre.getDeleted());
-
-			// M_UserServiceRoleMapping2
-			// savedata=employeeMasterInter.saveRoleMappingeditedData(usrRole);
-
-			response.setResponse(usrRole.toString());
+			String jsonResponse = new Gson().toJson(usrRole);
+			response.setResponse(jsonResponse);
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete langmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Search mapped role by name or user id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/searchMappedRoleByNameorUserId", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String searchMappedRoleByNameorUserId(@RequestBody String searchMappedRoleByNameorUserId) {
@@ -2489,29 +2011,21 @@ public class EmployeeMasterController {
 			ArrayList<V_Userservicerolemapping> usrRole = employeeMasterInter.getMappedRole(getRoleData.getName(),
 					getRoleData.getUserID());
 
-			// usrRole.setDeleted(pre.getDeleted());
-
-			// M_UserServiceRoleMapping2
-			// savedata=employeeMasterInter.saveRoleMappingeditedData(usrRole);
-
 			response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete langmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Complete user detail", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/completeUserDetails", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String completeUserDetails(@RequestBody String completeUserDetails) {
@@ -2524,29 +2038,21 @@ public class EmployeeMasterController {
 
 			ArrayList<V_Showuser> usrRole = employeeMasterInter.getcompleteUserDetails();
 
-			// usrRole.setDeleted(pre.getDeleted());
-
-			// M_UserServiceRoleMapping2
-			// savedata=employeeMasterInter.saveRoleMappingeditedData(usrRole);
-
 			response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete langmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get religion", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getReligion", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getReligion(@RequestBody String getReligion) {
@@ -2559,29 +2065,21 @@ public class EmployeeMasterController {
 
 			ArrayList<M_Religion> usrRole = employeeMasterInter.getAllReligion();
 
-			// usrRole.setDeleted(pre.getDeleted());
-
-			// M_UserServiceRoleMapping2
-			// savedata=employeeMasterInter.saveRoleMappingeditedData(usrRole);
-
 			response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("getReligion failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get community", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getCommunity", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getCommunity(@RequestBody String getCommunity) {
@@ -2597,21 +2095,18 @@ public class EmployeeMasterController {
 			response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("getReligion failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get all agent ids", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getAllAgentIds", headers = "Authorization", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String getAllAgentIds(@ApiParam("{\"providerServiceMapID\":\"Integer - Provider Service Map ID\", "
 			+ "\"cti_CampaignName\":\"Optional String - Campaign Name\", "
@@ -2629,6 +2124,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update CTI campaign name mapping", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updateCTICampaignNameMapping", headers = "Authorization", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String updateCTICampaignNameMapping(@ApiParam("{\"cti_CampaignName\":\"String new campaign name\", "
 			+ "\"usrAgentMappingID\": \"Integer\"}") @RequestBody String request) {
@@ -2645,6 +2141,7 @@ public class EmployeeMasterController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get user role TM", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getUserRoleTM", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String getUserRoleTM(@RequestBody String getCommunity) {
@@ -2661,21 +2158,18 @@ public class EmployeeMasterController {
 			response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("getReligion failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Delete user role mapping TM", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/deleteUserRoleMappingTM", headers = "Authorization", method = {
 			RequestMethod.POST }, produces = { "application/json" })
 	public String deleteUserRoleMappingTM(@RequestBody String deletedUserRoleMapping, HttpServletRequest request) {
@@ -2686,27 +2180,16 @@ public class EmployeeMasterController {
 
 			M_UserServiceRoleMapping2 pre = InputMapper.gson().fromJson(deletedUserRoleMapping,
 					M_UserServiceRoleMapping2.class);
-//
 			M_UserServiceRoleMapping2 usrRole = employeeMasterInter.deleteuserrolemapTM(pre);
-//
-//			usrRole.setDeleted(pre.getDeleted());
-//
-//			M_UserServiceRoleMapping2 savedata =
-//					employeeMasterInter.saveRoleMappingeditedData(usrRole, request.getHeader("Authorization"));
-//
 			response.setResponse(usrRole.toString());
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-			logger.error("Unexpected error:" , e);
+			logger.error("Unexpected error:", e);
 			logger.error("delete langmapping failed with exception " + e.getMessage(), e);
 			response.setError(e);
 
 		}
 
-		/**
-		 * sending the response...
-		 */
 		logger.debug("response" + response);
 		return response.toString();
 	}
