@@ -26,13 +26,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.iemr.admin.data.uptsu.CDSSMapping;
 import com.iemr.admin.data.uptsu.M_FacilityMapping;
 import com.iemr.admin.data.uptsu.UploadRequest;
 import com.iemr.admin.service.uptsu.FacilityService;
@@ -74,6 +79,41 @@ public class FacilityController {
 		}
 
 		return output.toString();
+	}
+	
+	@CrossOrigin
+	@ApiOperation(value = "Save cdss details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value= "/submit/cdss", headers = "Authorization", method = { RequestMethod.POST })
+	public String saveCdssDetails(@RequestBody String request) {
+		ObjectMapper mapper = new ObjectMapper();
+		OutputResponse response = new OutputResponse();
+		CDSSMapping requestObj = null;
+		try {
+			requestObj = mapper.readValue(request, CDSSMapping.class);
+			CDSSMapping data = uptsuService.saveCdssDetails(requestObj);
+			if (null != data && !ObjectUtils.isEmpty(data)) {
+				response.setResponse("Data saved successfully");
+			}
+		} catch (Exception e) {
+			logger.error("error while saving cdss details {} - " + e.getMessage());
+			response.setError(5000, e.getMessage());
+		}
+		return response.toString();
+	}
+	
+	@CrossOrigin
+	@ApiOperation(value = "Fetch Cdss data", produces = "application/json")
+	@RequestMapping(value="/getCdssData/{psmId}", method = RequestMethod.GET)
+	public String getCdssData(@PathVariable Integer psmId, @RequestHeader(value = "Authorization") String authorization) throws Exception {
+		OutputResponse response = new OutputResponse();
+		try {
+			String resp=uptsuService.getCdssData(psmId);
+			response.setResponse(resp);
+		} catch (Exception e) {
+			logger.error("error while getting ,cdss data {} - " + e.getMessage());
+			response.setError(e);
+		}
+		return response.toString();
 	}
 
 }
