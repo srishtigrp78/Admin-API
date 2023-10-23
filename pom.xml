@@ -27,7 +27,7 @@
 		<org.projectlombok.version>1.16.18</org.projectlombok.version>
 		<environment>${ENV_VAR}</environment>
 		<target-properties>target/classes/application.properties</target-properties>
-		<source-properties>/admin_${environment}.properties</source-properties>
+		<source-properties>target/classes/admin_${environment}.properties</source-properties>
 
 		<hostname-dev>10.208.122.32</hostname-dev>
 		<port-dev>9990</port-dev>
