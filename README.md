@@ -17,20 +17,14 @@ Prerequisites
 * Springboot V2
 * MySQL
 
-$ ./mvn clean install
+## Environment and setup
+
+1. Install dependencies `mvn clean install`
+2. You can copy `common_example.properties` to `common_local.properties` and edit the file accordingly. The file is under `src/main/environment` folder.
+3. Run the spring server with local configuration `mvn spring-boot:run -DENV_VAR=local`
 
 ## Installation
 This service has been tested on Wildfly as the application server. To install the admin module, follow these steps:
-
-* Clone the repository to your local machine.
-* Install the dependencies.
-  - npm install
-* Run the development server.
-  - npm start
-
-## Configuration
-The admin module can be configured by editing the config.js file. This file contains all of the settings for the module, such as the database connection string, the user authentication mechanism, and the role hierarchy.
-
 
 ## Usage
 All the features have been exposed as REST endpoints.
