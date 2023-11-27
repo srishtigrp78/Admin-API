@@ -40,8 +40,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.google.gson.Gson;
+import com.iemr.admin.data.uptsu.CDSSMapping;
 import com.iemr.admin.data.uptsu.M_FacilityMapping;
 import com.iemr.admin.data.uptsu.UploadRequest;
+import com.iemr.admin.repository.uptsu.CDSSMappingRepo;
 import com.iemr.admin.repository.uptsu.FacilityRepository;
 import com.iemr.admin.utils.exception.IEMRException;
 
@@ -50,6 +53,9 @@ public class FacilityServiceImpl implements FacilityService {
 
 	@Autowired
 	private FacilityRepository uptsuUploadRepository;
+	
+	@Autowired
+	private CDSSMappingRepo cdssMappingRepo;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
@@ -410,5 +416,23 @@ public class FacilityServiceImpl implements FacilityService {
 			 * else { throw new IEMRException("Error in validating xlsx cell " + cell); }
 			 */
 		return value;
+	}
+	
+	@Override
+	public CDSSMapping saveCdssDetails(CDSSMapping requestObj) {
+		CDSSMapping data = cdssMappingRepo.findByPsmIdAndDeleted(requestObj.getPsmId(), false);
+		if(data != null)
+			data.setDeleted(true);
+		return cdssMappingRepo.save(requestObj);
+	}
+	
+	@Override
+	public String getCdssData(Integer psmId) throws Exception {
+		
+			CDSSMapping cdssData= cdssMappingRepo.findByPsmIdAndDeleted(psmId, false);
+			
+			return new Gson().toJson(cdssData);
+		
+		
 	}
 }
