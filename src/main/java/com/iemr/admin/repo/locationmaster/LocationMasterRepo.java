@@ -71,10 +71,10 @@ public interface LocationMasterRepo extends CrudRepository<StateServiceMapping1,
 	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND deleted=0")
 	ArrayList<StateServiceMapping1> getLocationByStateID(@Param("serviceProviderID")Integer serviceProviderID,@Param("stateID")Integer stateID);
 
-	@Query("SELECT distinct u.stateID, sm.stateName as stateName, u.providerServiceMapID  "
+	@Query("SELECT distinct u.stateID, sm.stateName as stateName, u.providerServiceMapID "
 			+ "FROM StateServiceMapping1 u "
 			+ " JOIN u.stateMaster sm "
-			+ "WHERE u.serviceID=:serviceID and u.serviceProviderID =:serviceProviderID  ")
+			+ "WHERE u.serviceID=:serviceID and u.serviceProviderID =:serviceProviderID")
 	ArrayList<Object[]> getStatesByServiceId(@Param("serviceID") Integer serviceID,@Param ("serviceProviderID") Integer serviceProviderID);
 	
 	

@@ -26,7 +26,6 @@ nbdist/
 #Config
 config.service.ts
 config.json
-*.properties
 
 # Other entries
 /Piramal - Shortcut.lnk
@@ -34,3 +33,6 @@ config.json
 mvnw
 mvnw.cmd
 .mvn/
+
+# Properties
+src/main/environment/admin_local.properties
