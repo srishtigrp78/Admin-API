@@ -40,7 +40,7 @@ public interface RoleMasterRepo extends CrudRepository<StateServiceMapping, Inte
 			  + "rp.statusID"
 			  + " FROM StateServiceMapping rp "
 			  + " JOIN rp.stateMaster sm "
-			  + " WHERE rp.serviceProviderID =:serviceProviderID AND rp.deleted=0 ORDER BY sm.stateName ")
+			  + " WHERE rp.serviceProviderID =:serviceProviderID AND rp.deleted=false ORDER BY sm.stateName ")
 	ArrayList<Object[]> getStateByServiceProviderId(@Param ("serviceProviderID") Integer serviceProviderID);
 		
 	
@@ -49,14 +49,14 @@ public interface RoleMasterRepo extends CrudRepository<StateServiceMapping, Inte
 		 + "rp.statusID"
 		+ " FROM StateServiceMapping rp "
 		+ " JOIN rp.serviceMaster sm "
-		+ " WHERE rp.serviceProviderID =:serviceProviderID AND rp.stateID =:stateID  AND rp.deleted=0")
+		+ " WHERE rp.serviceProviderID =:serviceProviderID AND rp.stateID =:stateID  AND rp.deleted=false")
 		ArrayList<Object[]> getServiceByServiceProviderIdAndStateId(@Param ("serviceProviderID") Integer serviceProviderID, @Param ("stateID") Integer stateID);
 
-		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND u.deleted=0")
+		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND u.deleted=false")
 	   List getAllByMapId(@Param("serviceProviderID") Integer serviceProviderID, @Param("stateID") Integer stateID, @Param("serviceID") Integer serviceID);
       
 		
 		
-		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=null AND u.serviceID=:serviceID AND u.deleted=0")
+		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=null AND u.serviceID=:serviceID AND u.deleted=false")
 		   List getAlByMapId(@Param("serviceProviderID") Integer serviceProviderID, @Param("serviceID") Integer serviceID);
 }

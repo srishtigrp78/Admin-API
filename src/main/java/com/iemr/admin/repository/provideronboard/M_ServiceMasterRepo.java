@@ -31,7 +31,7 @@ import com.iemr.admin.data.provideronboard.M_ServiceMaster;
 
 @Repository
 public interface M_ServiceMasterRepo extends CrudRepository<M_ServiceMaster, Integer> {
-	@Query("SELECT u FROM M_ServiceMaster u where deleted=0") 
+	@Query("SELECT u FROM M_ServiceMaster u where deleted=false") 
 	List<M_ServiceMaster> getAllServiceline();
 
 }

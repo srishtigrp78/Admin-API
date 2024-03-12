@@ -32,7 +32,7 @@ import com.iemr.admin.data.blocking.M_Serviceprovider_Blocking;
 @Repository
 public interface MServiceproviderBlockingRepo extends CrudRepository<M_Serviceprovider_Blocking, Integer>{
    
-	@Query("SELECT u FROM M_Serviceprovider_Blocking u where u.serviceProviderID = :serviceProviderID AND deleted=0" )
+	@Query("SELECT u FROM M_Serviceprovider_Blocking u where u.serviceProviderID = :serviceProviderID AND deleted=false" )
 	M_Serviceprovider_Blocking getProviderDetailsByID(@Param("serviceProviderID") Integer serviceProviderID);
 
 }

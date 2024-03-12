@@ -37,13 +37,13 @@ import jakarta.transaction.Transactional;
 public interface EmployeeMasterRepoo extends CrudRepository<M_User1, Integer>
 {
 
-	@Query("SELECT u FROM M_User1 u WHERE u.userID=:userID  AND deleted=0")
+	@Query("SELECT u FROM M_User1 u WHERE u.userID=:userID  AND deleted=false")
 	M_User1 editEmployee(@Param("userID") Integer userID);
 
-	@Query("SELECT u FROM M_User1 u WHERE u.userName=:userName AND deleted=0 ")
+	@Query("SELECT u FROM M_User1 u WHERE u.userName=:userName AND deleted=false ")
 	M_User1 findEmployeeByName(@Param("userName") String userName);
 
-	@Query("SELECT u FROM M_User1 u WHERE u.userName=:userName OR u.aadhaarNo=:aadhaarNo OR u.pAN=:getpAN OR u.employeeID=:employeeID OR u.healthProfessionalID=:healthProfessionalID AND deleted=0 ")
+	@Query("SELECT u FROM M_User1 u WHERE u.userName=:userName OR u.aadhaarNo=:aadhaarNo OR u.pAN=:getpAN OR u.employeeID=:employeeID OR u.healthProfessionalID=:healthProfessionalID AND deleted=false ")
 	M_User1 checkingEmpDetails(@Param("userName") String userName, @Param("aadhaarNo") String aadhaarNo,
 			@Param("getpAN") String getpAN,@Param("employeeID") String employeeID, @Param("healthProfessionalID") String healthProfessionalID);
 
@@ -63,7 +63,7 @@ public interface EmployeeMasterRepoo extends CrudRepository<M_User1, Integer>
 	@Query(" UPDATE  M_User1 u SET u.statusID=:statusID where u.userName =:userName")
 	int resetpassword(@Param("userName") String userName, @Param("statusID") Integer statusID);
 
-	@Query("Select u From M_User1 u WHERE u.isProviderAdmin=1 ORDER BY u.userName")
+	@Query("Select u From M_User1 u WHERE u.isProviderAdmin=true ORDER BY u.userName")
 	ArrayList<M_User1> getAllProviderAdminData();
 	// ArrayList<M_User1> getAllProviderAdminData();
 

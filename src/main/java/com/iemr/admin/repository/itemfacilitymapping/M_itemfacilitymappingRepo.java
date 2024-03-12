@@ -42,14 +42,14 @@ public interface M_itemfacilitymappingRepo extends CrudRepository<M_itemfacility
              + " imfm.itemCategoryID as itemCategoryID "
              + " FROM M_itemfacilitymapping mi "
              + " JOIN mi.itemMasterforFacilityMapping imfm  "
-             + " WHERE mi.providerServiceMapID =:providerServiceMapID AND mi.facilityID=:facilityID AND mi.deleted=0 AND imfm.deleted=0 ORDER BY imfm.itemName ")
+             + " WHERE mi.providerServiceMapID =:providerServiceMapID AND mi.facilityID=:facilityID AND mi.deleted=false AND imfm.deleted=false ORDER BY imfm.itemName ")
 	ArrayList<Object[]> getItemforSubstore(@Param("providerServiceMapID")Integer providerServiceMapID,@Param("facilityID") Integer facilityID);
 	
 	@Query("SELECT distinct mi.itemID,"
 			  + " imfm.itemName as itemName "
 			  + " FROM M_itemfacilitymapping mi "
 			  + " JOIN mi.itemMasterforFacilityMapping imfm  "
-			  + " WHERE mi.facilityID=:facilityID AND mi.deleted=0 AND imfm.deleted=0 ORDER BY imfm.itemName ")
+			  + " WHERE mi.facilityID=:facilityID AND mi.deleted=false AND imfm.deleted=false ORDER BY imfm.itemName ")
 	ArrayList<Object[]> getItemforStore(@Param("facilityID") Integer facilityID);
 	
 	@Transactional

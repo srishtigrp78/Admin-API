@@ -32,7 +32,7 @@ import com.iemr.admin.data.employeemaster.Showofficedetails1;
 
 @Repository
 public interface Showofficedetails1Repo1 extends CrudRepository<Showofficedetails1, Integer>{
-	@Query("SELECT u FROM Showofficedetails1 u where u.providerServiceMapID = :pssmID AND u.districtID=:districtID AND deleted=0")
+	@Query("SELECT u FROM Showofficedetails1 u where u.providerServiceMapID = :pssmID AND u.districtID=:districtID AND deleted=false")
 	ArrayList<Showofficedetails1> getlocationByMapid(@Param("pssmID") int pssmID,@Param("districtID")Integer districtID);
 
 }

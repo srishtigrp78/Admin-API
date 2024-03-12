@@ -38,13 +38,13 @@ public interface M_ProviderServiceAddMappingRepo extends CrudRepository<M_Provid
 	M_ProviderServiceAddMapping editData(@Param ("pSAddMapID")Integer pSAddMapID);
 	
 	
-	@Query("SELECT u FROM M_ProviderServiceAddMapping u where deleted=0")
+	@Query("SELECT u FROM M_ProviderServiceAddMapping u where deleted=false")
 	ArrayList<M_ProviderServiceAddMapping> getAlldata();
 
 	@Query("SELECT u FROM M_ProviderServiceAddMapping u where u.providerServiceMapID = :pssmID")
 	ArrayList<M_ProviderServiceAddMapping> getlocationByMapid(@Param("pssmID") int pssmID);
 
-	@Query("SELECT u FROM M_ProviderServiceAddMapping u where u.providerServiceMapID = :data AND deleted=0")
+	@Query("SELECT u FROM M_ProviderServiceAddMapping u where u.providerServiceMapID = :data AND deleted=false")
 	ArrayList<M_ProviderServiceAddMapping> getlocationByMapid1(@Param("data")Integer data);
 
 

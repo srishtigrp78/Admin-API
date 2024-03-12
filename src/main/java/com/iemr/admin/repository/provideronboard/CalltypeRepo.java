@@ -35,7 +35,7 @@ import com.iemr.admin.data.provideronboard.M_Calltype;
 @Repository
 public interface CalltypeRepo extends CrudRepository<M_Calltype, Integer>{
 
-	@Query("SELECT u FROM M_Calltype u where deleted=0")
+	@Query("SELECT u FROM M_Calltype u where deleted=false")
 	ArrayList<M_Calltype> getCalltypeData();
    
 	

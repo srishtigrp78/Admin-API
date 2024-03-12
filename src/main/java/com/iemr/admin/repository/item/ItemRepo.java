@@ -51,7 +51,7 @@ public interface ItemRepo extends CrudRepository<ItemMaster, Integer> {
 	Integer discontinueItemMaster(@Param("itemid")Integer id,@Param("flag")Boolean flag);
    
 	
-	@Query("SELECT u FROM ItemMaster u WHERE u.providerServiceMapID=:providerServiceMapID AND u.itemCategoryID=:itemCategoryID AND deleted=0 AND (isEDL=1 OR isEDL=null) ")
+	@Query("SELECT u FROM ItemMaster u WHERE u.providerServiceMapID=:providerServiceMapID AND u.itemCategoryID=:itemCategoryID AND deleted=false AND (isEDL=true OR isEDL=null) ")
 	List<ItemMaster> getItemMasters(@Param("providerServiceMapID")Integer providerServiceMapID,@Param("itemCategoryID") Integer itemCategoryID);
 
 	@Query("select u from ItemMaster u  where u.itemID=:itemid")

@@ -36,7 +36,7 @@ public interface M_ProviderServiceMap1Repo  extends CrudRepository<M_ProviderSer
 
 	
 	
-	@Query("SELECT u FROM M_ProviderServiceMap1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=0")
+	@Query("SELECT u FROM M_ProviderServiceMap1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=false")
 	   List getAllByMapId2(@Param("serviceProviderID") Integer serviceProviderID, @Param("stateID") Integer stateID, @Param("serviceID") Integer serviceID);
 
 	

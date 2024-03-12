@@ -32,7 +32,7 @@ import com.iemr.admin.data.employeemaster.M_Designation;
 @Repository
 public interface M_DesignationRepo extends CrudRepository<M_Designation, Integer> {
    
-	@Query("SELECT u FROM M_Designation u where deleted=0 order by u.designationName")
+	@Query("SELECT u FROM M_Designation u where deleted=false order by u.designationName")
 	ArrayList<M_Designation> getDesinationlist();
 
 }

@@ -33,7 +33,7 @@ import com.iemr.admin.data.employeemaster.M_UserLangMapping;
 
 @Repository
 public interface M_UserLangMappingRepo extends CrudRepository<M_UserLangMapping, Integer>{
-	@Query("SELECT u FROM M_UserLangMapping u WHERE u.userID=:userID AND u.languageID=:languageID AND deleted=0")
+	@Query("SELECT u FROM M_UserLangMapping u WHERE u.userID=:userID AND u.languageID=:languageID AND deleted=false")
 	M_UserLangMapping ulangmapedit(@Param ("userID") Integer userID,@Param ("languageID") Integer languageID);
 
 	

@@ -101,10 +101,10 @@ public interface EmployeeMasterRepo extends CrudRepository<M_UserServiceRoleMapp
 
 	ArrayList<Object[]> getEmployeeDetails1();
 
-	@Query("SELECT u FROM M_UserServiceRoleMapping2 u WHERE u.userID=:userID AND u.roleID=:roleID AND deleted=0")
+	@Query("SELECT u FROM M_UserServiceRoleMapping2 u WHERE u.userID=:userID AND u.roleID=:roleID AND deleted=false")
 	M_UserServiceRoleMapping2 uRoleMedit(@Param("userID") Integer userID, @Param("roleID") Integer roleID);
 
-	@Query("SELECT u FROM M_UserServiceRoleMapping2 u WHERE u.uSRMappingID=:getuSRMappingID AND deleted=0")
+	@Query("SELECT u FROM M_UserServiceRoleMapping2 u WHERE u.uSRMappingID=:getuSRMappingID AND deleted=false")
 	M_UserServiceRoleMapping2 uRoledelte(@Param("getuSRMappingID") Integer getuSRMappingID);
 
 	@Transactional
@@ -115,11 +115,11 @@ public interface EmployeeMasterRepo extends CrudRepository<M_UserServiceRoleMapp
 	void createcitmapping(@Param("getuSRMappingID") Integer getuSRMappingID, @Param("agentID") String agentID,
 			@Param("agentP") String agentP);
 
-	@Query("SELECT em.userID,em.userName FROM M_UserServiceRoleMapping2 u left join u.employeeMaster em WHERE u.providerServiceMapID=:pid AND u.deleted=0 and em.deleted=false and em.designationID=:did group by u.userID")
+	@Query("SELECT em.userID,em.userName FROM M_UserServiceRoleMapping2 u left join u.employeeMaster em WHERE u.providerServiceMapID=:pid AND u.deleted=false and em.deleted=false and em.designationID=:did group by u.userID")
 	List<Object[]> getAllEmpByProviderServiceMapIDAndDesignation(@Param("pid") Integer providerServiceMapID,
 			@Param("did") Integer designationID);
 
-	@Query("SELECT em.userID,em.userName FROM M_UserServiceRoleMapping2 u left join u.employeeMaster em WHERE u.providerServiceMapID=:pid AND u.deleted=0 and em.deleted=false and em.designationID=:did and u.userID not in (:uid) group by u.userID")
+	@Query("SELECT em.userID,em.userName FROM M_UserServiceRoleMapping2 u left join u.employeeMaster em WHERE u.providerServiceMapID=:pid AND u.deleted=false and em.deleted=false and em.designationID=:did and u.userID not in (:uid) group by u.userID")
 	List<Object[]> getAllEmpByProviderServiceMapIDAndDesignationNotInUserID(@Param("pid") Integer providerServiceMapID,
 			@Param("did") Integer designationID, @Param("uid") List<Integer> allids);
 	

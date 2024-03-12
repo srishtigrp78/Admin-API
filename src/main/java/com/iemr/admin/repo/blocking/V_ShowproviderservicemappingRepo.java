@@ -36,28 +36,28 @@ public interface V_ShowproviderservicemappingRepo extends CrudRepository<V_Showp
 
 	
 	
-	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=0", nativeQuery = true)
+	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=false", nativeQuery = true)
 	ArrayList<V_Showproviderservicemapping> getProviderServiceMappingDetails1(@Param("serviceProviderID")Integer serviceProviderID,@Param("stateID") Integer stateID,
 			@Param("serviceID")Integer serviceID);
     
 	
-	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND u.stateID=:stateID AND deleted=0", nativeQuery = true)
+	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND u.stateID=:stateID AND deleted=false", nativeQuery = true)
 	ArrayList<V_Showproviderservicemapping> getProviderStateMappingDetails(@Param("serviceProviderID")Integer serviceProviderID,@Param("stateID") Integer stateID);
 	
     
 	
-	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND deleted=0 "
+	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND deleted=false "
 			+ " GROUP BY u.stateID "
 			+ " ORDER BY u.serviceName", nativeQuery = true)
 	ArrayList<V_Showproviderservicemapping> getProviderStatus(@Param("serviceProviderID")Integer serviceProviderID);
 	
 	
-	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND deleted=0 "
+	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND deleted=false "
 			+ " ORDER BY u.serviceName", nativeQuery = true)
 	ArrayList<V_Showproviderservicemapping> getProviderStatus1(@Param("serviceProviderID")Integer serviceProviderID);
    
 	
-	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND u.serviceID=:serviceID AND deleted=0", nativeQuery = true)
+	@Query(value = "SELECT u FROM V_Showproviderservicemapping u where u.serviceProviderID = :serviceProviderID AND u.serviceID=:serviceID AND deleted=false", nativeQuery = true)
 	ArrayList<V_Showproviderservicemapping> getProviderStatusByProviderAndServiceId(@Param("serviceProviderID")Integer serviceProviderID,
 			@Param("serviceID")Integer serviceID);
 

@@ -31,7 +31,7 @@ import com.iemr.admin.data.employeemaster.M_Title;
 
 @Repository
 public interface M_TitleRepo extends CrudRepository<M_Title, Integer>{
-	@Query("SELECT u FROM M_Title u where deleted=0")
+	@Query("SELECT u FROM M_Title u where deleted=false")
 	ArrayList<M_Title> getAllTitle();
 
 

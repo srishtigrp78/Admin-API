@@ -34,7 +34,7 @@ import com.iemr.admin.data.employeemaster.V_Showuser;
 @Repository
 public interface V_ShowuserRepo extends CrudRepository<V_Showuser, Integer>{
      
-	@Query("SELECT u FROM V_Showuser u WHERE u.isProviderAdmin=1 ORDER By u.userName")
+	@Query("SELECT u FROM V_Showuser u WHERE u.isProviderAdmin=true ORDER By u.userName")
 	ArrayList<V_Showuser> getAdminDetails();
 	
 	@Query("SELECT u FROM V_Showuser u")

@@ -31,7 +31,7 @@ import com.iemr.admin.data.employeemaster.M_Userqualification;
 
 @Repository
 public interface M_QualificationRepo extends CrudRepository<M_Userqualification, Integer>{
-	@Query("SELECT u FROM M_Userqualification u where deleted=0 order by u.name ")
+	@Query("SELECT u FROM M_Userqualification u where deleted=false order by u.name ")
 	ArrayList<M_Userqualification> getAllQualification();
 
 }

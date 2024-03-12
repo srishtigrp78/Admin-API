@@ -33,7 +33,7 @@ import com.iemr.admin.data.locationmaster.Showofficedetails;
 @Repository
 public interface ShowofficedetailsRepo extends CrudRepository<Showofficedetails, Integer>{
 	
-	@Query(value = " SELECT * FROM Showofficedetails u where deleted=0",nativeQuery = true)
+	@Query(value = " SELECT * FROM Showofficedetails u where deleted=false",nativeQuery = true)
 	ArrayList<Showofficedetails> getAlldata();
 	
 	
@@ -44,7 +44,7 @@ public interface ShowofficedetailsRepo extends CrudRepository<Showofficedetails,
 	@Query("SELECT u FROM Showofficedetails u where u.providerServiceMapID = :data ")
 	ArrayList<Showofficedetails> getlocationByMapid1(@Param("data")Integer data);
 
-	@Query("SELECT u FROM Showofficedetails u where u.providerServiceMapID = :i AND deleted=0 ")
+	@Query("SELECT u FROM Showofficedetails u where u.providerServiceMapID = :i AND deleted=false ")
 	ArrayList<Showofficedetails> getOfficeName(@Param("i") Integer i);
 
 	@Query("SELECT u FROM Showofficedetails u where u.providerServiceMapID = :pssmID AND u.districtID=:districtID")

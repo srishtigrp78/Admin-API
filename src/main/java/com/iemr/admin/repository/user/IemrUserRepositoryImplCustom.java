@@ -27,6 +27,6 @@ import org.springframework.stereotype.Repository;
 import com.iemr.admin.data.user.M_User;
 
 @Repository
-public interface IemrUserRepositoryImplCustom extends CrudRepository<M_User, Long> {
+public interface IemrUserRepositoryImplCustom extends CrudRepository<M_User, Integer> {
 
 }

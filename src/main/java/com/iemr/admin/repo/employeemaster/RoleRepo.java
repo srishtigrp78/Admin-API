@@ -33,7 +33,7 @@ import com.iemr.admin.data.employeemaster.M_Role;
 @Repository
 public interface RoleRepo extends CrudRepository<M_Role, Integer>
 {
-	@Query("SELECT u FROM M_Role u where deleted=0 ")
+	@Query("SELECT u FROM M_Role u where deleted=false ")
 	ArrayList<M_Role> getAllRole();
 
 	@Query("SELECT role FROM M_Role role where role.providerServiceMapID = :pssmID")

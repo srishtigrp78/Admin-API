@@ -30,7 +30,7 @@ import com.iemr.admin.data.employeemaster.M_UserDemographics;
 
 @Repository
 public interface M_UserDemographicsRepo extends CrudRepository<M_UserDemographics, Integer>{
-	@Query("SELECT u FROM M_UserDemographics u WHERE u.userID=:userID AND deleted=0")
+	@Query("SELECT u FROM M_UserDemographics u WHERE u.userID=:userID AND deleted=false")
 	M_UserDemographics mdedit(@Param ("userID") Integer userID);
 
 	M_UserDemographics findByUserID(Integer userID);

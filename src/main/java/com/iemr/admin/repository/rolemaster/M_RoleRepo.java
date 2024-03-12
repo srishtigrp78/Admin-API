@@ -48,7 +48,7 @@ public interface M_RoleRepo extends CrudRepository<RoleMaster, Integer> {
 	RoleMaster getRoleByRoleId(@Param("roleID") Integer roleID);
 	
 	
-	@Query("SELECT u FROM M_Role u where u.providerServiceMapID = :pssmID AND deleted=0 order by u.roleName")
+	@Query("SELECT u FROM M_Role u where u.providerServiceMapID = :pssmID AND deleted=false order by u.roleName")
 	ArrayList<RoleMaster> getAllRoleByMapId1(@Param("pssmID") int pssmID);
 
 

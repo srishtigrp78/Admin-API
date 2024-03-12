@@ -30,10 +30,10 @@ import com.iemr.admin.data.provideronboard.M_ProviderServiceMapping;
 
 @Repository
 public interface M_ProviderServiceMappingRepo extends CrudRepository<M_ProviderServiceMapping, Integer> {
-	@Query("SELECT u FROM M_ProviderServiceMapping u where u.providerServiceMapID = :providerServiceMapID AND deleted=0")
+	@Query("SELECT u FROM M_ProviderServiceMapping u where u.providerServiceMapID = :providerServiceMapID AND deleted=false")
 	M_ProviderServiceMapping getPSMID(@Param ("providerServiceMapID") Integer providerServiceMapID);
 	
-	@Query("SELECT u FROM M_ProviderServiceMapping u where u.serviceProviderID = :serviceProviderID AND deleted=0")
+	@Query("SELECT u FROM M_ProviderServiceMapping u where u.serviceProviderID = :serviceProviderID AND deleted=false")
 	M_ProviderServiceMapping getPSMapIDByServiceProviderID(@Param ("serviceProviderID") Integer serviceProviderID);
 
 }

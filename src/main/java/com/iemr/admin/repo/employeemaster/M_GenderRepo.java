@@ -31,7 +31,7 @@ import com.iemr.admin.data.employeemaster.M_Gender;
 
 @Repository
 public interface M_GenderRepo extends CrudRepository<M_Gender, Integer> {
-	@Query("SELECT u FROM M_Gender u where deleted=0")
+	@Query("SELECT u FROM M_Gender u where deleted=false")
 	ArrayList<M_Gender> getAllGender();
 
 }

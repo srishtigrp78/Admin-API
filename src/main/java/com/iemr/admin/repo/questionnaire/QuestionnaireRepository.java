@@ -37,7 +37,7 @@ public interface QuestionnaireRepository extends CrudRepository<Questionnaire, I
 
 	@Query("SELECT DISTINCT q FROM Questionnaire q INNER JOIN q.qvalues v "
 			+ "WHERE q.providerServiceMapID = :providerServiceMapID AND q.deleted is false AND v.deleted is false "
-			+ "ORDER BY QuestionRank")
+			+ "ORDER BY q.questionRank")
 	public ArrayList<Questionnaire> findAllQuestions(@Param("providerServiceMapID") Integer providerServiceMapID);
 
 	@Query(	"SELECT q FROM Questionnaire q  "

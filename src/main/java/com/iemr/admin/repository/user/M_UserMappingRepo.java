@@ -29,7 +29,7 @@ import com.iemr.admin.data.user.M_UserServiceRoleMapping;
 
 @Repository
 public interface M_UserMappingRepo extends CrudRepository<M_UserServiceRoleMapping, Integer> {
-	@Query("SELECT u FROM M_User u WHERE LOWER(u.userID) = LOWER(:userID) AND deleted=0")
+	@Query("SELECT u FROM M_User u WHERE LOWER(CAST(u.userID AS string)) = LOWER(:userID) AND u.Deleted = false")
 	public M_UserServiceRoleMapping findByID(long userID);
 
 }

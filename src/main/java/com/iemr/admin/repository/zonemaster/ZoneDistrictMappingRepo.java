@@ -75,7 +75,7 @@ public interface ZoneDistrictMappingRepo extends CrudRepository<M_ZoneDistrictMa
 	List<Objects[]> editZoneDistrictMapping1(@Param("zoneID") Integer zoneID);
 
 	
-	@Query("Select u from M_ZoneDistrictMap u where u.zoneID=:zoneID AND u.deleted=0")
+	@Query("Select u from M_ZoneDistrictMap u where u.zoneID=:zoneID AND u.deleted=false")
 	List getRecord(@Param("zoneID") Integer zoneID);
 	
 	M_ZoneDistrictMap findByZoneDistrictMapID(Integer zoneDistrictMapID);

@@ -40,7 +40,7 @@ public interface LocationMasterRepo extends CrudRepository<StateServiceMapping1,
 			  + " rp.providerServiceMapID"
 			  + " FROM StateServiceMapping1 rp "
 			  + " JOIN rp.stateMaster sm "
-			  + " WHERE rp.serviceProviderID =:serviceProviderID AND rp.deleted=0 ORDER BY sm.stateName")
+			  + " WHERE rp.serviceProviderID =:serviceProviderID AND rp.deleted=false ORDER BY sm.stateName")
 	ArrayList<Object[]> getStateByServiceProviderId(@Param("serviceProviderID") Integer serviceProviderID);
 	
 	
@@ -48,25 +48,25 @@ public interface LocationMasterRepo extends CrudRepository<StateServiceMapping1,
 			+ " sm.serviceName as serviceName"
 			+ " FROM StateServiceMapping1 rp "
 			+ " JOIN rp.serviceMaster sm "
-			+ " WHERE rp.serviceProviderID =:serviceProviderID AND rp.stateID =:stateID AND rp.deleted=0")
+			+ " WHERE rp.serviceProviderID =:serviceProviderID AND rp.stateID =:stateID AND rp.deleted=false")
 
 	ArrayList<Object[]> getServiceByServiceProviderIdAndStateId(@Param ("serviceProviderID") Integer serviceProviderID, @Param ("stateID") Integer stateID);
 
-	@Query("SELECT u.providerServiceMapID FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=0 ")
+	@Query("SELECT u.providerServiceMapID FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=false ")
 	StateServiceMapping1 getProviderServiceMapID(@Param("serviceProviderID") Integer serviceProviderID, @Param("stateID") Integer stateID, @Param("serviceID") Integer serviceID);
 
 
 	
-	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=0 ")
+	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND deleted=false ")
 	   List getAllByMapId2(@Param("serviceProviderID") Integer serviceProviderID, @Param("stateID") Integer stateID, @Param("serviceID") Integer serviceID);
 
     
 	
-	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.serviceID=:serviceID AND deleted=0 ")
+	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.serviceID=:serviceID AND deleted=false ")
 	ArrayList<StateServiceMapping1> getLocationByServiceID(@Param("serviceProviderID")Integer serviceProviderID,@Param("serviceID") Integer serviceID);
 
      
-	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND deleted=0")
+	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND deleted=false")
 	ArrayList<StateServiceMapping1> getLocationByStateID(@Param("serviceProviderID")Integer serviceProviderID,@Param("stateID")Integer stateID);
 
 	@Query("SELECT distinct u.stateID, sm.stateName as stateName, u.providerServiceMapID "
@@ -76,7 +76,7 @@ public interface LocationMasterRepo extends CrudRepository<StateServiceMapping1,
 	ArrayList<Object[]> getStatesByServiceId(@Param("serviceID") Integer serviceID,@Param ("serviceProviderID") Integer serviceProviderID);
 	
 	
-	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=null AND u.serviceID=:serviceID AND deleted=0 ")
+	@Query("SELECT u FROM StateServiceMapping1 u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=null AND u.serviceID=:serviceID AND deleted=false ")
 	   List getAllByMapId3(@Param("serviceProviderID") Integer serviceProviderID, @Param("serviceID") Integer serviceID);
 
 	

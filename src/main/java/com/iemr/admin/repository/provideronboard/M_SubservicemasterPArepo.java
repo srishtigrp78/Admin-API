@@ -34,7 +34,7 @@ import com.iemr.admin.data.provideronboard.M_SubservicemasterPA;
 public interface M_SubservicemasterPArepo  extends CrudRepository<M_SubservicemasterPA, Integer>{
    
 	
-	@Query("SELECT u FROM M_SubservicemasterPA u where u.serviceID = :serviceID AND deleted=0")
+	@Query("SELECT u FROM M_SubservicemasterPA u where u.serviceID = :serviceID AND deleted=false")
 	//ArrayList<M_Subservice> getServiceNameByProviderMapId(@Param ("providerServiceMapID") Integer providerServiceMapID);
 	ArrayList<M_SubservicemasterPA> getServiceNameByServiceID(@Param ("serviceID") Integer serviceID);
 

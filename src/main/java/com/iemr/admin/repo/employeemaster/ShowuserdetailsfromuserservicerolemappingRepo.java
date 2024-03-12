@@ -34,17 +34,17 @@ import com.iemr.admin.data.employeemaster.Showuserdetailsfromuserservicerolemapp
 @Repository
 public interface ShowuserdetailsfromuserservicerolemappingRepo extends CrudRepository<Showuserdetailsfromuserservicerolemapping, Integer> {
 
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails2(@Param ("serviceProviderID") Integer serviceProviderID,
 			@Param ("pSMStateID")Integer pSMStateID);
 	
 	
 	
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.roleID=:roleID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.roleID=:roleID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails3(@Param ("serviceProviderID")Integer serviceProviderID, @Param ("roleID") Integer roleID);
 
 
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.serviceID=:serviceID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.serviceID=:serviceID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails4(@Param ("serviceProviderID")Integer serviceProviderID, @Param ("serviceID") Integer serviceID);
 
 
@@ -55,7 +55,7 @@ public interface ShowuserdetailsfromuserservicerolemappingRepo extends CrudRepos
 	//ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails5(Integer serviceProviderID, String userName);
 
 
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.userID=:userID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.userID=:userID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails6(@Param ("serviceProviderID")Integer serviceProviderID, @Param ("userID") Integer userID);
 	//ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails6(Integer serviceProviderID, Integer userID);
 
@@ -63,19 +63,19 @@ public interface ShowuserdetailsfromuserservicerolemappingRepo extends CrudRepos
      
 	
 	
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND u.workingDistrictID=:workingDistrictID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND u.workingDistrictID=:workingDistrictID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails7(@Param ("serviceProviderID") Integer serviceProviderID,
 			@Param ("pSMStateID") Integer pSMStateID,@Param ("workingDistrictID") Integer workingDistrictID );
 	//ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails8(Integer serviceProviderID, Integer pSMStateID,
 			//Integer workingDistrictID);
 
 
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND u.workingDistrictID=:workingDistrictID AND u.workingLocationID=:workingLocationID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND u.workingDistrictID=:workingDistrictID AND u.workingLocationID=:workingLocationID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails8(@Param ("serviceProviderID") Integer serviceProviderID,
 			@Param ("pSMStateID") Integer pSMStateID,@Param ("workingDistrictID") Integer workingDistrictID,@Param ("workingLocationID") Integer workingLocationID );
 
 
-	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND u.roleID=:roleID AND deleted=0")
+	@Query("SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID AND u.roleID=:roleID AND userDeleted=false")
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails9(@Param("serviceProviderID") Integer serviceProviderID,@Param("pSMStateID") Integer pSMStateID,
 			@Param("roleID") Integer roleID);
 	
@@ -97,7 +97,7 @@ public interface ShowuserdetailsfromuserservicerolemappingRepo extends CrudRepos
 	ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails11(@Param ("serviceProviderID")Integer serviceProviderID,
 			@Param ("pSMStateID") Integer pSMStateID, @Param ("roleID") Integer roleID,@Param ("serviceID") Integer serviceID,@Param("userName") String userName,@Param ("userID") Integer userID);*/
 	
-	@Query(" SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID OR u.pSMStateID=:pSMStateID  AND  u.roleID=:roleID  OR u.roleID=:roleID AND u.serviceID=:serviceID OR u.serviceID=:serviceID AND u.userName=:userName OR u.userName=:userName AND u.userID=:userID OR u.userID=:userID AND deleted=0")
+	@Query(" SELECT u FROM Showuserdetailsfromuserservicerolemapping u WHERE u.serviceProviderID=:serviceProviderID AND u.pSMStateID=:pSMStateID OR u.pSMStateID=:pSMStateID  AND  u.roleID=:roleID  OR u.roleID=:roleID AND u.serviceID=:serviceID OR u.serviceID=:serviceID AND u.userName=:userName OR u.userName=:userName AND u.userID=:userID OR u.userID=:userID AND userDeleted=false")
 	 ArrayList<Showuserdetailsfromuserservicerolemapping> EmployeeDetails10(@Param ("serviceProviderID")Integer serviceProviderID,
 			@Param ("pSMStateID") Integer pSMStateID, @Param ("roleID") Integer roleID,@Param ("serviceID") Integer serviceID,@Param("userName") String userName,@Param ("userID") Integer userID);
 	

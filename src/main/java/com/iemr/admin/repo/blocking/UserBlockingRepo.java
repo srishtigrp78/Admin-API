@@ -34,7 +34,7 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface UserBlockingRepo extends CrudRepository<UserForBlocking, Integer>{
-	@Query("SELECT u FROM UserForBlocking u where u.userID = :userID AND deleted=0")
+	@Query("SELECT u FROM UserForBlocking u where u.userID = :userID AND deleted=false")
 	UserForBlocking getUserDetailByUserId(@Param("userID")Integer userID);
 
 	

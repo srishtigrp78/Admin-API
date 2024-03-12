@@ -58,7 +58,7 @@ public interface ComponentMasterRepo extends CrudRepository<ComponentMaster, Int
 //			+ " FROM ComponentMaster cm WHERE cm.providerServiceMapID = :psmID AND cm.deleted=0")
 	
 	@Query(value = "SELECT cm.TestComponentID, cm.TestComponentName, cm.TestComponentDesc,cm.InputType,cm.Loinc_Num,cm.loinc_Component " + 
-			" FROM db_iemr.m_testcomponent cm  WHERE cm.providerServiceMapID = :psmID AND cm.deleted=0 ", nativeQuery = true)
+			" FROM db_iemr.m_testcomponent cm  WHERE cm.providerServiceMapID = :psmID AND cm.deleted=false ", nativeQuery = true)
 
 	public ArrayList<Object[]> getComponentDetailsDelFalse(@Param("psmID") Integer psmID);
 

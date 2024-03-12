@@ -49,22 +49,27 @@ public interface M_UserservicerolemappingForRoleProviderAdminRepo
 	 * serviceProviderID, Integer serviceID);
 	 */
 
-	@Query("SELECT sm.serviceName as serviceName," + " ssm.serviceID," + " sm.isNational as isNational,"
-			+ " ssm.statusID" + " FROM M_UserservicerolemappingForRoleProviderAdmin usr "
-			+ " JOIN usr.stateServiceMapping ssm " + " JOIN ssm.serviceMaster sm "
-			+ " WHERE usr.userID =:userID AND ssm.statusID=2 AND usr.deleted=0" + "GROUP BY sm.serviceName")
+	@Query("SELECT sm.serviceName as serviceName," +
+	        " ssm.serviceID," +
+	        " sm.isNational as isNational," +
+	        " ssm.statusID" +
+	        " FROM M_UserservicerolemappingForRoleProviderAdmin usr" +
+	        " JOIN usr.stateServiceMapping ssm" +
+	        " JOIN ssm.serviceMaster sm" +
+	        " WHERE usr.userID = :userID AND ssm.statusID = 2 AND usr.deleted = false" +
+	        " GROUP BY sm.serviceName")
 	ArrayList<Object[]> getServiceByServiceProviderIds(@Param("userID") Integer serviceProviderID);
 
 	@Query("SELECT distinct ssm.stateID," + " sm.stateName, " + " ssm.providerServiceMapID," + " ssm.statusID"
 			+ " FROM M_UserservicerolemappingForRoleProviderAdmin usr" + " JOIN usr.stateServiceMapping ssm "
 			+ " JOIN ssm.stateMaster sm "
-			+ " WHERE usr.userID =:userID AND ssm.serviceID=:serviceID AND ssm.statusID=2 AND usr.deleted=0 and ssm.deleted=false ORDER BY sm.stateName ")
+			+ " WHERE usr.userID =:userID AND ssm.serviceID=:serviceID AND ssm.statusID=2 AND usr.deleted=false and ssm.deleted=false ORDER BY sm.stateName ")
 	ArrayList<Object[]> getStateByServiceProviderIdAndServiceLines(@Param("userID") Integer userID,
 			@Param("serviceID") Integer serviceID);
 
 	@Query("SELECT  usr.providerServiceMapID" + " FROM M_UserservicerolemappingForRoleProviderAdmin usr"
 			+ " JOIN usr.stateServiceMapping ssm "
-			+ " WHERE usr.userID =:userID AND ssm.serviceID=:serviceID AND usr.deleted=0 ")
+			+ " WHERE usr.userID =:userID AND ssm.serviceID=:serviceID AND usr.deleted=false ")
 	ArrayList<Object[]> getStateByServiceProviderIdAndServiceLines1(@Param("userID") Integer userID,
 			@Param("serviceID") Integer serviceID);
 

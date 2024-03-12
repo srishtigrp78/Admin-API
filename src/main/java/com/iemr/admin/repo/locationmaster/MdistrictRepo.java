@@ -32,7 +32,7 @@ import com.iemr.admin.data.locationmaster.M_District;
 
 @Repository
 public interface MdistrictRepo  extends CrudRepository<M_District, Integer>{
-	@Query("SELECT u FROM M_District u WHERE u.stateID=:stateID AND deleted=0")
+	@Query("SELECT u FROM M_District u WHERE u.stateID=:stateID AND deleted=false")
 	ArrayList<M_District> getAllDistrictByStateId(@Param("stateID") Integer stateID);
 
 }

@@ -35,14 +35,14 @@ import com.iemr.admin.data.provideronboard.M_Subcategory;
 public interface SubCategoryRepo extends CrudRepository<M_Subcategory, Integer>{
      
 	
-	@Query("SELECT u FROM M_Subcategory u where deleted=0")
+	@Query("SELECT u FROM M_Subcategory u where deleted=false")
 	ArrayList<M_Subcategory> getCategory();
      
 	
 	@Query("SELECT u FROM M_Subcategory u where u.subCategoryID =:subCategoryID")
 	M_Subcategory getSubCategory(@Param("subCategoryID")Integer subCategoryID);
 
-	@Query("SELECT u FROM M_Subcategory u where u.categoryID=:categoryID AND deleted=0")
+	@Query("SELECT u FROM M_Subcategory u where u.categoryID=:categoryID AND deleted=false")
 	ArrayList<M_Subcategory> getCategory(@Param("categoryID")Integer categoryID);
 
 }

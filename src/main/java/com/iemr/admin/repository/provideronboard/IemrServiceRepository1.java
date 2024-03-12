@@ -39,10 +39,10 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface IemrServiceRepository1 extends CrudRepository<ServiceProvider_Model, Integer> {
-	@Query("Select b from ServiceProvider_Model b where deleted=0")
+	@Query("Select b from ServiceProvider_Model b where deleted=false")
 	List<ServiceProvider_Model> getAlldata(Pageable pageable);
 
-	@Query("SELECT u FROM ServiceProvider_Model u WHERE LOWER(u.serviceProviderId) = LOWER(:res) AND deleted=0")
+	@Query("SELECT u FROM ServiceProvider_Model u WHERE LOWER(CAST(u.serviceProviderId AS string)) = LOWER(:res) AND u.deleted = false")
 	ServiceProvider_Model getDataById(@Param("res") int res);
 	// M_User1 findByUserID(@Param("UserID") Long UserID);
 
