@@ -50,7 +50,7 @@ public class VillageMasterServiceImpl implements VillageMasterService{
 		
 		ArrayList<DistrictBranchMapping> villageList = new ArrayList<DistrictBranchMapping>();		
 		
-		List<Objects[]>  allData=villageMasterRepository.getAvailableVillages(blockID);
+		List<Object[]>  allData=villageMasterRepository.getAvailableVillages(blockID);
 		
 		for (Object[] objects : allData) {
 		

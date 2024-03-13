@@ -52,7 +52,7 @@ public interface ServicePointVillageMapRepository extends CrudRepository<M_Servi
 			+ " where (st.stateID IS NULL or cast(st.stateID as string) like :stateID) AND (d.districtID IS NULL or cast(d.districtID as string) like :districtID)"
 			+ " AND (s.parkingPlaceID IS NULL or cast(s.parkingPlaceID as string) like :parkingPlaceID) AND "
 			+ " (s.servicePointID IS NULL or cast(s.servicePointID as string) like :servicePointID) AND p.serviceProviderID =:serviceProviderID")
-	List<Objects[]> getAvailableServicePointVillageMaps(@Param("stateID")String stateID, @Param("districtID")String districtID, 
+	List<Object[]> getAvailableServicePointVillageMaps(@Param("stateID")String stateID, @Param("districtID")String districtID, 
 			@Param("parkingPlaceID")String parkingPlaceID, @Param("servicePointID")String servicePointID,
 			@Param("serviceProviderID")Integer serviceProviderID);
 	

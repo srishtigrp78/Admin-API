@@ -53,7 +53,7 @@ public interface ServicePointRepository extends CrudRepository<M_Servicepoint, I
 			+ " AND (sp.districtID IS NULL or cast(sp.districtID as string) like :districtID) "
 			+ " AND (sp.parkingPlaceID IS NULL or cast(sp.parkingPlaceID as string) like :parkingPlaceID)"
 			+ " AND p.serviceProviderID =:serviceProviderID order by sp.servicePointName ")
-	List<Objects[]> getAvailableServicePoints(@Param("stateID")String stateID, @Param("districtID")String districtID, 
+	List<Object[]> getAvailableServicePoints(@Param("stateID")String stateID, @Param("districtID")String districtID, 
 			@Param("parkingPlaceID")String parkingPlaceID, @Param("serviceProviderID")Integer serviceProviderID);
 
 	@Transactional

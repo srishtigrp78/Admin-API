@@ -57,7 +57,7 @@ public interface UserParkingPlaceMapRepository extends CrudRepository<M_UserPark
 			+ " AND (upmap.parkingPlaceID IS NULL or cast(upmap.parkingPlaceID as char) like :parkingPlaceID)"
 			+ " AND psm.serviceProviderID =:serviceProviderID"
 			+ " AND (usr.designationID IS NULL or cast(usr.designationID as char) like :designationID) group by usr.UserID", nativeQuery =true)
-	List<Objects[]> getUserParkingPlaceMappings(@Param("serviceProviderID")Integer serviceProviderID, @Param("stateID")String stateID, @Param("districtID")String districtID, 
+	List<Object[]> getUserParkingPlaceMappings(@Param("serviceProviderID")Integer serviceProviderID, @Param("stateID")String stateID, @Param("districtID")String districtID, 
 			@Param("parkingPlaceID")String parkingPlaceID, @Param("designationID")String designationID);
 
 	
@@ -92,7 +92,7 @@ public interface UserParkingPlaceMapRepository extends CrudRepository<M_UserPark
 			+ " LEFT JOIN m_uppm.m_district d"
 			+ " LEFT JOIN usr.m_designation desg"
 			+ " where m_uppm.providerServiceMapID=:providerServiceMapID  AND pp.parkingPlaceID=:parkingPlaceID AND usr.designationID=:designationID")
-	List<Objects[]> getUserParkingPlaceMappings1(@Param("providerServiceMapID")Integer providerServiceMapID,@Param("parkingPlaceID")Integer parkingPlaceID,@Param("designationID")Integer designationID);
+	List<Object[]> getUserParkingPlaceMappings1(@Param("providerServiceMapID")Integer providerServiceMapID,@Param("parkingPlaceID")Integer parkingPlaceID,@Param("designationID")Integer designationID);
 
 @Query("select upp.userID from M_UserParkingPlaceMap upp left join upp.m_user u where u.designationID=:desgination and upp.providerServiceMapID=:providerServiceMapID and upp.deleted=false")
 	List<Integer> getmappedids(@Param("providerServiceMapID")Integer providerServiceMapID, @Param("desgination")Integer designationID);

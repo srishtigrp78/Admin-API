@@ -55,7 +55,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 
 		ArrayList<M_Parkingplace> parkingPlaceList = new ArrayList<M_Parkingplace>();
 
-		List<Objects[]> allData = parkingPlaceRepository.getAvailableParkingPlaces(stateId, districtId,
+		List<Object[]> allData = parkingPlaceRepository.getAvailableParkingPlaces(stateId, districtId,
 				serviceProviderID);
 
 		for (Object[] objects : allData) {
@@ -105,7 +105,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 
 		ArrayList<M_Parkingplace> subdistrict = new ArrayList<M_Parkingplace>();
 
-		List<Objects[]> allData = parkingPlaceRepository.getSubDistrict(parkingPlaceID);
+		List<Object[]> allData = parkingPlaceRepository.getSubDistrict(parkingPlaceID);
 
 		for (Object[] objects : allData) {
 
@@ -119,7 +119,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 	public ArrayList<M_Parkingplace> getAvailableParkingPlacesbyZoneID(Integer zoneID, Integer providerServiceMapID) {
 		// TODO Auto-generated method stub
 		ArrayList<M_Parkingplace> parkingPlaceList = new ArrayList<M_Parkingplace>();
-		List<Objects[]> allData = parkingPlaceRepository.getAvailableParkingPlacesbyzoneid(zoneID,
+		List<Object[]> allData = parkingPlaceRepository.getAvailableParkingPlacesbyzoneid(zoneID,
 				providerServiceMapID);
 
 		for (Object[] objects : allData) {

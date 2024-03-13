@@ -56,7 +56,7 @@ public class ZoneMasterServiceImpl implements ZoneMasterService{
 
 		ArrayList<M_Zone> zoneList = new ArrayList<M_Zone>();		
 		
-		List<Objects[]>  allData=zoneMasterRepo.getAvailableZones(providerServiceMapID);
+		List<Object[]>  allData=zoneMasterRepo.getAvailableZones(providerServiceMapID);
 		
 		for (Object[] objects : allData) {
 
@@ -79,7 +79,7 @@ public class ZoneMasterServiceImpl implements ZoneMasterService{
 		
 		ArrayList<M_ZoneDistrictMap> zoneList = new ArrayList<M_ZoneDistrictMap>();		
 		
-		List<Objects[]>  allData=zoneDistrictMappingRepo.getAvailableZoneDistrictMappings(providerServiceMapID);
+		List<Object[]>  allData=zoneDistrictMappingRepo.getAvailableZoneDistrictMappings(providerServiceMapID);
 		
 		for (Object[] objects : allData) {
 			
@@ -92,7 +92,7 @@ public class ZoneMasterServiceImpl implements ZoneMasterService{
 	@Override
 	public int updateZoneStatus(M_Zone m_zone) {
 		int response = zoneMasterRepo.updateZoneStatus(m_zone.getZoneID(), m_zone.getDeleted(), m_zone.getModifiedBy());
-		List<Objects[]>  allData=zoneDistrictMappingRepo.getAvailableZoneDistrictMappingss(m_zone.getZoneID().toString());
+		List<Object[]>  allData=zoneDistrictMappingRepo.getAvailableZoneDistrictMappingss(m_zone.getZoneID().toString());
 		for (Object[] objects : allData) {
 			
 			M_ZoneDistrictMap m_zoneDistrictMap = new M_ZoneDistrictMap((Integer)objects[0], (Integer)objects[1], (String)objects[2], (Integer)objects[3], (Integer)objects[4], (Boolean)objects[5], (Integer)objects[6], 
@@ -140,7 +140,7 @@ public class ZoneMasterServiceImpl implements ZoneMasterService{
 		
         ArrayList<M_ZoneDistrictMap> zoneList = new ArrayList<M_ZoneDistrictMap>();		
 		
-		List<Objects[]>  allData=zoneDistrictMappingRepo.editZoneDistrictMapping1(zoneID);
+		List<Object[]>  allData=zoneDistrictMappingRepo.editZoneDistrictMapping1(zoneID);
 		
 		for (Object[] objects : allData) {
 			

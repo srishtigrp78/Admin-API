@@ -74,7 +74,7 @@ public class ServicePointServiceImpl implements servicePointService {
 		ArrayList<M_Servicepoint> servicePointList = new ArrayList<M_Servicepoint>();	
 		
 		
-		List<Objects[]>  allData=servicePointRepository.getAvailableServicePoints(stateId, districtId, parkingPlaceId, serviceProviderID);
+		List<Object[]>  allData=servicePointRepository.getAvailableServicePoints(stateId, districtId, parkingPlaceId, serviceProviderID);
 		
 		for (Object[] objects : allData) {
 
@@ -126,7 +126,7 @@ public class ServicePointServiceImpl implements servicePointService {
 		
 		ArrayList<M_Servicepointvillagemap> servicepointvillagemapList = new ArrayList<M_Servicepointvillagemap>();		
 		
-		List<Objects[]>  allData=servicePointVillageMapRepository.getAvailableServicePointVillageMaps(stateId, districtId, parkingPlaceId, servicePointId, serviceProviderID);
+		List<Object[]>  allData=servicePointVillageMapRepository.getAvailableServicePointVillageMaps(stateId, districtId, parkingPlaceId, servicePointId, serviceProviderID);
 		
 		for (Object[] objects : allData) {
 			

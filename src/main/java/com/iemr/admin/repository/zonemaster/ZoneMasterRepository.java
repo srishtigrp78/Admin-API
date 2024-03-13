@@ -53,7 +53,7 @@ public interface ZoneMasterRepository extends CrudRepository<M_Zone, Integer>{
 			+ " LEFT JOIN m.m_providerServiceMapping p"
 			+ " LEFT JOIN p.m_serviceMaster sm "
 			+ " where p.providerServiceMapID =:providerServiceMapID ORDER By m.zoneName ")
-	List<Objects[]> getAvailableZones(@Param("providerServiceMapID")Integer providerServiceMapID);
+	List<Object[]> getAvailableZones(@Param("providerServiceMapID")Integer providerServiceMapID);
 
 	@Transactional
 	@Modifying

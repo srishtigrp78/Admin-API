@@ -44,7 +44,7 @@ public interface ParkingPlaceRepository extends CrudRepository<M_Parkingplace, I
 			+ " LEFT JOIN pp.m_providerServiceMapping p " + " LEFT JOIN p.m_serviceMaster sm "
 			+ " where (pp.stateID IS NULL or cast(pp.stateID as string) like :stateID) AND (pp.districtID IS NULL or cast(pp.districtID as string) like :districtID)"
 			+ " AND p.serviceProviderID =:serviceProviderID")
-	List<Objects[]> getAvailableParkingPlaces(@Param("stateID") String stateID, @Param("districtID") String districtID,
+	List<Object[]> getAvailableParkingPlaces(@Param("stateID") String stateID, @Param("districtID") String districtID,
 			@Param("serviceProviderID") Integer serviceProviderID);
 
 	@Transactional
@@ -70,10 +70,10 @@ public interface ParkingPlaceRepository extends CrudRepository<M_Parkingplace, I
 
 	@Query("SELECT pp.parkingPlaceID, b.blockID, b.blockName " + " FROM M_Parkingplace pp "
 			+ " LEFT JOIN pp.districtBlock b" + " where pp.parkingPlaceID=:parkingPlaceID ORDER By b.blockName")
-	List<Objects[]> getSubDistrict(@Param("parkingPlaceID") Integer parkingPlaceID);
+	List<Object[]> getSubDistrict(@Param("parkingPlaceID") Integer parkingPlaceID);
 
 	@Query("SELECT pp,c " + " FROM M_Parkingplace pp " + " LEFT JOIN pp.zone c" + " where (pp.zoneID=:zoneID)"
 			+ " AND pp.providerServiceMapID =:serviceProviderID order by pp.parkingPlaceName")
-	List<Objects[]> getAvailableParkingPlacesbyzoneid(@Param("zoneID") Integer zoneID,
+	List<Object[]> getAvailableParkingPlacesbyzoneid(@Param("zoneID") Integer zoneID,
 			@Param("serviceProviderID") Integer serviceProviderID);
 }

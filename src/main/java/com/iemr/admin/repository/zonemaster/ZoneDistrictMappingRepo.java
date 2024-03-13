@@ -47,7 +47,7 @@ public interface ZoneDistrictMappingRepo extends CrudRepository<M_ZoneDistrictMa
 			+ " LEFT JOIN p.m_serviceMaster sm "
 			+ " LEFT JOIN m.m_district d "
 			+ " where (m.zoneID IS NULL or cast(m.zoneID as string) like %:zoneID%)")
-	List<Objects[]> getAvailableZoneDistrictMappingss(@Param("zoneID")String zoneID);
+	List<Object[]> getAvailableZoneDistrictMappingss(@Param("zoneID")String zoneID);
 	
 	@Query("SELECT m.zoneDistrictMapID, m.zoneID, z.zoneName, m.districtID, m.providerServiceMapID, m.deleted, p.stateID, s.stateName, d.districtName,"
 			+ " sm.serviceID, sm.serviceName,"
@@ -59,7 +59,7 @@ public interface ZoneDistrictMappingRepo extends CrudRepository<M_ZoneDistrictMa
 			+ " LEFT JOIN p.m_serviceMaster sm "
 			+ " LEFT JOIN m.m_district d "
 			+ " where p.providerServiceMapID =:providerServiceMapID  ORDER By z.zoneName ")
-	List<Objects[]> getAvailableZoneDistrictMappings(@Param("providerServiceMapID")Integer providerServiceMapID);
+	List<Object[]> getAvailableZoneDistrictMappings(@Param("providerServiceMapID")Integer providerServiceMapID);
 	
 	
 	@Transactional
@@ -72,7 +72,7 @@ public interface ZoneDistrictMappingRepo extends CrudRepository<M_ZoneDistrictMa
 			+ " FROM M_ZoneDistrictMap m "
 			+ " LEFT JOIN m.m_district d "
 			+ " where m.zoneID=:zoneID ORDER By d.districtName")
-	List<Objects[]> editZoneDistrictMapping1(@Param("zoneID") Integer zoneID);
+	List<Object[]> editZoneDistrictMapping1(@Param("zoneID") Integer zoneID);
 
 	
 	@Query("Select u from M_ZoneDistrictMap u where u.zoneID=:zoneID AND u.deleted=false")

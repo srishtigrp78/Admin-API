@@ -73,7 +73,7 @@ public interface VanMasterRepository extends CrudRepository<M_Van, Integer>{
 			+ " where (v.parkingPlaceID IS NULL or cast(v.parkingPlaceID as string) like :parkingPlaceID)"
 			+ " AND (v.vanTypeID IS NULL or cast(v.vanTypeID as string) like :vanTypeID) "
 			+ " AND p.providerServiceMapID =:providerServiceMapID")
-	List<Objects[]> getAvailableVans(@Param("parkingPlaceID")String parkingPlaceID, @Param("vanTypeID")String vanTypeID,@Param("providerServiceMapID") Integer providerServiceMapID);
+	List<Object[]> getAvailableVans(@Param("parkingPlaceID")String parkingPlaceID, @Param("vanTypeID")String vanTypeID,@Param("providerServiceMapID") Integer providerServiceMapID);
 
 	/***
 	 * 

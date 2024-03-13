@@ -43,14 +43,14 @@ public interface DrugGroupRepo extends CrudRepository<M_104druggroup, Integer>{
 			+ " FROM M_104druggroup g "
 			+ "where  (g.drugGroupID IS NULL or cast(g.drugGroupID as string) like %:drugGroupID%)"
 			+ " AND (g.serviceProviderID IS NULL or cast(g.serviceProviderID as string) like %:serviceProviderID%)")
-	List<Objects[]> getAllDrugGroups(@Param("drugGroupID")String drugGroupID, @Param("serviceProviderID") String serviceProviderID);
+	List<Object[]> getAllDrugGroups(@Param("drugGroupID")String drugGroupID, @Param("serviceProviderID") String serviceProviderID);
     
 	
 	@Query("SELECT g.drugGroupID,g.drugGroup,g.drugGroupDesc,g.deleted,g.serviceProviderID "
 			+ " FROM M_104druggroup g "
 			+ " where  g.deleted = false"
 			+ " AND (g.serviceProviderID IS NULL or cast(g.serviceProviderID as string) like %:serviceProviderID%)")
-	List<Objects[]> getValidDrugGroups(@Param("serviceProviderID") String serviceProviderID);
+	List<Object[]> getValidDrugGroups(@Param("serviceProviderID") String serviceProviderID);
 	
 	@Transactional
 	@Modifying

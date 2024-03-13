@@ -39,7 +39,7 @@ public interface VanTypeRepository extends CrudRepository<M_VanType, Integer>{
 	
 	@Query("SELECT v.vanTypeID, v.vanType, v.vanTypeDesc, v.deleted " 
 			+ "from M_VanType v  where v.deleted = false")
-	List<Objects[]> getVanTypes();
+	List<Object[]> getVanTypes();
 	
 	@Transactional
 	@Modifying

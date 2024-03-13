@@ -42,7 +42,7 @@ public interface VillageMasterRepository extends CrudRepository<DistrictBranchMa
 			+ " FROM DistrictBranchMapping d "
 			+ " INNER JOIN d.districtBlock b"
 			+ " where d.blockID=:blockID ORDER By d.villageName ")
-	List<Objects[]> getAvailableVillages(@Param("blockID") Integer blockID);
+	List<Object[]> getAvailableVillages(@Param("blockID") Integer blockID);
 	
 	@Transactional
 	@Modifying

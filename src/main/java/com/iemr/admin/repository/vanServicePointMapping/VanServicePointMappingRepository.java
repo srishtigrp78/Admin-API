@@ -49,7 +49,7 @@ public interface VanServicePointMappingRepository extends CrudRepository<M_VanSe
 	 + " where s.parkingPlaceID = :parkingPlaceID "
 	 + " AND s.providerServiceMapID = :providerServiceMapID"
 	 + " GROUP BY s.servicePointName" ,nativeQuery = true )
-	 List<Objects[]>
+	 List<Object[]>
 	 getAvailableVanServicePointMappings( @Param("parkingPlaceID")Integer parkingPlaceID, @Param("vanID")Integer
 	 vanID, @Param("providerServiceMapID")Integer providerServiceMapID);
 
@@ -63,7 +63,7 @@ public interface VanServicePointMappingRepository extends CrudRepository<M_VanSe
 			 + " and s.deleted = false "
 			 + " AND s.providerServiceMapID = :providerServiceMapID"
 			 + " GROUP BY s.servicePointID" ,nativeQuery = true )
-			 List<Objects[]>
+			 List<Object[]>
 			 getAvailableVanServicePointMappingsV1( @Param("parkingPlaceID")Integer parkingPlaceID, @Param("vanID")Integer
 			 vanID, @Param("providerServiceMapID")Integer providerServiceMapID);
 	/*

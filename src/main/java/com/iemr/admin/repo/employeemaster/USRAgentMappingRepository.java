@@ -45,7 +45,7 @@ public interface USRAgentMappingRepository extends CrudRepository<USRAgentMappin
 			+ "where usra.cti_CampaignName = :cti_CampaignName "
 			+ "and usra.providerServiceMapID = :providerServiceMapID and usra.deleted = false "
 			+ "and usra.isAvailable = true")
-	Set<Objects[]> getFreeAgentIds(@Param("cti_CampaignName") String cti_CampaignName,
+	Set<Object[]> getFreeAgentIds(@Param("cti_CampaignName") String cti_CampaignName,
 			@Param("providerServiceMapID") Integer providerServiceMapID);
 
 	@Transactional
@@ -77,7 +77,7 @@ public interface USRAgentMappingRepository extends CrudRepository<USRAgentMappin
 			+ "usra.cti_CampaignName, usra.isAvailable "
 			+ "from USRAgentMapping usra left join usra.usrMapping join usra.providerServiceMap "
 			+ "where usra.providerServiceMapID = :providerServiceMapID and usra.deleted = false order by CAST(usra.agentID as int)")
-	Set<Objects[]> getAllAgentIds(@Param("providerServiceMapID") Integer providerServiceMapID);
+	Set<Object[]> getAllAgentIds(@Param("providerServiceMapID") Integer providerServiceMapID);
 
 	@Query(value = "select usra.usrAgentMappingID, usra.usrMappingID, usra.usrMapping, "
 			+ "usra.providerServiceMapID, usra.providerServiceMap, usra.agentID, usra.agentPassword, "
@@ -85,7 +85,7 @@ public interface USRAgentMappingRepository extends CrudRepository<USRAgentMappin
 			+ "from USRAgentMapping usra left join usra.usrMapping join usra.providerServiceMap "
 			+ "where usra.cti_CampaignName = :cti_CampaignName "
 			+ "and usra.providerServiceMapID = :providerServiceMapID order by CAST(usra.agentID as int)")
-	Set<Objects[]> getAllAgentId(@Param("providerServiceMapID") Integer providerServiceMapID,
+	Set<Object[]> getAllAgentId(@Param("providerServiceMapID") Integer providerServiceMapID,
 			@Param("cti_CampaignName") String cti_CampaignName);
 
 	@Query(value = "select usra.usrAgentMappingID, usra.usrMappingID, usra.usrMapping, "
@@ -95,7 +95,7 @@ public interface USRAgentMappingRepository extends CrudRepository<USRAgentMappin
 			+ "where usra.cti_CampaignName = :cti_CampaignName "
 			+ "and usra.providerServiceMapID = :providerServiceMapID and usra.deleted = false "
 			+ "and usra.isAvailable = :isAvailable order by CAST(usra.agentID as int)")
-	Set<Objects[]> getAllAgentIds(@Param("providerServiceMapID") Integer providerServiceMapID,
+	Set<Object[]> getAllAgentIds(@Param("providerServiceMapID") Integer providerServiceMapID,
 			@Param("cti_CampaignName") String cti_CampaignName, @Param("isAvailable") Boolean isAvailable);
 	
 	@Query(value = "select usra.usrAgentMappingID, usra.usrMappingID, usra.usrMapping, "
@@ -103,7 +103,7 @@ public interface USRAgentMappingRepository extends CrudRepository<USRAgentMappin
 			+ "usra.cti_CampaignName, usra.isAvailable "
 			+ "from USRAgentMapping usra left join usra.usrMapping join usra.providerServiceMap "
 			+ "where usra.providerServiceMapID = :providerServiceMapID and usra.agentID = :agentID order by CAST(usra.agentID as int)")
-	Set<Objects[]> getUSRAgentMappingByAgentIDAndProviderServiceMapID(@Param("agentID")String agentID, @Param("providerServiceMapID")Integer providerServiceMapID);
+	Set<Object[]> getUSRAgentMappingByAgentIDAndProviderServiceMapID(@Param("agentID")String agentID, @Param("providerServiceMapID")Integer providerServiceMapID);
 
 	@Transactional
 	@Modifying

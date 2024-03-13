@@ -94,7 +94,7 @@ public class UserParkingPlaceMapServiceImpl implements UserParkingPlaceMapServic
 
 		ArrayList<M_UserParkingPlaceMap> userParkingPlaces = new ArrayList<M_UserParkingPlaceMap>();
 
-		List<Objects[]> allData = userParkingPlaceMapRepository.getUserParkingPlaceMappings(serviceProviderID, stateId,
+		List<Object[]> allData = userParkingPlaceMapRepository.getUserParkingPlaceMappings(serviceProviderID, stateId,
 				districtId, parkingPlaceId, designationId);
 
 		for (Object[] objects : allData) {
@@ -131,7 +131,7 @@ public class UserParkingPlaceMapServiceImpl implements UserParkingPlaceMapServic
 
 		ArrayList<M_UserParkingPlaceMap> userParkingPlaces = new ArrayList<M_UserParkingPlaceMap>();
 
-		List<Objects[]> allData = userParkingPlaceMapRepository.getUserParkingPlaceMappings1(providerServiceMapID,
+		List<Object[]> allData = userParkingPlaceMapRepository.getUserParkingPlaceMappings1(providerServiceMapID,
 				parkingPlaceID, designationID);
 
 		for (Object[] objects : allData) {

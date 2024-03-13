@@ -62,7 +62,7 @@ public class USRAgentMappingServiceImpl implements USRAgentMappingService
 		USRAgentMapping requestObj = inputMapper.gson().fromJson(request, USRAgentMapping.class);
 		logger.debug("getAvailableAgentIds request is " + request);
 		List<USRAgentMapping> results = new ArrayList<USRAgentMapping>();
-		Set<Objects[]> resultSet = usrAgentMappingRepository.getFreeAgentIds(requestObj.getCti_CampaignName(),
+		Set<Object[]> resultSet = usrAgentMappingRepository.getFreeAgentIds(requestObj.getCti_CampaignName(),
 				requestObj.getProviderServiceMapID());
 		for (Object[] result : resultSet)
 		{
@@ -136,7 +136,7 @@ public class USRAgentMappingServiceImpl implements USRAgentMappingService
 		USRAgentMapping requestObj = inputMapper.gson().fromJson(request, USRAgentMapping.class);
 		logger.debug("getAvailableAgentIds request is " + request);
 		List<USRAgentMapping> results = new ArrayList<USRAgentMapping>();
-		Set<Objects[]> resultSet = new HashSet<Objects[]>();
+		Set<Object[]> resultSet = new HashSet<Object[]>();
 		if (requestObj.getAgentID()!=null) {
 			resultSet = usrAgentMappingRepository.getUSRAgentMappingByAgentIDAndProviderServiceMapID(requestObj.getAgentID(), requestObj.getProviderServiceMapID());
 		} else {

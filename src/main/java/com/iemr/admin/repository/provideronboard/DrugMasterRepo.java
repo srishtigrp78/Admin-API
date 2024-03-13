@@ -50,14 +50,14 @@ public interface DrugMasterRepo extends CrudRepository<M_104drugmaster, Integer>
 			+ " FROM M_104drugmaster m "
 			+ "where  (m.drugID IS NULL or cast(m.drugID as string) like %:drugID%)"
 			+ " AND (m.serviceProviderID IS NULL or cast(m.serviceProviderID as string) like %:serviceProviderID%)")
-	List<Objects[]> getAllDrugData(@Param("drugID")String drugID, @Param("serviceProviderID")String serviceProviderID);
+	List<Object[]> getAllDrugData(@Param("drugID")String drugID, @Param("serviceProviderID")String serviceProviderID);
     
 	
 	@Query("SELECT m.drugID, m.drugName, m.drugDesc, m.remarks, m.deleted, m.serviceProviderID "
 			+ " FROM M_104drugmaster m "
 			+ "where  m.deleted = false"
 			+ " AND (m.serviceProviderID IS NULL or cast(m.serviceProviderID as string) like %:serviceProviderID%)")
-	List<Objects[]> getValidDrugData(@Param("serviceProviderID")String serviceProviderID);
+	List<Object[]> getValidDrugData(@Param("serviceProviderID")String serviceProviderID);
 	
 	
 	@Query("SELECT u FROM M_104drugmaster u where u.drugID =:drugID")

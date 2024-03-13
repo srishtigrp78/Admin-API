@@ -79,7 +79,7 @@ public class DrugMasterImpl implements DrugMasterInter{
 		
 		//List<Objects[]>  allData=drugMasterRepo.getAllDrugData(DrugId,serviceProviderId);
 		
-		List<Objects[]>  allData;
+		List<Object[]>  allData;
 		
 		if(deleted!=null && !deleted){
 			allData=drugMasterRepo.getValidDrugData(serviceProviderId);
@@ -148,7 +148,7 @@ public class DrugMasterImpl implements DrugMasterInter{
 		
 		//List<Objects[]> allData=drugGroupRepo.getAllDrugGroups(DrugGroupId,serviceProviderId);
 		
-		List<Objects[]>  allData;
+		List<Object[]>  allData;
 		
 		if(deleted!=null && !deleted){
 			allData=drugGroupRepo.getValidDrugGroups(serviceProviderId);
@@ -194,7 +194,7 @@ public class DrugMasterImpl implements DrugMasterInter{
 		
 		ArrayList<M_104drugmapping> drugMappingsList = new ArrayList<M_104drugmapping>();		
 		
-		List<Objects[]> allData=drugMappingRepo.getAllDrugGroupMappings(drugMapId,serviceProviderID,serviceID);
+		List<Object[]> allData=drugMappingRepo.getAllDrugGroupMappings(drugMapId,serviceProviderID,serviceID);
 		
 		for (Object[] objects : allData) {
 	

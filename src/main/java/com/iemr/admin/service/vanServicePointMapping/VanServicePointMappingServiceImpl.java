@@ -67,7 +67,7 @@ public class VanServicePointMappingServiceImpl implements VanServicePointMapping
 
 		ArrayList<M_VanServicePointMap> vansList = new ArrayList<M_VanServicePointMap>();
 
-		List<Objects[]> allData = vanServicePointMappingRepository.getAvailableVanServicePointMappings(parkingPlaceID,
+		List<Object[]> allData = vanServicePointMappingRepository.getAvailableVanServicePointMappings(parkingPlaceID,
 				vanID, providerServiceMapID);
 
 		for (Object[] objects : allData) {
@@ -109,7 +109,7 @@ public class VanServicePointMappingServiceImpl implements VanServicePointMapping
 
 		ArrayList<M_VanServicePointMap> vansList = new ArrayList<M_VanServicePointMap>();
 
-		List<Objects[]> allData = vanServicePointMappingRepository.getAvailableVanServicePointMappingsV1(parkingPlaceID,
+		List<Object[]> allData = vanServicePointMappingRepository.getAvailableVanServicePointMappingsV1(parkingPlaceID,
 				vanID, providerServiceMapID);
 
 		for (Object[] objects : allData) {

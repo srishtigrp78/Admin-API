@@ -102,7 +102,7 @@ public class VanMasterServiceImpl implements VanMasterService{
 		
 		ArrayList<M_Van> vansList = new ArrayList<M_Van>();		
 		
-		List<Objects[]>  allData=vanMasterRepository.getAvailableVans( parkingPlaceId, vanTypeId, providerServiceMapID);
+		List<Object[]>  allData=vanMasterRepository.getAvailableVans( parkingPlaceId, vanTypeId, providerServiceMapID);
 		
 		for (Object[] objects : allData) {
 
@@ -123,7 +123,7 @@ public class VanMasterServiceImpl implements VanMasterService{
 	public ArrayList<M_VanType> getVanTypes() {
 		
 	
-		List<Objects[]>  allData=vanTypeRepository.getVanTypes();
+		List<Object[]>  allData=vanTypeRepository.getVanTypes();
 		
 		ArrayList<M_VanType> vanTypes = new ArrayList<M_VanType>();		
 		for (Object[] objects : allData) {
