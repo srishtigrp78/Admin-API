@@ -21,6 +21,7 @@
 */
 package com.iemr.admin.service.rolemaster;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iemr.admin.data.rolemaster.RoleMaster;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iemr.admin.data.rolemaster.M_Role104;
 import com.iemr.admin.data.rolemaster.M_Screen;
 import com.iemr.admin.data.rolemaster.M_UserservicerolemappingForRoleProviderAdmin;
@@ -161,13 +163,20 @@ public class Role_Master_ServiceImpl implements Role_MasterInter
 	}
 
 	@Override
-	public ArrayList<RoleMaster> getProStateServRolesV1(int pssmID)
-	{
+	public ArrayList<RoleMaster> getProStateServRolesV1(int pssmID) {
+		ArrayList<RoleMaster> list = new ArrayList<>();
+		ObjectMapper objectMapper = new ObjectMapper();
 		logger.info(" get all roles for service provider with map id " + pssmID);
-		ArrayList<RoleMaster> stateServiceMappings = mRoleRepo.getAllRoleByMapId1(pssmID);
+		ArrayList<Object[]> stateServiceMappings = mRoleRepo.getAllRoleByMapId1(pssmID);
+		if (null != stateServiceMappings) {
+			for (Object[] objects : stateServiceMappings) {
+				RoleMaster convertValue = objectMapper.convertValue(objects[0], RoleMaster.class);
+				list.add(convertValue);
+			}
+		}
 		logger.debug(" get all roles for service provider with map id " + stateServiceMappings);
 		logger.info(" sending " + stateServiceMappings.size() + " roles for service provider with map id " + pssmID);
-		return stateServiceMappings;
+		return list;
 	}
 
 	@Override
@@ -229,12 +238,17 @@ public class Role_Master_ServiceImpl implements Role_MasterInter
 	}
 
 	@Override
-	public ArrayList<RoleMaster> getProStateServRoles1(int pssmID)
-	{
-
-		ArrayList<RoleMaster> resList = mRoleRepo.getAllRoleByMapId1(pssmID);
-
-		return resList;
+	public ArrayList<RoleMaster> getProStateServRoles1(int pssmID) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		ArrayList<RoleMaster> list = new ArrayList<>();
+		ArrayList<Object[]> resList = mRoleRepo.getAllRoleByMapId1(pssmID);
+		if (null != resList) {
+			for (Object[] objects : resList) {
+				RoleMaster convertValue = objectMapper.convertValue(objects[0], RoleMaster.class);
+				list.add(convertValue);
+			}
+		}
+		return list;
 	}
 
 	@Override
