@@ -40,7 +40,7 @@ public class M_Severity {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "SeverityID")
 	private Integer severityID;

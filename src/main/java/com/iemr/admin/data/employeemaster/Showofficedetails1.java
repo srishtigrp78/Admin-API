@@ -39,7 +39,7 @@ import jakarta.persistence.Transient;
 public class Showofficedetails1 {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="PSAddMapID")
 	private Integer pSAddMapID;

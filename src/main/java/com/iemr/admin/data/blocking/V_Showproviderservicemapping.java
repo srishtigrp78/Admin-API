@@ -39,7 +39,7 @@ import jakarta.persistence.Transient;
 public class V_Showproviderservicemapping {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="ProviderServiceMapID")
 	private Integer providerServiceMapID;

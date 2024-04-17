@@ -41,7 +41,7 @@ import lombok.Data;
 public class EmployeeSignature {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "UserSignatureID")
 	private Long userSignatureID;

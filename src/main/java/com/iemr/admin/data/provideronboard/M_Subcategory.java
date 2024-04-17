@@ -38,7 +38,7 @@ import jakarta.persistence.Transient;
 @Table(name="m_subcategory")
 public class M_Subcategory {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "SubCategoryID")
 	private Integer subCategoryID;

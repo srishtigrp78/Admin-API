@@ -48,7 +48,7 @@ public class M_UserVanMapping {
 	
 	@Expose
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "UserVanMapID")
 	private Integer userVanMapID;
 

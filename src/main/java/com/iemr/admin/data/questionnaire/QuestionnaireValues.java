@@ -46,7 +46,7 @@ public class QuestionnaireValues {
 	}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="QuestionValuesID")
 	private Integer questionValuesID;

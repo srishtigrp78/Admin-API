@@ -47,7 +47,7 @@ import lombok.Data;
 public class ParkingplaceTalukMapping {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "PPSubDistrictMapID")
 	private Integer ppSubDistrictMapID;

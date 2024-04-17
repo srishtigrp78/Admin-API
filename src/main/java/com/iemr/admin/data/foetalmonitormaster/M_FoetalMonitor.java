@@ -38,7 +38,7 @@ import jakarta.persistence.Table;
 public class M_FoetalMonitor {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "fetosensetestid")
 	private Integer foetalMonitorTestID;

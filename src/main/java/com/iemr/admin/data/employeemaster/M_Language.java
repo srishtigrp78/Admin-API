@@ -40,7 +40,7 @@ import jakarta.persistence.Transient;
 public class M_Language {
 	
 	   @Id
-	   @GeneratedValue(strategy = GenerationType.AUTO)
+	   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	   @Expose
 	   @Column(name="LanguageID")
 	   private Integer languageID; 

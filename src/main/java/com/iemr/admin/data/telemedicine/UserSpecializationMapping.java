@@ -43,7 +43,7 @@ import lombok.Data;
 @Data
 public class UserSpecializationMapping {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "UserSpecializationMapID")
 	private Integer userSpecializationMapID;

@@ -40,7 +40,7 @@ import lombok.Data;
 @Table(name="v_userservicerolemapping")
 public class V_Userservicerolemapping {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="uSRMappingID")
 	private Integer uSRMappingID;

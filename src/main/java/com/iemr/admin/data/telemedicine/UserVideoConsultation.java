@@ -44,7 +44,7 @@ import lombok.Data;
 public class UserVideoConsultation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "UserSwymedMapID")
 	private Long userVideoConsultationMapID;

@@ -46,7 +46,7 @@ import lombok.Data;
 @Table(name="m_vanservicepointmap")
 public class M_VanServicePointMap {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="VanServicePointMapID")
 	private Integer vanServicePointMapID;

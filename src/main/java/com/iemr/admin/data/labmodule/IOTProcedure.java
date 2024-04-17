@@ -40,7 +40,7 @@ import lombok.Data;
 public class IOTProcedure {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "IOTProcedureID")
 	private Integer iotProcedureID;

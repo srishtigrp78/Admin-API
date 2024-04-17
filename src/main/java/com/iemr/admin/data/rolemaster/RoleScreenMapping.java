@@ -41,7 +41,7 @@ import jakarta.persistence.Transient;
 @Table(name = "m_servicerolescreenmapping")
 public class RoleScreenMapping {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "SRSMappingID")
 	private Integer sRSMappingID;

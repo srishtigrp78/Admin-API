@@ -42,7 +42,7 @@ import lombok.Data;
 public class T_PatientIssue {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="PatientIssueID")
 	private Integer patientIssueID;

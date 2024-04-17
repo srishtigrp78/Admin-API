@@ -43,7 +43,7 @@ import lombok.Data;
 @Table(name="m_category")
 public class M_Category {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "CategoryID")
 	private Integer categoryID;

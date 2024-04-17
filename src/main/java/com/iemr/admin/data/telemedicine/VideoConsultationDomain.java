@@ -40,7 +40,7 @@ import lombok.Data;
 @Data
 public class VideoConsultationDomain {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="SwymedDomainID")
 	private Integer videoConsultationDomainID;

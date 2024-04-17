@@ -38,7 +38,7 @@ import jakarta.persistence.Transient;
 @Table(name="m_ServiceMaster")
 public class ServiceMaster {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="ServiceID")
 	private Integer serviceID;

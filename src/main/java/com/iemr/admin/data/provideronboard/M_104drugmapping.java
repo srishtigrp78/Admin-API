@@ -43,7 +43,7 @@ import jakarta.persistence.Transient;
 public class M_104drugmapping {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "DrugMapID")
 	private Integer drugMapID;

@@ -40,7 +40,7 @@ import jakarta.persistence.Transient;
 public class M_Serviceprovider_Blocking {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="ServiceProviderID")
 	private Integer serviceProviderID;

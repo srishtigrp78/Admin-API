@@ -43,7 +43,7 @@ import lombok.Data;
 public class m_VanSpokeMapping {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="VanspokeID")
 	private Integer VanspokeID;

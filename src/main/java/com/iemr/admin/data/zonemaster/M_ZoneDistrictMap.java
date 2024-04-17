@@ -46,7 +46,7 @@ import jakarta.persistence.Transient;
 public class M_ZoneDistrictMap {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="ZoneDistrictMapID")
 	private Integer zoneDistrictMapID;

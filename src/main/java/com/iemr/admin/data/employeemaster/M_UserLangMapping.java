@@ -43,7 +43,7 @@ public class M_UserLangMapping {
 	 
 	
 	   @Id
-	   @GeneratedValue(strategy = GenerationType.AUTO)
+	   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	   @Expose
 	   @Column(name="UserLangID")
 	   private Integer userLangID;

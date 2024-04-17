@@ -38,7 +38,7 @@ import jakarta.persistence.Transient;
 @Table(name="m_instituteroutedirectory")
 public class M_Instituteroutedirectory {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "InstituteRouteDirectoryID")
 	private Integer instituteRouteDirectoryID;

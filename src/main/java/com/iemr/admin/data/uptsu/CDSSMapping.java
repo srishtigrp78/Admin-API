@@ -18,7 +18,7 @@ import lombok.Data;
 public class CDSSMapping {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "ID")
 	private Long id;

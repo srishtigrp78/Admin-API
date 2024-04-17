@@ -39,7 +39,7 @@ import jakarta.persistence.Transient;
 @Table(name="m_feedbacktype")
 public class M_Feedbacktype {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "FeedbackTypeID")
 	private Integer feedbackTypeID;

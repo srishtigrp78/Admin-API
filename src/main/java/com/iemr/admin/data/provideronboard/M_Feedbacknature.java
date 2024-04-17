@@ -42,7 +42,7 @@ public class M_Feedbacknature {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "FeedbackNatureID")
 	private Integer feedbackNatureID;

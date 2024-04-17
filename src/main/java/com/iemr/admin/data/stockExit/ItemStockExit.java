@@ -41,7 +41,7 @@ import lombok.Data;
 public class ItemStockExit {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="ItemStockExitID")
 	private Integer itemStockExitID;

@@ -40,7 +40,7 @@ import lombok.Data;
 @Data
 public class OptionalVaccinations {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "OptionalVaccinationID")
 	@Expose
 	private Short masterID;

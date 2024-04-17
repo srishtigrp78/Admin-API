@@ -37,7 +37,7 @@ import jakarta.persistence.Transient;
 @Table(name="m_ServiceProvider")
 public class ServiceProvider {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private int ServiceProviderId; 
 	 private String ServiceProviderName;
 	 private Date JoiningDate;

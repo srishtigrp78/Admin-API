@@ -36,7 +36,7 @@ import jakarta.persistence.Table;
 public class Calibration {
 	
 		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		@Expose
 		@Column(name="calibrationID")
 		private Long calibrationID;

@@ -45,7 +45,7 @@ import lombok.Data;
 public class M_UserServiceRoleMapping2 {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "USRMappingID")
 	private Integer uSRMappingID;

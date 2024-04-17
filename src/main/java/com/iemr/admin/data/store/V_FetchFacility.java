@@ -42,7 +42,7 @@ public class V_FetchFacility {
 
 	@Id
 	@Expose
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FacilityID")
 	private Integer facilityID;
 

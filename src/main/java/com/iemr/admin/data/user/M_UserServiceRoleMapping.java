@@ -38,7 +38,7 @@ import jakarta.persistence.Transient;
 public class M_UserServiceRoleMapping {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer USRMappingID;
 	private Integer UserID;
 	private Integer RoleID;

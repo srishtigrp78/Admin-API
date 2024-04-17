@@ -40,7 +40,7 @@ import jakarta.persistence.Transient;
 public class M_Gender {
 	
 	@Id
-	   @GeneratedValue(strategy = GenerationType.AUTO)
+	   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	   @Expose
 	   @Column(name="GenderID")
 	   private Integer genderID;

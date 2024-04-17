@@ -40,7 +40,7 @@ public class T_Userdetail {
 	
 	
 	@Id
-	   @GeneratedValue(strategy = GenerationType.AUTO)
+	   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="UserDetailID")
 	private Integer userDetailID;

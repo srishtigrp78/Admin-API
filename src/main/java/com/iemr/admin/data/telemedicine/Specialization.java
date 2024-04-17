@@ -40,7 +40,7 @@ import lombok.Data;
 @Data
 public class Specialization {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="SpecializationID")
 	private Integer specializationID;

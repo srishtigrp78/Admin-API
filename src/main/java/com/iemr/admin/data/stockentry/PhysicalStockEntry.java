@@ -42,7 +42,7 @@ import lombok.Data;
 @Data
 public class PhysicalStockEntry {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="PhyEntryID")
 	private Integer phyEntryID;

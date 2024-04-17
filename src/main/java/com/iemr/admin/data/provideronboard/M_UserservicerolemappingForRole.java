@@ -40,7 +40,7 @@ public class M_UserservicerolemappingForRole {
 	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name = "USRMappingID")
 	private Integer uSRMappingID;

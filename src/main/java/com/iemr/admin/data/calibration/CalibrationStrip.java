@@ -37,7 +37,7 @@ import jakarta.persistence.Transient;
 @Table(name="m_calibrationstrips")
 public class CalibrationStrip {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Expose
 	@Column(name="calibrationStripID")
 	private Long calibrationStripID;
