@@ -76,7 +76,7 @@ public interface EmployeeMasterRepoo extends CrudRepository<M_User1, Integer>
 			+ " From M_USRRoleMapping USR "
 			+ " LEFT JOIN M_User1 us"
 			+ " Where USR.ProviderServiceMapID=:providerServiceMapID AND us.",nativeQuery=true)*/
-	@Query("SELECT u FROM M_User1 u WHERE u.designationID=:designationID AND u.serviceProviderID=:serviceProviderID AND u.isProviderAdmin=NULL")
+	@Query("SELECT u FROM M_User1 u WHERE u.designationID=:designationID AND u.serviceProviderID=:serviceProviderID AND u.isProviderAdmin is null")
 	ArrayList<M_User1> getempByDesiganation(@Param("designationID") Integer designationID,@Param("serviceProviderID") Integer serviceProviderID);
 	
 	M_User1 findByUserID(Integer userID);

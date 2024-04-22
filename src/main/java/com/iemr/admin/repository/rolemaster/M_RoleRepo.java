@@ -44,7 +44,7 @@ public interface M_RoleRepo extends CrudRepository<RoleMaster, Integer> {
 	ArrayList<Object[]> getAllRoleByMapId(@Param("pssmID") int pssmID);
 	*/
 	
-	@Query("SELECT u FROM M_Role u where u.roleID = :roleID")
+	@Query(value = "SELECT * FROM m_role  where RoleID = :roleID",nativeQuery = true)
 	RoleMaster getRoleByRoleId(@Param("roleID") Integer roleID);
 	
 	
