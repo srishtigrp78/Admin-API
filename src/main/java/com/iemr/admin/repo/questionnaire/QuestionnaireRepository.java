@@ -36,31 +36,31 @@ import com.iemr.admin.data.questionnaire.Questionnaire;
 public interface QuestionnaireRepository extends CrudRepository<Questionnaire, Integer> {
 
 	@Query("SELECT DISTINCT q FROM Questionnaire q INNER JOIN q.qvalues v "
-			+ "WHERE q.providerServiceMapID = :providerServiceMapID AND q.deleted is false AND v.deleted is false "
+			+ "WHERE q.providerServiceMapID = :providerServiceMapID AND q.deleted = false AND v.deleted = false "
 			+ "ORDER BY q.questionRank")
 	public ArrayList<Questionnaire> findAllQuestions(@Param("providerServiceMapID") Integer providerServiceMapID);
 
 	@Query(	"SELECT q FROM Questionnaire q  "
-		    + "WHERE q.providerServiceMapID = :providerServiceMapID AND q.deleted is false AND q.answerType = 'Free Text' "
+		    + "WHERE q.providerServiceMapID = :providerServiceMapID AND q.deleted = false AND q.answerType = 'Free Text' "
 		    + "ORDER BY q.questionRank")
 	public ArrayList<Questionnaire> findAllQuestionsFreeText(@Param("providerServiceMapID") Integer providerServiceMapID);
 	
 	@Query("SELECT COUNT(questionRank) FROM Questionnaire WHERE providerServiceMapID = :providerServiceMapID AND "
-			+ "questionRank = :questionRank AND deleted is false")
+			+ "questionRank = :questionRank AND deleted = false")
 	public int findQuestionWithRank(@Param("providerServiceMapID") Integer providerServiceMapID, 
 			@Param("questionRank") Integer questionRank);
 	
 	@Transactional
 	@Modifying
 	@Query("UPDATE Questionnaire set questionRank = questionRank+1 "
-			+ "WHERE questionRank >= :questionRank AND providerServiceMapID = :providerServiceMapID AND deleted is false")
+			+ "WHERE questionRank >= :questionRank AND providerServiceMapID = :providerServiceMapID AND deleted = false")
 	public int updateRankToNext(@Param("providerServiceMapID") Integer providerServiceMapID ,
 			@Param("questionRank") Integer questionRank);
 
 	@Transactional
 	@Modifying
 	@Query("UPDATE Questionnaire set questionRank = questionRank-1 "
-			+ "WHERE questionRank > :questionRank AND providerServiceMapID = :providerServiceMapID AND deleted is false")
+			+ "WHERE questionRank > :questionRank AND providerServiceMapID = :providerServiceMapID AND deleted = false")
 	public int updateRankToPrevious(@Param("providerServiceMapID") Integer providerServiceMapID ,
 			@Param("questionRank") Integer questionRank);
 	
