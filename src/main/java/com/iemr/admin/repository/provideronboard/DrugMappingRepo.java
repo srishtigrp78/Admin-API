@@ -45,7 +45,7 @@ public interface DrugMappingRepo extends CrudRepository<M_104drugmapping, Intege
 			+ " LEFT JOIN g.m_providerServiceMapping p "
 			+ " LEFT JOIN p.state s "
 			+ " LEFT JOIN g.m_104druggroup mdg "
-			+ " where (g.drugMapID IS NULL or cast(g.drugMapID as string) like %:drugMapId%)"
+			+ " where (g.drugMapID = null or cast(g.drugMapID as string) like %:drugMapId%)"
 			+ " AND p.serviceProviderID=:serviceProviderID AND p.serviceID=:serviceID")
 	List<Object[]> getAllDrugGroupMappings(@Param("drugMapId")String drugMapId, @Param("serviceProviderID")Integer serviceProviderID,
 			@Param("serviceID")Integer serviceID );

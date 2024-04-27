@@ -49,7 +49,22 @@ public class TMServiceImpl implements TMInter {
 	@Override
 	public ArrayList<M_UserTemp> getUser(TMinput tminput) {
 		// TODO Auto-generated method stub
-		return userRepo.getUserTM(tminput.getServiceproviderID(), tminput.getScreenName());
+		ArrayList<M_UserTemp> list = new ArrayList<>();
+		ArrayList<Object[]> userTM = userRepo.getUserTM(tminput.getServiceproviderID(), tminput.getScreenName());
+		for (Object[] object : userTM) {
+			M_UserTemp mUserTemp = new M_UserTemp();
+			mUserTemp.setUserID(Long.valueOf(((Integer) object[0]).longValue()));
+			mUserTemp.setFirstName(object[2].toString());
+			mUserTemp.setLastName(object[4].toString());
+			mUserTemp.setUserName(object[14].toString());
+			mUserTemp.setEmailID(object[22].toString());
+			mUserTemp.setDesignationID((int)object[12]);
+			mUserTemp.setServiceProviderID(((Short) object[24]).intValue());
+			mUserTemp.setDeleted((boolean)object[32]);
+			mUserTemp.setDesignation(null);
+			list.add(mUserTemp);
+		}
+		return list;//userRepo.getUserTM(tminput.getServiceproviderID(), tminput.getScreenName());
 	}
 
 	@Override
