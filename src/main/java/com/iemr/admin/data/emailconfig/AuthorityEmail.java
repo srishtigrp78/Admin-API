@@ -93,8 +93,8 @@ public class AuthorityEmail
 	@JoinColumn(name = "providerServiceMapID", insertable = false, updatable = false)
 	@OneToOne(fetch = FetchType.EAGER)
 	private M_ProviderServiceMap1 providerService;
-	@Column(name = "mobileno", insertable = true, updatable = true)
-	private String mobileNo;
+	//@Column(name = "mobileno", insertable = true, updatable = true)
+	//private String mobileNo;
 	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted;
 	@Column(name = "Processed", insertable = false, updatable = false)

@@ -101,8 +101,10 @@ public class M_UserLangMapping {
 	   
 	   
 	   
-	   @OneToOne(mappedBy="m_UserLangMapping")
-		private M_UserServiceRoleMapping2 m_UserServiceRoleMapping;
+		/*
+		 * @OneToOne(mappedBy="m_UserLangMapping") private M_UserServiceRoleMapping2
+		 * m_UserServiceRoleMapping;
+		 */
 	   
 	   @OneToOne(fetch = FetchType.LAZY)
 	   @JoinColumn(name = "userID", insertable = false, updatable = false)
@@ -279,15 +281,15 @@ public class M_UserLangMapping {
 	}
 
 
-	public M_UserServiceRoleMapping2 getM_UserServiceRoleMapping() {
-		return m_UserServiceRoleMapping;
-	}
-
-
-	public void setM_UserServiceRoleMapping(M_UserServiceRoleMapping2 m_UserServiceRoleMapping) {
-		this.m_UserServiceRoleMapping = m_UserServiceRoleMapping;
-	}
-
+	/*
+	 * public M_UserServiceRoleMapping2 getM_UserServiceRoleMapping() { return
+	 * m_UserServiceRoleMapping; }
+	 * 
+	 * 
+	 * public void setM_UserServiceRoleMapping(M_UserServiceRoleMapping2
+	 * m_UserServiceRoleMapping) { this.m_UserServiceRoleMapping =
+	 * m_UserServiceRoleMapping; }
+	 */
 
 	public M_Language getM_Language() {
 		return m_Language;

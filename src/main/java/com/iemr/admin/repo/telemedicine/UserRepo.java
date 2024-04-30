@@ -39,8 +39,8 @@ public interface UserRepo extends CrudRepository<M_UserTemp, Long> {
 	@Query(value = "select * from m_user usr join m_userservicerolemapping usrm on usrm.UserID=usr.UserID join m_role role on role.RoleID=usrm.RoleID "
 			+ "	join m_servicerolescreenmapping srm on srm.RoleID=usrm.RoleID "
 			+ "	join m_screen scrn on scrn.ScreenID=srm.ScreenID "
-			+ "	where usr.ServiceProviderID=1 and (scrn.ServiceID=4 or scrn.ServiceID=9) "
-			+ "	and scrn.ScreenName='TC Specialist' group by usr.UserID;", nativeQuery = true)
+			+ "	where usr.ServiceProviderID=:serviceproviderID and (scrn.ServiceID=4 or scrn.ServiceID=9) "
+			+ "	and scrn.ScreenName=:screenName group by usr.UserID", nativeQuery = true)
 	ArrayList<Object[]> getUserTM(@Param("serviceproviderID")Integer serviceproviderID,@Param("screenName") String screenName);
 
 	@Query("select new M_UserTemp( u,swy.userVideoConsultationMapID) from M_UserTemp u left join u.userVideoConsultation swy where swy.userVideoConsultationMapID is null "

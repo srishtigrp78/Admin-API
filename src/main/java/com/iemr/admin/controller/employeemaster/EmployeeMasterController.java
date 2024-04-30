@@ -77,7 +77,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 
-@PropertySource("classpath:application.properties")
 
 @RestController
 public class EmployeeMasterController {

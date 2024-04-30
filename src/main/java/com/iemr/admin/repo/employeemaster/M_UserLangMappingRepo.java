@@ -65,6 +65,7 @@ public interface M_UserLangMappingRepo extends CrudRepository<M_UserLangMapping,
 	@Query("SELECT u FROM M_UserLangMapping u WHERE u.userID=:userID")
 	ArrayList<M_UserLangMapping> getmappedlanguageData(@Param("userID") Integer userID);
 	
-	M_UserLangMapping findByUserLangID(Integer userLangID);
+	@Query(value ="SELECT * FROM m_UserLangMapping  WHERE UserLangID=:userLangID",nativeQuery = true)
+	M_UserLangMapping findByUserLangID(@Param("userLangID") Integer userLangID);
 
 }
