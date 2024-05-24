@@ -21,21 +21,18 @@
 */
 package com.iemr.admin.service.rolemaster;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iemr.admin.data.rolemaster.RoleMaster;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iemr.admin.data.rolemaster.M_Role104;
 import com.iemr.admin.data.rolemaster.M_Screen;
 import com.iemr.admin.data.rolemaster.M_UserservicerolemappingForRoleProviderAdmin;
+import com.iemr.admin.data.rolemaster.RoleMaster;
 import com.iemr.admin.data.rolemaster.RoleScreenMapping;
 import com.iemr.admin.data.rolemaster.StateMasterForRole;
 import com.iemr.admin.data.rolemaster.StateServiceMapping;
@@ -259,10 +256,7 @@ public class Role_Master_ServiceImpl implements Role_MasterInter
 	}
 
 	@Override
-	public ArrayList<M_UserservicerolemappingForRoleProviderAdmin> getServiceByServiceProviderIds(Integer userID)
-	{
-
-		// TODO Auto-generated method stub
+	public ArrayList<M_UserservicerolemappingForRoleProviderAdmin> getServiceByServiceProviderIds(Integer userID){
 		logger.debug(" calling method with  " + userID);
 		ArrayList<M_UserservicerolemappingForRoleProviderAdmin> stateServiceMappings =
 				new ArrayList<M_UserservicerolemappingForRoleProviderAdmin>();
@@ -314,7 +308,7 @@ public class Role_Master_ServiceImpl implements Role_MasterInter
 					new ArrayList<M_UserservicerolemappingForRoleProviderAdmin>();
 			ArrayList<Object[]> resultSet = m_UserservicerolemappingForRoleProviderAdminRepo
 					.getStateByServiceProviderIdAndServiceLines1(userID, serviceID);
-			Object obj = resultSet.get(0);
+			Object[] obj = resultSet.get(0);
 			// Integer in=new Integer((resultSet.get(0);
 			// in.intValue();
 			// int i=resultSet.get(0);
@@ -323,7 +317,8 @@ public class Role_Master_ServiceImpl implements Role_MasterInter
 			int x = 0;
 			for (StateMasterForRole data : result)
 			{
-				stateServiceMappings1.add(new M_UserservicerolemappingForRoleProviderAdmin((Integer) obj,
+				Object object = obj[0];
+				stateServiceMappings1.add(new M_UserservicerolemappingForRoleProviderAdmin((Integer)object,
 						result.get(x).getStateID(), result.get(x).getStateName()));
 				x++;
 			}

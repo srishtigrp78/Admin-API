@@ -22,7 +22,6 @@
 package com.iemr.admin.service.locationmaster;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -34,12 +33,10 @@ import com.iemr.admin.data.locationmaster.M_District;
 import com.iemr.admin.data.locationmaster.M_ProviderServiceAddMapping;
 import com.iemr.admin.data.locationmaster.Showofficedetails;
 import com.iemr.admin.data.locationmaster.StateServiceMapping1;
-import com.iemr.admin.data.provideronboard.M_Feedbacktype;
 import com.iemr.admin.repo.locationmaster.LocationMasterRepo;
 import com.iemr.admin.repo.locationmaster.M_ProviderServiceAddMappingRepo;
 import com.iemr.admin.repo.locationmaster.MdistrictRepo;
 import com.iemr.admin.repo.locationmaster.ShowofficedetailsRepo;
-import com.iemr.admin.to.locationmaster.LocationTO;
 
 @Service
 public class LocationMasterServiceImpl implements LocationMasterServiceInter{
@@ -220,7 +217,7 @@ public class LocationMasterServiceImpl implements LocationMasterServiceInter{
 	@Override
 	public ArrayList<StateServiceMapping1> getAllByMapId3(Integer serviceProviderID, Integer serviceID) {
 		ArrayList<StateServiceMapping1> resSet = new ArrayList<StateServiceMapping1>();
-		resSet = (ArrayList<StateServiceMapping1>) locationMasterRepo.getAllByMapId3(serviceProviderID,serviceID);
+		resSet =  locationMasterRepo.getAllByMapId3(serviceProviderID,serviceID);
 		logger.debug("sending result"+resSet);
 		return resSet;
 	}
