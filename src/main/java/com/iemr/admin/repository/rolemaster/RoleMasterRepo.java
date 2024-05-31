@@ -53,10 +53,10 @@ public interface RoleMasterRepo extends CrudRepository<StateServiceMapping, Inte
 		ArrayList<Object[]> getServiceByServiceProviderIdAndStateId(@Param ("serviceProviderID") Integer serviceProviderID, @Param ("stateID") Integer stateID);
 
 		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=:stateID AND u.serviceID=:serviceID AND u.deleted=false")
-	   List getAllByMapId(@Param("serviceProviderID") Integer serviceProviderID, @Param("stateID") Integer stateID, @Param("serviceID") Integer serviceID);
+		ArrayList<StateServiceMapping> getAllByMapId(@Param("serviceProviderID") Integer serviceProviderID, @Param("stateID") Integer stateID, @Param("serviceID") Integer serviceID);
       
 		
 		
-		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID=null AND u.serviceID=:serviceID AND u.deleted=false")
-		   List getAlByMapId(@Param("serviceProviderID") Integer serviceProviderID, @Param("serviceID") Integer serviceID);
+		@Query("SELECT u FROM StateServiceMapping u WHERE u.serviceProviderID=:serviceProviderID AND u.stateID is null AND u.serviceID=:serviceID AND u.deleted=false")
+		ArrayList<StateServiceMapping> getAlByMapId(@Param("serviceProviderID") Integer serviceProviderID, @Param("serviceID") Integer serviceID);
 }

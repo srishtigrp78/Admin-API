@@ -131,11 +131,11 @@ public class Role_Master_ServiceImpl implements Role_MasterInter
 
 		if (isNational == false)
 		{
-			resSet = (ArrayList<StateServiceMapping>) roleMasterRepo.getAllByMapId(serviceProviderID, stateID,
+			resSet =  roleMasterRepo.getAllByMapId(serviceProviderID, stateID,
 					serviceID);
 		} else
 		{
-			resSet = (ArrayList<StateServiceMapping>) roleMasterRepo.getAlByMapId(serviceProviderID, serviceID);
+			resSet = roleMasterRepo.getAlByMapId(serviceProviderID, serviceID);
 
 		}
 

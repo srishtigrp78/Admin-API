@@ -134,7 +134,7 @@ public class LocationMasterServiceImpl implements LocationMasterServiceInter{
 	@Override
 	public ArrayList<StateServiceMapping1> getAllByMapId2(Integer serviceProviderID, Integer stateID, Integer serviceID) {
 		ArrayList<StateServiceMapping1> resSet = new ArrayList<StateServiceMapping1>();
-		resSet = (ArrayList<StateServiceMapping1>) locationMasterRepo.getAllByMapId2(serviceProviderID, stateID, serviceID);
+		resSet = locationMasterRepo.getAllByMapId2(serviceProviderID, stateID, serviceID);
 		logger.debug("sending result"+resSet);
 		return resSet;
 	}
