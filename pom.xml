@@ -282,15 +282,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 			</plugin>
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>17</source>
-					<target>17</target>
-				</configuration>
-			</plugin> -->
-
+			
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
@@ -438,14 +430,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>17</source>
-					<target>17</target>
-				</configuration>
-			</plugin> -->
+			
 
 		</plugins>
 	</build>
