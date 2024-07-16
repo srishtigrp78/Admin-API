@@ -258,7 +258,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>adminapi-v1.0</finalName>
+		<finalName>adminapi-v3.0.0</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.owasp</groupId>
