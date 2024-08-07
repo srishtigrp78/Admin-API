@@ -31,92 +31,70 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.iemr.admin.utils.redis.RedisStorage;
 import com.iemr.admin.utils.response.OutputResponse;
 import com.iemr.admin.utils.sessionobject.SessionObject;
-import com.iemr.admin.utils.validator.Validator;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class HTTPRequestInterceptor implements HandlerInterceptor
-{
-	private Validator validator;
-
-	Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
-
+public class HTTPRequestInterceptor implements HandlerInterceptor {
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	@Autowired
-	public void setValidator(Validator validator)
-	{
-		this.validator = validator;
-	}
-
+	private RedisStorage redisStorage;
+	@Autowired
 	private SessionObject sessionObject;
 
-	@Autowired
-	public void setSessionObject(SessionObject sessionObject)
-	{
-		this.sessionObject = sessionObject;
-	}
-
 	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
+		logger.info("http interceptor - pre Handle");
+		boolean status = true;
 
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception
+		if (request.getRequestURI().toLowerCase().contains("swagger-ui"))
+			return status;
 
-	{
-		boolean status=true;
-//		if(status){
-//			return true;
-//		}
-		
-		logger.debug("In preHandle we are Intercepting the Request");
-	//	String authorization = request.getHeader("Authorization");
 		String authorization = null;
 		String preAuth = request.getHeader("Authorization");
 		if(null != preAuth && preAuth.contains("Bearer "))
 			authorization=preAuth.replace("Bearer ", "");
 		else
 			authorization = preAuth;
-		logger.debug("RequestURI::" + request.getRequestURI() + " || Authorization ::" + authorization
-				+ " || method :: " + request.getMethod());
-		if (!request.getMethod().equalsIgnoreCase("OPTIONS"))
-		{
-			try
-			{
+		if (!request.getMethod().equalsIgnoreCase("OPTIONS")) {
+			try {
 				String[] requestURIParts = request.getRequestURI().split("/");
 				String requestAPI = requestURIParts[requestURIParts.length - 1];
-				switch (requestAPI)
-				{
-					case "userAuthenticate":
-					case "userAuthenticateNew":
-					case "userAuthenticateV1":
-					case "forgetPassword":
-					case "setForgetPassword":
-					case "changePassword":
-					case "saveUserSecurityQuesAns":
-					case "swagger-ui.html":
-					case "ui":
-					case "swagger-resources":
-					case "version":
-					case "api-docs":
-						break;
-					case "error":
-						status = false;
-						break;
-					default:
-						String remoteAddress = request.getHeader("X-FORWARDED-FOR");
-						if (remoteAddress == null || remoteAddress.trim().length() == 0)
-						{
-							remoteAddress = request.getRemoteAddr();
-						}
-						validator.checkKeyExists(authorization, remoteAddress);
-						break;
+				switch (requestAPI) {
+				case "swagger-ui.html":
+					break;
+				case "index.html":
+					break;
+				case "swagger-initializer.js":
+					break;
+				case "swagger-config":
+					break;
+				case "ui":
+					break;
+				case "swagger-resources":
+					break;
+				case "api-docs":
+					break;
+
+				case "error":
+					status = false;
+					break;
+				default:
+					logger.debug("RequestURI::" + request.getRequestURI() + " || Authorization ::" + authorization);
+					if (authorization == null)
+						throw new Exception(
+								"Authorization key is NULL, please pass valid session key to proceed further. ");
+					String userRespFromRedis = sessionObject.getSessionObject(authorization);
+					if (userRespFromRedis == null)
+						throw new Exception("invalid Authorization key, please pass a valid key to proceed further. ");
+					break;
 				}
-
-			} catch (Exception e)
-
-			{
+			} catch (Exception e) {
+				logger.error(e.getLocalizedMessage());
 				OutputResponse output = new OutputResponse();
 				output.setError(e);
 				response.getOutputStream().print(output.toString());
@@ -125,46 +103,35 @@ public class HTTPRequestInterceptor implements HandlerInterceptor
 				response.setHeader("Access-Control-Allow-Origin", "*");
 				status = false;
 			}
-
 		}
 
 		return status;
-
 	}
 
+	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object object, ModelAndView model)
-
-			throws Exception
-
-	{
-
-		try//
-		{//
-			logger.debug("In postHandle we are Intercepting the Request");//
-		//	String authorization = request.getHeader("Authorization");//
+			throws Exception {
+		try {
+			logger.debug("In postHandle we are Intercepting the Request");
 			String authorization = null;
 			String postAuth = request.getHeader("Authorization");
 			if(null != postAuth && postAuth.contains("Bearer "))
 				authorization=postAuth.replace("Bearer ", "");
 			else
 				authorization = postAuth;
-			logger.debug("RequestURI::" + request.getRequestURI() + " || Authorization ::" + authorization);//
-			if (authorization != null)//
-			{//
-				sessionObject.updateSessionObject(authorization, sessionObject.getSessionObject(authorization));//
+			logger.debug("RequestURI::" + request.getRequestURI() + " || Authorization ::" + authorization);
+			if (authorization != null) {
+				sessionObject.updateSessionObject(authorization, sessionObject.getSessionObject(authorization));
 			}
-
-		} catch (Exception e)//
-		{
-			logger.debug("postHandle failed with error " + e.getMessage());//
+		} catch (Exception e) {
+			logger.debug("postHandle failed with error " + e.getMessage());
 		}
-
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception arg3)
-			throws Exception
-	{
-		logger.debug("In afterCompletion Request Completed");
+			throws Exception {
+		logger.info("http interceptor - after completion");
+
 	}
 }
