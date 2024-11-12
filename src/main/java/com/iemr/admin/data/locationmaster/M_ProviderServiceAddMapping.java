@@ -72,6 +72,14 @@ public class M_ProviderServiceAddMapping {
 	@Column(name="LocationName")
 	private String locationName;
 	
+	@Expose
+	@Column(name="abdmFacilityName")
+	private String abdmFacilityName;
+	
+	@Expose
+	@Column(name="abdmFacilityId")
+	private String abdmFacilityId;
+	
 	
 	
 	
@@ -239,6 +247,34 @@ public class M_ProviderServiceAddMapping {
 	@Override
 	public String toString() {
 		return outputMapper.gson().toJson(this);
+	}
+
+
+
+
+	public String getAbdmFacilityName() {
+		return abdmFacilityName;
+	}
+
+
+
+
+	public void setAbdmFacilityName(String abdmFacilityName) {
+		this.abdmFacilityName = abdmFacilityName;
+	}
+
+
+
+
+	public String getAbdmFacilityId() {
+		return abdmFacilityId;
+	}
+
+
+
+
+	public void setAbdmFacilityId(String abdmFacilityId) {
+		this.abdmFacilityId = abdmFacilityId;
 	}
 
 }

@@ -94,6 +94,14 @@ public class Showofficedetails {
 	@Column(name="LastModDate")
 	private Timestamp lastModDate;
 	
+	@Expose
+	@Column(name="abdmFacilityName")
+	private String abdmFacilityName;
+	
+	@Expose
+	@Column(name="abdmFacilityId")
+	private String abdmFacilityId;
+	
 	public Showofficedetails() {
 		// TODO Auto-generated constructor stub
 	}
