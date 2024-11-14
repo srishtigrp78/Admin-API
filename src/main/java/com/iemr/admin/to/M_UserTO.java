@@ -68,6 +68,14 @@ public class M_UserTO {
 	@Column(name="LocationName")
 	private String locationName;
 	
+	@Expose
+	@Column(name="abdmFacilityName")
+	private String abdmFacilityName;
+	
+	@Expose
+	@Column(name="abdmFacilityId")
+	private String abdmFacilityId;
+	
 	
 	public M_UserTO() {
 		// TODO Auto-generated constructor stub
@@ -206,6 +214,30 @@ public class M_UserTO {
 
 	public void setLocationName(String locationName) {
 		this.locationName = locationName;
+	}
+
+
+
+	public String getAbdmFacilityName() {
+		return abdmFacilityName;
+	}
+
+
+
+	public void setAbdmFacilityName(String abdmFacilityName) {
+		this.abdmFacilityName = abdmFacilityName;
+	}
+
+
+
+	public String getAbdmFacilityId() {
+		return abdmFacilityId;
+	}
+
+
+
+	public void setAbdmFacilityId(String abdmFacilityId) {
+		this.abdmFacilityId = abdmFacilityId;
 	}
 	
 	

@@ -321,6 +321,8 @@ public class LocationMasterController {
 				resDataMap.setDistrictID(m_ProviderServiceAddMapping.getDistrictID());
 				resDataMap.setCreatedBy(m_ProviderServiceAddMapping.getCreatedBy());
 				resDataMap.setCreatedDate(m_ProviderServiceAddMapping.getCreatedDate());
+				resDataMap.setAbdmFacilityId(m_ProviderServiceAddMapping.getAbdmFacilityId());
+				resDataMap.setAbdmFacilityName(m_ProviderServiceAddMapping.getAbdmFacilityName());
 
 				resList.add(resDataMap);
 			}
@@ -360,7 +362,9 @@ public class LocationMasterController {
 			editdata.setDistrictID(editdata2.getDistrictID());
 			editdata.setAddress(editdata2.getAddress());
 			editdata.setLocationName(editdata2.getLocationName());
-			editdata.setDeleted(editdata.getDeleted());
+			editdata.setDeleted(editdata2.getDeleted());
+			editdata.setAbdmFacilityId(editdata2.getAbdmFacilityId());
+			editdata.setAbdmFacilityName(editdata2.getAbdmFacilityName());
 
 			M_ProviderServiceAddMapping editdata1 = locationMasterServiceInter.saveEditData(editdata);
 
